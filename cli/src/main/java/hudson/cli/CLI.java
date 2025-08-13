@@ -317,7 +317,6 @@ public class CLI {
         throw new AssertionError();
     }
 
-    @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN", justification = "User provided value for running the program.")
     private static String readAuthFromFile(String auth) throws IOException {
         Path path;
         try {
