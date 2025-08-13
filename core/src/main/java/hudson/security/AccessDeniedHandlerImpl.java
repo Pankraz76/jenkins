@@ -49,8 +49,8 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         rsp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         req.setAttribute("exception", cause);
 
-        if (cause instanceof AccessDeniedException3) {
-            ((AccessDeniedException3) cause).reportAsHeaders(rsp);
+        if (cause instanceof AccessDeniedException3 exception3) {
+            exception3.reportAsHeaders(rsp);
         }
 
         WebApp.get(Jenkins.get().getServletContext()).getSomeStapler()

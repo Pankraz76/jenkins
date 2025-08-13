@@ -118,7 +118,7 @@ class CLIEnvVarTest {
                     "-Duser.home=" + home,
                     "-jar", jar.getAbsolutePath(),
                     "-s", r.getURL().toString(),
-                    "-auth", String.format("%s:%s", "admin", token),
+                    "-auth", "%s:%s".formatted("admin", token),
                     "who-am-i")
             );
             assertThat(baos.toString(Charset.defaultCharset()), containsString("Authenticated as: admin"));
@@ -204,7 +204,7 @@ class CLIEnvVarTest {
                     "-Duser.home=" + home,
                     "-jar", jar.getAbsolutePath(),
                     "-s", r.getURL().toString(),
-                    "-auth", String.format("%s:%s", "admin", token),
+                    "-auth", "%s:%s".formatted("admin", token),
                     "who-am-i")
             );
             assertThat(baos.toString(Charset.defaultCharset()), containsString("Authenticated as: admin"));

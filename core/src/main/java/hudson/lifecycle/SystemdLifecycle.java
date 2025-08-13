@@ -49,13 +49,13 @@ public class SystemdLifecycle extends ExitLifecycle {
     @Override
     public void onExtendTimeout(long timeout, @NonNull TimeUnit unit) {
         super.onExtendTimeout(timeout, unit);
-        notify(String.format("EXTEND_TIMEOUT_USEC=%d", unit.toMicros(timeout)));
+        notify("EXTEND_TIMEOUT_USEC=%d".formatted(unit.toMicros(timeout)));
     }
 
     @Override
     public void onStatusUpdate(String status) {
         super.onStatusUpdate(status);
-        notify(String.format("STATUS=%s", status));
+        notify("STATUS=%s".formatted(status));
     }
 
     private static synchronized void notify(String message) {

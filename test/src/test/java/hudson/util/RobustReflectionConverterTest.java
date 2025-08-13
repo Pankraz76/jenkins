@@ -117,7 +117,7 @@ class RobustReflectionConverterTest {
                 // called via REST / CLI with authentication
                 if (!isAcceptable()) {
                     // Reject invalid configuration via REST / CLI.
-                    throw new Exception(String.format("Bad keyword: %s", getKeyword()));
+                    throw new Exception("Bad keyword: %s".formatted(getKeyword()));
                 }
             }
             return this;
@@ -136,7 +136,7 @@ class RobustReflectionConverterTest {
                     throws FormException {
                 AcceptOnlySpecificKeyword instance = super.newInstance(req, formData);
                 if (!instance.isAcceptable()) {
-                    throw new FormException(String.format("Bad keyword: %s", instance.getKeyword()), "keyword");
+                    throw new FormException("Bad keyword: %s".formatted(instance.getKeyword()), "keyword");
                 }
                 return instance;
             }
@@ -216,9 +216,9 @@ class RobustReflectionConverterTest {
             r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
             WebClient wc = r.createWebClient();
             wc.withBasicApiToken("test");
-            WebRequest req = new WebRequest(new URI(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())).toURL(), HttpMethod.POST);
+            WebRequest req = new WebRequest(new URI(wc.getContextPath() + "%s/config.xml".formatted(p.getUrl())).toURL(), HttpMethod.POST);
             req.setEncodingType(null);
-            req.setRequestBody(String.format(CONFIGURATION_TEMPLATE, "badvalue", AcceptOnlySpecificKeyword.ACCEPT_KEYWORD));
+            req.setRequestBody(CONFIGURATION_TEMPLATE.formatted("badvalue", AcceptOnlySpecificKeyword.ACCEPT_KEYWORD));
             wc.getPage(req);
 
             // AcceptOnlySpecificKeyword with bad value is not instantiated for rejected with readResolve,
@@ -247,9 +247,9 @@ class RobustReflectionConverterTest {
             WebClient wc = r.createWebClient()
                     .withThrowExceptionOnFailingStatusCode(false);
             wc.withBasicApiToken("test");
-            WebRequest req = new WebRequest(new URI(wc.getContextPath() + String.format("%s/config.xml", p.getUrl())).toURL(), HttpMethod.POST);
+            WebRequest req = new WebRequest(new URI(wc.getContextPath() + "%s/config.xml".formatted(p.getUrl())).toURL(), HttpMethod.POST);
             req.setEncodingType(null);
-            req.setRequestBody(String.format(CONFIGURATION_TEMPLATE, AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue"));
+            req.setRequestBody(CONFIGURATION_TEMPLATE.formatted(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue"));
 
             Page page = wc.getPage(req);
             assertEquals(HttpURLConnection.HTTP_INTERNAL_ERROR,
@@ -285,7 +285,7 @@ class RobustReflectionConverterTest {
 
             CLICommandInvoker.Result ret = new CLICommandInvoker(r, "update-job")
                     .asUser("test")
-                    .withStdin(new ByteArrayInputStream(String.format(CONFIGURATION_TEMPLATE, "badvalue", AcceptOnlySpecificKeyword.ACCEPT_KEYWORD).getBytes(Charset.defaultCharset())))
+                    .withStdin(new ByteArrayInputStream(CONFIGURATION_TEMPLATE.formatted("badvalue", AcceptOnlySpecificKeyword.ACCEPT_KEYWORD).getBytes(Charset.defaultCharset())))
                     .withArgs(
                             p.getFullName()
                     )
@@ -317,7 +317,7 @@ class RobustReflectionConverterTest {
             r.jenkins.setSecurityRealm(r.createDummySecurityRealm());
             CLICommandInvoker.Result ret = new CLICommandInvoker(r, "update-job")
                     .asUser("test")
-                    .withStdin(new ByteArrayInputStream(String.format(CONFIGURATION_TEMPLATE, AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue").getBytes(Charset.defaultCharset())))
+                    .withStdin(new ByteArrayInputStream(CONFIGURATION_TEMPLATE.formatted(AcceptOnlySpecificKeyword.ACCEPT_KEYWORD, "badvalue").getBytes(Charset.defaultCharset())))
                     .withArgs(
                             p.getFullName()
                     )

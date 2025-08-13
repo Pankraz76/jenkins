@@ -44,7 +44,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -234,7 +233,7 @@ public class SetupWizard extends PageDecorator {
                 String apiTokenStr = sysProp.substring(1);
                 Path apiTokenFile;
                 try {
-                    apiTokenFile = Paths.get(apiTokenStr);
+                    apiTokenFile = Path.of(apiTokenStr);
                 } catch (InvalidPathException e) {
                     LOGGER.log(Level.WARNING, "The API Token cannot be retrieved from an invalid path: {0}", apiTokenStr);
                     return;
@@ -248,7 +247,7 @@ public class SetupWizard extends PageDecorator {
                     plainText = Files.readString(apiTokenFile, StandardCharsets.UTF_8);
                     LOGGER.log(Level.INFO, "API Token generated using contents of file: {0}", apiTokenFile.toAbsolutePath());
                 } catch (IOException e) {
-                    LOGGER.log(Level.WARNING, String.format("The API Token cannot be retrieved from the file: %s", apiTokenFile), e);
+                    LOGGER.log(Level.WARNING, "The API Token cannot be retrieved from the file: %s".formatted(apiTokenFile), e);
                     return;
                 }
             } else {
@@ -569,8 +568,8 @@ public class SetupWizard extends PageDecorator {
 
                     JSONObject initialPluginObject = null;
 
-                    if (connection instanceof HttpURLConnection) {
-                        int responseCode = ((HttpURLConnection) connection).getResponseCode();
+                    if (connection instanceof HttpURLConnection lConnection) {
+                        int responseCode = lConnection.getResponseCode();
                         if (HttpURLConnection.HTTP_OK != responseCode) {
                             throw new HttpRetryException("Invalid response code (" + responseCode + ") from URL: " + suggestedPluginUrl, responseCode);
                         }
@@ -633,14 +632,12 @@ public class SetupWizard extends PageDecorator {
         JSONArray pluginCategories = JSONArray.fromObject(getPlatformPluginList().toString());
         for (Iterator<?> categoryIterator = pluginCategories.iterator(); categoryIterator.hasNext();) {
             Object category = categoryIterator.next();
-            if (category instanceof JSONObject) {
-                JSONObject cat = (JSONObject) category;
+            if (category instanceof JSONObject cat) {
                 JSONArray plugins = cat.getJSONArray("plugins");
 
                 nextPlugin: for (Iterator<?> pluginIterator = plugins.iterator(); pluginIterator.hasNext();) {
                     Object pluginData = pluginIterator.next();
-                    if (pluginData instanceof JSONObject) {
-                        JSONObject plugin = (JSONObject) pluginData;
+                    if (pluginData instanceof JSONObject plugin) {
                         if (plugin.has("added")) {
                             String sinceVersion = plugin.getString("added");
                             if (sinceVersion != null) {
@@ -764,8 +761,7 @@ public class SetupWizard extends PageDecorator {
         @SuppressFBWarnings(value = "UNVALIDATED_REDIRECT", justification = "TODO needs triage")
         public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
             // Force root requests to the setup wizard
-            if (request instanceof HttpServletRequest && !Jenkins.get().getInstallState().isSetupComplete()) {
-                HttpServletRequest req = (HttpServletRequest) request;
+            if (request instanceof HttpServletRequest req && !Jenkins.get().getInstallState().isSetupComplete()) {
                 String requestURI = req.getRequestURI();
                 if (requestURI.equals(req.getContextPath()) && !requestURI.endsWith("/")) {
                     ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/");

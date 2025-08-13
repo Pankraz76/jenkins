@@ -128,7 +128,7 @@ public interface TaskListener extends SerializableOnlyOverRemoting {
      */
     @NonNull
     default PrintWriter error(String format, Object... args) {
-        return error(String.format(format, args));
+        return error(format.formatted(args));
     }
 
     /**
@@ -147,7 +147,7 @@ public interface TaskListener extends SerializableOnlyOverRemoting {
      */
     @NonNull
     default PrintWriter fatalError(String format, Object... args) {
-        return fatalError(String.format(format, args));
+        return fatalError(format.formatted(args));
     }
 
     /**

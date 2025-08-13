@@ -71,8 +71,8 @@ public class AcegiSecurityExceptionFilter implements CompatibleFilter {
     }
 
     private static @CheckForNull RuntimeException convertedCause(@CheckForNull Throwable t) {
-        if (t instanceof AcegiSecurityException) {
-            return ((AcegiSecurityException) t).toSpring();
+        if (t instanceof AcegiSecurityException exception) {
+            return exception.toSpring();
         } else if (t != null) {
             return convertedCause(t.getCause());
         } else {

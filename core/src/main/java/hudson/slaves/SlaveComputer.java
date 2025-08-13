@@ -264,10 +264,10 @@ public class SlaveComputer extends Computer {
     public ComputerLauncher getDelegatedLauncher() {
         ComputerLauncher l = launcher;
         while (true) {
-            if (l instanceof DelegatingComputerLauncher) {
-                l = ((DelegatingComputerLauncher) l).getLauncher();
-            } else if (l instanceof ComputerLauncherFilter) {
-                l = ((ComputerLauncherFilter) l).getCore();
+            if (l instanceof DelegatingComputerLauncher computerLauncher) {
+                l = computerLauncher.getLauncher();
+            } else if (l instanceof ComputerLauncherFilter filter) {
+                l = filter.getCore();
             } else {
                 break;
             }
@@ -332,8 +332,8 @@ public class SlaveComputer extends Computer {
     public void taskAccepted(Executor executor, Queue.Task task) {
         LOGGER.log(Level.FINER, "Accepted {0} on {1}", new Object[] {task.toString(), executor.getOwner().getDisplayName()});
 
-        if (launcher instanceof ExecutorListener) {
-            ((ExecutorListener) launcher).taskAccepted(executor, task);
+        if (launcher instanceof ExecutorListener listener) {
+            listener.taskAccepted(executor, task);
         }
         //getNode() can return null at indeterminate times when nodes go offline
         Slave node = getNode();
@@ -345,36 +345,36 @@ public class SlaveComputer extends Computer {
     @Override
     public void taskStarted(Executor executor, Queue.Task task) {
         LOGGER.log(Level.FINER, "Started {0} on {1}", new Object[] {task.toString(), executor.getOwner().getDisplayName()});
-        if (launcher instanceof ExecutorListener) {
-            ((ExecutorListener) launcher).taskStarted(executor, task);
+        if (launcher instanceof ExecutorListener listener) {
+            listener.taskStarted(executor, task);
         }
         RetentionStrategy r = getRetentionStrategy();
-        if (r instanceof ExecutorListener) {
-            ((ExecutorListener) r).taskStarted(executor, task);
+        if (r instanceof ExecutorListener listener) {
+            listener.taskStarted(executor, task);
         }
     }
 
     @Override
     public void taskCompleted(Executor executor, Queue.Task task, long durationMS) {
         LOGGER.log(Level.FINE, "Completed {0} on {1}", new Object[] {task.toString(), executor.getOwner().getDisplayName()});
-        if (launcher instanceof ExecutorListener) {
-            ((ExecutorListener) launcher).taskCompleted(executor, task, durationMS);
+        if (launcher instanceof ExecutorListener listener) {
+            listener.taskCompleted(executor, task, durationMS);
         }
         RetentionStrategy r = getRetentionStrategy();
-        if (r instanceof ExecutorListener) {
-            ((ExecutorListener) r).taskCompleted(executor, task, durationMS);
+        if (r instanceof ExecutorListener listener) {
+            listener.taskCompleted(executor, task, durationMS);
         }
     }
 
     @Override
     public void taskCompletedWithProblems(Executor executor, Queue.Task task, long durationMS, Throwable problems) {
         LOGGER.log(Level.FINE, "Completed with problems {0} on {1}", new Object[] {task.toString(), executor.getOwner().getDisplayName()});
-        if (launcher instanceof ExecutorListener) {
-            ((ExecutorListener) launcher).taskCompletedWithProblems(executor, task, durationMS, problems);
+        if (launcher instanceof ExecutorListener listener) {
+            listener.taskCompletedWithProblems(executor, task, durationMS, problems);
         }
         RetentionStrategy r = getRetentionStrategy();
-        if (r instanceof ExecutorListener) {
-            ((ExecutorListener) r).taskCompletedWithProblems(executor, task, durationMS, problems);
+        if (r instanceof ExecutorListener listener) {
+            listener.taskCompletedWithProblems(executor, task, durationMS, problems);
         }
     }
 
@@ -967,11 +967,11 @@ public class SlaveComputer extends Computer {
         // "constructed==null" test is an ugly hack to avoid launching before the object is fully
         // constructed.
         if (constructed != null) {
-            if (node instanceof Slave) {
+            if (node instanceof Slave slave) {
                 Queue.withLock(new Runnable() {
                     @Override
                     public void run() {
-                        ((Slave) node).getRetentionStrategy().check(SlaveComputer.this);
+                        slave.getRetentionStrategy().check(SlaveComputer.this);
                     }
                 });
             } else {

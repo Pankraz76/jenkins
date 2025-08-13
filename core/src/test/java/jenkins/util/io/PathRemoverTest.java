@@ -55,7 +55,6 @@ import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
@@ -433,7 +432,7 @@ class PathRemoverTest {
         File f2 = new File(folder, "f2");
         mkdirs(d1);
         touchWithFileName(d1f1, f2);
-        Path path = Paths.get(d1.getPath(), "..", "d1");
+        Path path = Path.of(d1.getPath(), "..", "d1");
 
         PathRemover remover = PathRemover.newSimpleRemover();
         remover.forceRemoveRecursive(path);

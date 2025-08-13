@@ -276,7 +276,7 @@ public class XStream2 extends XStream {
 
         if (oldData.get() != null) {
             oldData.remove();
-            if (o instanceof Saveable) OldDataMonitor.report((Saveable) o, "1.106");
+            if (o instanceof Saveable saveable) OldDataMonitor.report(saveable, "1.106");
         }
         return o;
     }
@@ -531,8 +531,8 @@ public class XStream2 extends XStream {
 
                 }
                 ConverterMatcher cm = (ConverterMatcher) c.newInstance(args);
-                return cm instanceof SingleValueConverter
-                        ? new SingleValueConverterWrapper((SingleValueConverter) cm)
+                return cm instanceof SingleValueConverter svc
+                        ? new SingleValueConverterWrapper(svc)
                         : (Converter) cm;
             } catch (IllegalAccessException e) {
                 IllegalAccessError x = new IllegalAccessError();

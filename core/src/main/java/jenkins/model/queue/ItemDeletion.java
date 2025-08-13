@@ -202,9 +202,9 @@ public class ItemDeletion extends Queue.QueueDecisionHandler {
      */
     public static void cancelBuildsInProgress(@NonNull Item initiatingItem) throws Failure, InterruptedException {
         Queue queue = Queue.getInstance();
-        if (initiatingItem instanceof Queue.Task) {
+        if (initiatingItem instanceof Queue.Task task) {
             // clear any items in the queue so they do not get picked up
-            queue.cancel((Queue.Task) initiatingItem);
+            queue.cancel(task);
         }
         // now cancel any child items - this happens after ItemDeletion registration, so we can use a snapshot
         for (Queue.Item i : queue.getItems()) {

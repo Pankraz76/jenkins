@@ -44,7 +44,6 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import jenkins.fingerprints.FileFingerprintStorage;
@@ -220,7 +219,7 @@ public class FingerprintCleanupThreadTest {
     }
 
     private void createTestDir() throws IOException {
-        tempDirectory = Files.createTempDirectory(Paths.get("target"), "fpCleanupThreadTest");
+        tempDirectory = Files.createTempDirectory(Path.of("target"), "fpCleanupThreadTest");
         tempDirectory.toFile().deleteOnExit();
     }
 

@@ -7,6 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.logging.Logger;
 
 /**
@@ -57,5 +58,6 @@ public class WinswSlaveRestarter extends SlaveRestarter {
 
     private static final Logger LOGGER = Logger.getLogger(WinswSlaveRestarter.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

@@ -18,6 +18,7 @@
 
 package jenkins.org.apache.commons.validator.routines;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -83,6 +84,7 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
 // end of [PATCH]
 public class UrlValidator implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7557161713937335013L;
 
     private static final int MAX_UNSIGNED_16_BIT_INT = 0xFFFF; // port max

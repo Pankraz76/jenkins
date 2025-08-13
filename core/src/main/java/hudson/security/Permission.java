@@ -223,7 +223,7 @@ public final class Permission {
     }
 
     @Override public boolean equals(Object o) {
-        return o instanceof Permission && getId().equals(((Permission) o).getId());
+        return o instanceof Permission p && getId().equals(p.getId());
     }
 
     @Override public int hashCode() {

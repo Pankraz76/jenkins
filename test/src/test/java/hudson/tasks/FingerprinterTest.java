@@ -402,8 +402,8 @@ class FingerprinterTest {
     private void addFingerprinterToProject(AbstractProject<?, ?> project, String[] contents, String[] files) {
         StringBuilder targets = new StringBuilder();
         for (int i = 0; i < contents.length; i++) {
-            if (project instanceof MatrixProject) {
-                ((MatrixProject) project).getBuildersList().add(
+            if (project instanceof MatrixProject matrixProject) {
+                matrixProject.getBuildersList().add(
                         Functions.isWindows()
                                 ? new BatchFile("echo " + contents[i] + "> " + files[i])
                                 : new Shell("echo " + contents[i] + " > " + files[i]));

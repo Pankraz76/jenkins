@@ -115,8 +115,8 @@ class MethodBinder {
             return method.invoke(instance, arguments);
         } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
-            if (t instanceof Exception)
-                throw (Exception) t;
+            if (t instanceof Exception exception)
+                throw exception;
             throw e;
         }
     }

@@ -28,6 +28,7 @@ import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import hudson.remoting.Channel;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,6 +57,7 @@ import org.dom4j.io.SAXReader;
  */
 @Deprecated
 public abstract class ParserConfigurator implements ExtensionPoint, Serializable {
+    @Serial
     private static final long serialVersionUID = -2523542286453177108L;
 
     /**
@@ -88,6 +90,7 @@ public abstract class ParserConfigurator implements ExtensionPoint, Serializable
     }
 
     private static class GetParserConfigurators extends SlaveToMasterCallable<Collection<ParserConfigurator>, IOException> {
+        @Serial
         private static final long serialVersionUID = -2178106894481500733L;
 
         @Override

@@ -1025,7 +1025,7 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                         } catch (Exception e) {
                             // Per Javadoc log exceptions but still go online.
                             // NOTE: this does not include Errors, which indicate a fatal problem
-                            LOGGER.log(WARNING, String.format("Exception in onOnline() for the computer listener %s on the built-in node",
+                            LOGGER.log(WARNING, "Exception in onOnline() for the computer listener %s on the built-in node".formatted(
                                     cl.getClass()), e);
                         }
                     }
@@ -1040,12 +1040,12 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                     LOGGER.log(Level.WARNING, null, x);
                 }
                 if (LOG_STARTUP_PERFORMANCE)
-                    LOGGER.info(String.format("Took %dms for item listener %s startup",
+                    LOGGER.info("Took %dms for item listener %s startup".formatted(
                             System.currentTimeMillis() - itemListenerStart, l.getClass().getName()));
             }
 
             if (LOG_STARTUP_PERFORMANCE)
-                LOGGER.info(String.format("Took %dms for complete Jenkins startup",
+                LOGGER.info("Took %dms for complete Jenkins startup".formatted(
                         System.currentTimeMillis() - start));
 
             STARTUP_MARKER_FILE.on();
@@ -1150,7 +1150,7 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                     long start = System.currentTimeMillis();
                     super.runTask(task);
                     if (LOG_STARTUP_PERFORMANCE)
-                        LOGGER.info(String.format("Took %dms for %s by %s",
+                        LOGGER.info("Took %dms for %s by %s".formatted(
                                 System.currentTimeMillis() - start, taskName, name));
                 } catch (Exception | Error x) {
                     if (containsLinkageError(x)) {
@@ -1270,7 +1270,7 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
                     }
                     all.remove(toBeRemoved);
                 } catch (BindException e) {
-                    LOGGER.log(Level.WARNING, String.format("Failed to listen to incoming agent connections through port %s. Change the port number", slaveAgentPort), e);
+                    LOGGER.log(Level.WARNING, "Failed to listen to incoming agent connections through port %s. Change the port number".formatted(slaveAgentPort), e);
                     new AdministrativeError(administrativeMonitorId,
                             "Failed to listen to incoming agent connections",
                             "Failed to listen to incoming agent connections. <a href='configureSecurity'>Change the inbound TCP port number</a> to solve the problem.", e);
@@ -2052,8 +2052,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
     @Restricted(NoExternalUse.class)
     public @Nullable LabelAtom tryGetLabelAtom(@NonNull String name) {
         Label label = labels.get(name);
-        if (label instanceof LabelAtom) {
-            return (LabelAtom) label;
+        if (label instanceof LabelAtom atom) {
+            return atom;
         }
         return null;
     }
@@ -2082,8 +2082,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
     public Set<LabelAtom> getLabelAtoms() {
         Set<LabelAtom> r = new TreeSet<>();
         for (Label l : labels.values()) {
-            if (!l.isEmpty() && l instanceof LabelAtom)
-                r.add((LabelAtom) l);
+            if (!l.isEmpty() && l instanceof LabelAtom atom)
+                r.add(atom);
         }
         return r;
     }
@@ -3068,8 +3068,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
         while (tokens.hasMoreTokens()) {
             String s = tokens.nextToken();
             if (s.equals("..")) {
-                if (ctx instanceof Item) {
-                    ctx = ((Item) ctx).getParent();
+                if (ctx instanceof Item item) {
+                    ctx = item.getParent();
                     continue;
                 }
 
@@ -3092,8 +3092,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
             }
         }
 
-        if (ctx instanceof Item)
-            return (Item) ctx;
+        if (ctx instanceof Item item)
+            return item;
 
         // fall back to the classic interpretation
         return getItemByFullName(pathName);
@@ -4589,8 +4589,8 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
             rsp.forward(this, "_404_simple", req);
         } else {
             final Object attribute = req.getAttribute(ErrorAttributeFilter.USER_ATTRIBUTE);
-            if (attribute instanceof Authentication) {
-                try (ACLContext unused = ACL.as2((Authentication) attribute)) {
+            if (attribute instanceof Authentication authentication) {
+                try (ACLContext unused = ACL.as2(authentication)) {
                     rsp.forward(this, "_404", req);
                 }
             } else {

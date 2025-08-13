@@ -50,8 +50,8 @@ public class BadCredentialsException extends AuthenticationException {
     }
 
     public static BadCredentialsException fromSpring(org.springframework.security.core.AuthenticationException x) {
-        if (x instanceof org.springframework.security.core.userdetails.UsernameNotFoundException) {
-            return UsernameNotFoundException.fromSpring((org.springframework.security.core.userdetails.UsernameNotFoundException) x);
+        if (x instanceof org.springframework.security.core.userdetails.UsernameNotFoundException exception) {
+            return UsernameNotFoundException.fromSpring(exception);
         } else {
             return new BadCredentialsException(x.toString(), x);
         }

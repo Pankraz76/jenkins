@@ -25,6 +25,7 @@
 package hudson;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Signals a failure where the error was anticipated and diagnosed.
@@ -45,5 +46,6 @@ public class AbortException extends IOException {
         super(message);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

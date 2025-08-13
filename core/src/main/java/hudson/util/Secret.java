@@ -37,6 +37,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Util;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
@@ -112,7 +113,7 @@ public final class Secret implements Serializable {
 
     @Override
     public boolean equals(Object that) {
-        return that instanceof Secret && value.equals(((Secret) that).value);
+        return that instanceof Secret s && value.equals(s.value);
     }
 
     @Override
@@ -303,6 +304,7 @@ public final class Secret implements Serializable {
      */
     private static final CryptoConfidentialKey KEY = new CryptoConfidentialKey(Secret.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Restricted(NoExternalUse.class)
@@ -319,8 +321,8 @@ public final class Secret implements Serializable {
                 if (value == null) {
                     return null;
                 }
-                if (value instanceof Secret) {
-                    return (Secret) value;
+                if (value instanceof Secret secret) {
+                    return secret;
                 }
                 return Secret.fromString(value.toString());
             }

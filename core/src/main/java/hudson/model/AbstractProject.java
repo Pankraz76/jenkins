@@ -482,8 +482,8 @@ public abstract class AbstractProject<P extends AbstractProject<P, R>, R extends
             return this;
         } else {
             ItemGroup p = this.getParent();
-            if (p instanceof AbstractProject)
-                return ((AbstractProject) p).getRootProject();
+            if (p instanceof AbstractProject project)
+                return project.getRootProject();
             return this;
         }
     }
@@ -2152,8 +2152,8 @@ public abstract class AbstractProject<P extends AbstractProject<P, R>, R extends
          */
         @NonNull
         public FormValidation checkItem(@NonNull Item item, @NonNull Label label) {
-            if (item instanceof AbstractProject<?, ?>) {
-                return this.check((AbstractProject<?, ?>) item, label);
+            if (item instanceof AbstractProject<?, ?> project) {
+                return this.check(project, label);
             }
             return FormValidation.ok();
         }

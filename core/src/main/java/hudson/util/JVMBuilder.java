@@ -28,6 +28,7 @@ import hudson.FilePath;
 import hudson.Launcher;
 import hudson.Launcher.ProcStarter;
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
@@ -134,5 +135,6 @@ public class JVMBuilder implements Serializable {
     }
 
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

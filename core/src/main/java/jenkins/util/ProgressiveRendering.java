@@ -130,8 +130,8 @@ public abstract class ProgressiveRendering {
                     setCurrentRequest(null);
                     LOG.log(Level.FINE, "{0} finished in {1}msec with status {2}", new Object[] {uri, System.currentTimeMillis() - start, status});
                 }
-                if (executorService instanceof ScheduledExecutorService) {
-                    ((ScheduledExecutorService) executorService).schedule(new Runnable() {
+                if (executorService instanceof ScheduledExecutorService service) {
+                    service.schedule(new Runnable() {
                         @Override public void run() {
                             LOG.log(Level.FINE, "some time has elapsed since {0} finished, so releasing", boundId);
                             release();

@@ -491,13 +491,13 @@ public class QueueTest {
         FreeStyleProject chain2a = r.createFreeStyleProject();
         FreeStyleProject chain2b = r.createFreeStyleProject();
         FreeStyleProject chain3 = r.createFreeStyleProject();
-        trigger.getPublishersList().add(new BuildTrigger(String.format("%s, %s, %s, %s", chain1.getName(), chain2a.getName(), chain2b.getName(), chain3.getName()), true));
+        trigger.getPublishersList().add(new BuildTrigger("%s, %s, %s, %s".formatted(chain1.getName(), chain2a.getName(), chain2b.getName(), chain3.getName()), true));
         trigger.setQuietPeriod(0);
         chain1.setQuietPeriod(1);
         chain2a.setQuietPeriod(1);
         chain2b.setQuietPeriod(1);
         chain3.setQuietPeriod(1);
-        chain1.getPublishersList().add(new BuildTrigger(String.format("%s, %s", chain2a.getName(), chain2b.getName()), true));
+        chain1.getPublishersList().add(new BuildTrigger("%s, %s".formatted(chain2a.getName(), chain2b.getName()), true));
         chain2a.getPublishersList().add(new BuildTrigger(chain3.getName(), true));
         chain2b.getPublishersList().add(new BuildTrigger(chain3.getName(), true));
         chain1.setBlockBuildWhenDownstreamBuilding(true);
@@ -702,7 +702,7 @@ public class QueueTest {
         }
 
         @Override public boolean equals(Object o) {
-            return o instanceof TestTask && cnt == ((TestTask) o).cnt;
+            return o instanceof TestTask tt && cnt == tt.cnt;
         }
 
         @Override public int hashCode() {

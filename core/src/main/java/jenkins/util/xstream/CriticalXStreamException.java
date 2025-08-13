@@ -26,6 +26,7 @@ package jenkins.util.xstream;
 
 import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.converters.ConversionException;
+import java.io.Serial;
 
 /**
  * Wraps {@link XStreamException} to indicate it is critical for Jenkins.
@@ -33,6 +34,7 @@ import com.thoughtworks.xstream.converters.ConversionException;
  * @since 1.625
  */
 public class CriticalXStreamException extends ConversionException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public CriticalXStreamException(XStreamException cause) {

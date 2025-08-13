@@ -336,9 +336,9 @@ public interface ModelObjectWithContextMenu extends ModelObject {
                     }
                 }, self, new XMLOutput(new DefaultHandler()));
             } else
-            if (self instanceof Actionable) {
+            if (self instanceof Actionable actionable) {
                 // fallback
-                this.addAll(((Actionable) self).getAllActions());
+                this.addAll(actionable.getAllActions());
             }
 
             return this;

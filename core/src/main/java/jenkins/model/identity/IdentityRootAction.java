@@ -56,7 +56,7 @@ public class IdentityRootAction implements UnprotectedRootAction {
             buf.append(new String(encoded, index, len, StandardCharsets.UTF_8));
             index += len;
         }
-        return String.format("-----BEGIN PUBLIC KEY-----%n%s%n-----END PUBLIC KEY-----%n", buf);
+        return "-----BEGIN PUBLIC KEY-----%n%s%n-----END PUBLIC KEY-----%n".formatted(buf);
     }
 
     /**

@@ -222,7 +222,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
 
     private void interrupt(Result result, boolean forShutdown, CauseOfInterruption... causes) {
         if (LOGGER.isLoggable(FINE))
-            LOGGER.log(FINE, String.format("%s is interrupted(%s): %s", getDisplayName(), result, Arrays.stream(causes).map(Object::toString).collect(Collectors.joining(","))), new InterruptedException());
+            LOGGER.log(FINE, "%s is interrupted(%s): %s".formatted(getDisplayName(), result, Arrays.stream(causes).map(Object::toString).collect(Collectors.joining(","))), new InterruptedException());
 
         lock.writeLock().lock();
         try {
@@ -387,7 +387,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
                     SubTask task = workUnit.work;
                     Executable executable = task.createExecutable();
                     if (executable == null) {
-                        String displayName = task instanceof Queue.Task ? ((Queue.Task) task).getFullDisplayName() : task.getDisplayName();
+                        String displayName = task instanceof Queue.Task t ? t.getFullDisplayName() : task.getDisplayName();
                         LOGGER.log(WARNING, "{0} cannot be run (for example because it is disabled)", displayName);
                     }
                     lock.writeLock().lock();
@@ -427,7 +427,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
 
                 executableEstimatedDuration = executable.getEstimatedDuration();
 
-                if (executable instanceof Actionable) {
+                if (executable instanceof Actionable actionable) {
                     if (LOGGER.isLoggable(Level.FINER)) {
                         LOGGER.log(
                                 FINER,
@@ -440,7 +440,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
                                 });
                     }
                     for (Action action : workUnit.context.actions) {
-                        ((Actionable) executable).addAction(action);
+                        actionable.addAction(action);
                     }
                 }
 
@@ -515,11 +515,11 @@ public class Executor extends Thread implements ModelObject, IExecutor {
 
     private void finish2() {
         for (RuntimeException e1 : owner.getTerminatedBy()) {
-            LOGGER.log(Level.FINE, String.format("%s termination trace", getName()), e1);
+            LOGGER.log(Level.FINE, "%s termination trace".formatted(getName()), e1);
         }
         owner.removeExecutor(this);
-        if (this instanceof OneOffExecutor) {
-            owner.remove((OneOffExecutor) this);
+        if (this instanceof OneOffExecutor executor) {
+            owner.remove(executor);
         }
         executableEstimatedDuration = DEFAULT_ESTIMATED_DURATION;
         queue.scheduleMaintenance();
@@ -558,7 +558,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
     @Restricted(DoNotUse.class) // for exporting only
     public Queue.Executable getCurrentExecutableForApi() {
         Executable candidate = getCurrentExecutable();
-        return candidate instanceof AccessControlled && ((AccessControlled) candidate).hasPermission(Item.READ) ? candidate : null;
+        return candidate instanceof AccessControlled ac && ac.hasPermission(Item.READ) ? candidate : null;
     }
 
     /**
@@ -593,8 +593,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
             if (executable == null) {
                 return null;
             }
-            if (executable instanceof AbstractBuild) {
-                AbstractBuild ab = (AbstractBuild) executable;
+            if (executable instanceof AbstractBuild ab) {
                 return ab.getWorkspace();
             }
             return null;
@@ -866,8 +865,8 @@ public class Executor extends Thread implements ModelObject, IExecutor {
                         || (runExtId.equals(((Run<?, ?>) executable).getExternalizableId()))) {
                     final Queue.Task ownerTask = getParentOf(executable).getOwnerTask();
                     boolean canAbort = ownerTask.hasAbortPermission();
-                    if (canAbort && ownerTask instanceof AccessControlled) {
-                        if (!((AccessControlled) ownerTask).hasPermission(Item.READ)) {
+                    if (canAbort && ownerTask instanceof AccessControlled controlled) {
+                        if (!controlled.hasPermission(Item.READ)) {
                             // pretend the build does not exist
                             return HttpResponses.forwardToPreviousPage();
                         }
@@ -952,7 +951,7 @@ public class Executor extends Thread implements ModelObject, IExecutor {
      */
     public static @CheckForNull Executor currentExecutor() {
         Thread t = Thread.currentThread();
-        if (t instanceof Executor) return (Executor) t;
+        if (t instanceof Executor executor) return executor;
         return IMPERSONATION.get();
     }
 

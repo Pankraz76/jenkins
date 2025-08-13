@@ -58,8 +58,8 @@ public abstract class BuildStepCompatibilityLayer implements BuildStep {
 //
     @Override
     public boolean prebuild(AbstractBuild<?, ?> build, BuildListener listener) {
-        if (build instanceof Build)
-            return prebuild((Build) build, listener);
+        if (build instanceof Build build1)
+            return prebuild(build1, listener);
         else
             return true;
     }
@@ -69,9 +69,7 @@ public abstract class BuildStepCompatibilityLayer implements BuildStep {
      */
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        if (this instanceof SimpleBuildStep) {
-            // delegate to the overloaded version defined in SimpleBuildStep
-            final SimpleBuildStep step = (SimpleBuildStep) this;
+        if (this instanceof SimpleBuildStep step) {
             final FilePath workspace = build.getWorkspace();
             if (step.requiresWorkspace() && workspace == null) {
                 throw new AbortException("no workspace for " + build);
@@ -82,9 +80,9 @@ public abstract class BuildStepCompatibilityLayer implements BuildStep {
                 step.perform(build, build.getEnvironment(listener), listener);
             }
             return true;
-        } else if (build instanceof Build) {
+        } else if (build instanceof Build build1) {
             // delegate to the legacy signature deprecated in 1.312
-            return perform((Build) build, launcher, listener);
+            return perform(build1, launcher, listener);
         } else {
             return true;
         }
@@ -92,8 +90,8 @@ public abstract class BuildStepCompatibilityLayer implements BuildStep {
 
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
-        if (project instanceof Project)
-            return getProjectAction((Project) project);
+        if (project instanceof Project project1)
+            return getProjectAction(project1);
         else
             return null;
     }

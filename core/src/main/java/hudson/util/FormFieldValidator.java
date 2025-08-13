@@ -188,18 +188,18 @@ public abstract class FormFieldValidator {
 
     /**
      * Sends out a string error message that indicates an error,
-     * by formatting it with {@link String#format(String, Object[])}
+     * by formatting it with {@link String#formatted(Object[])}
      */
     public void error(String format, Object... args) throws IOException, ServletException {
-        error(String.format(format, args));
+        error(format.formatted(args));
     }
 
     public void warning(String format, Object... args) throws IOException, ServletException {
-        warning(String.format(format, args));
+        warning(format.formatted(args));
     }
 
     public void ok(String format, Object... args) throws IOException, ServletException {
-        ok(String.format(format, args));
+        ok(format.formatted(args));
     }
 
     /**
@@ -571,10 +571,10 @@ public abstract class FormFieldValidator {
             });
             Exception e = exceptions[0];
             if (e != null) {
-                if (e instanceof IOException)
-                    throw (IOException) e;
-                if (e instanceof ServletException)
-                    throw (ServletException) e;
+                if (e instanceof IOException exception)
+                    throw exception;
+                if (e instanceof ServletException exception)
+                    throw exception;
             }
         }
 

@@ -64,8 +64,8 @@ public abstract class QueueIdStrategy implements ExtensionPoint {
         @Override
         public void load(Queue.State queueState) {
             var prop = queueState.properties.get(getClass().getName());
-            if (prop instanceof Long) {
-                COUNTER.set((Long) prop);
+            if (prop instanceof Long long1) {
+                COUNTER.set(long1);
             } else {
                 queueState.items.stream()
                         .filter(Queue.Item.class::isInstance)

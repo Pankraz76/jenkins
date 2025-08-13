@@ -70,13 +70,11 @@ public class RemotingVersionInfo {
             throws ExceptionInInitializerError {
         String prop = props.getProperty(propertyName);
         if (prop == null) {
-            throw new ExceptionInInitializerError(String.format(
-                    "Property %s is not defined in %s", propertyName, RESOURCE_NAME));
+            throw new ExceptionInInitializerError("Property %s is not defined in %s".formatted(propertyName, RESOURCE_NAME));
         }
 
         if (prop.contains("${")) { // Due to whatever reason, Maven does not nullify them
-            throw new ExceptionInInitializerError(String.format(
-                    "Property %s in %s has unresolved variable(s). Raw value: %s",
+            throw new ExceptionInInitializerError("Property %s in %s has unresolved variable(s). Raw value: %s".formatted(
                     propertyName, RESOURCE_NAME, prop));
         }
 
@@ -84,8 +82,8 @@ public class RemotingVersionInfo {
             return new VersionNumber(prop);
         } catch (RuntimeException ex) {
             throw new ExceptionInInitializerError(new IOException(
-                    String.format("Failed to parse version for for property %s in %s. Raw Value: %s",
-                    propertyName, RESOURCE_NAME, prop), ex));
+                    "Failed to parse version for for property %s in %s. Raw Value: %s".formatted(
+                            propertyName, RESOURCE_NAME, prop), ex));
         }
     }
 

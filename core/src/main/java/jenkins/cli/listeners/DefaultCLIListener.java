@@ -72,8 +72,7 @@ public class DefaultCLIListener implements CLIListener {
             // covered cases on CLICommand#handleException
             LOGGER.log(
                     Level.FINE,
-                    String.format(
-                            "Failed call to CLI command %s, with %d arguments, as user %s.",
+                    "Failed call to CLI command %s, with %d arguments, as user %s.".formatted(
                             context.getCommand(), context.getArgs().size(), authName(context.getAuth())),
                     t);
         } else {

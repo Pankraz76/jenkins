@@ -85,7 +85,7 @@ public abstract class AbstractCloudSlave extends Slave {
             computer.recordTermination();
         }
         try {
-            _terminate(computer instanceof SlaveComputer ? ((SlaveComputer) computer).getListener() : new LogTaskListener(LOGGER, Level.INFO));
+            _terminate(computer instanceof SlaveComputer sc ? sc.getListener() : new LogTaskListener(LOGGER, Level.INFO));
         } finally {
             try {
                 Jenkins.get().removeNode(this);

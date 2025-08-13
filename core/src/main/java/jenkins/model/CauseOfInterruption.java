@@ -31,6 +31,7 @@ import hudson.model.Executor;
 import hudson.model.Result;
 import hudson.model.TaskListener;
 import hudson.model.User;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import org.kohsuke.stapler.export.Exported;
@@ -144,8 +145,10 @@ public abstract class CauseOfInterruption implements Serializable {
             return user.hashCode();
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

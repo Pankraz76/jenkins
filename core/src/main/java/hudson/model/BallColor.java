@@ -135,7 +135,7 @@ public enum BallColor implements StatusIcon {
      * Returns the {@link #getBaseColor()} in the "#RRGGBB" format.
      */
     public String getHtmlBaseColor() {
-        return String.format("#%06X", baseColor.getRGB() & 0xFFFFFF);
+        return "#%06X".formatted(baseColor.getRGB() & 0xFFFFFF);
     }
 
     /**

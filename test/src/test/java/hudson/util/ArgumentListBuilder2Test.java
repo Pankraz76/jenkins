@@ -122,7 +122,7 @@ class ArgumentListBuilder2Test {
 
         String out = echoArgs(specials);
 
-        String expected = String.format("%n%s", String.join(" ", specials));
+        String expected = "%n%s".formatted(String.join(" ", specials));
         assertThat(out, containsString(expected));
     }
 

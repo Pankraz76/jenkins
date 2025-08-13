@@ -4,7 +4,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Functions;
 import hudson.util.ProcessTree;
 import java.lang.management.ManagementFactory;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,7 +44,7 @@ public class JavaVMArguments {
         // Legacy approach of last resort
         List<String> args = new ArrayList<>();
         args.add(
-                Paths.get(System.getProperty("java.home"))
+                Path.of(System.getProperty("java.home"))
                         .resolve("bin")
                         .resolve("java")
                         .toString());

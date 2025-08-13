@@ -1,6 +1,7 @@
 package jenkins;
 
 import hudson.FilePath.FileCallable;
+import java.io.Serial;
 import jenkins.agents.ControllerToAgentFileCallable;
 
 /**
@@ -12,5 +13,6 @@ import jenkins.agents.ControllerToAgentFileCallable;
  */
 public abstract class MasterToSlaveFileCallable<T> implements ControllerToAgentFileCallable<T> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

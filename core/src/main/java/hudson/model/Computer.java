@@ -231,7 +231,7 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
         StaplerRequest2 request = Stapler.getCurrentRequest2();
         if (request != null) {
             terminatedBy.add(new TerminationRequest(
-                    String.format("Termination requested at %s by %s [id=%d] from HTTP request for %s",
+                    "Termination requested at %s by %s [id=%d] from HTTP request for %s".formatted(
                             new Date(),
                             Thread.currentThread(),
                             Thread.currentThread().getId(),
@@ -240,7 +240,7 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
             ));
         } else {
             terminatedBy.add(new TerminationRequest(
-                    String.format("Termination requested at %s by %s [id=%d]",
+                    "Termination requested at %s by %s [id=%d]".formatted(
                             new Date(),
                             Thread.currentThread(),
                             Thread.currentThread().getId()
@@ -979,14 +979,14 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
         int index = 0;
         for (Executor e : executors) {
             if (e.isDisplayCell()) {
-                result.add(new DisplayExecutor(Integer.toString(index + 1), String.format("executors/%d", index), e));
+                result.add(new DisplayExecutor(Integer.toString(index + 1), "executors/%d".formatted(index), e));
             }
             index++;
         }
         index = 0;
         for (OneOffExecutor e : oneOffExecutors) {
             if (e.isDisplayCell()) {
-                result.add(new DisplayExecutor("", String.format("oneOffExecutors/%d", index), e));
+                result.add(new DisplayExecutor("", "oneOffExecutors/%d".formatted(index), e));
             }
             index++;
         }
@@ -1437,9 +1437,9 @@ public /*transient*/ abstract class Computer extends Actionable implements Acces
         rsp.setContentType("text/plain");
         try (PrintWriter w = new PrintWriter(rsp.getWriter())) {
             VirtualChannel vc = getChannel();
-            if (vc instanceof Channel) {
+            if (vc instanceof Channel channel) {
                 w.println("Controller to agent");
-                ((Channel) vc).dumpExportTable(w);
+                channel.dumpExportTable(w);
                 w.flush(); // flush here once so that even if the dump from the agent fails, the client gets some useful info
 
                 w.println("\n\n\nAgent to controller");

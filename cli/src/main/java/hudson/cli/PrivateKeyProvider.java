@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -143,7 +143,7 @@ public class PrivateKeyProvider {
 
     public static KeyPair loadKey(String pemString, String passwd) throws IOException, GeneralSecurityException {
         Iterable<KeyPair> itr = SecurityUtils.loadKeyPairIdentities(null,
-                new PathResource(Paths.get("key")),
+                new PathResource(Path.of("key")),
                 new ByteArrayInputStream(pemString.getBytes(StandardCharsets.UTF_8)),
                 FilePasswordProvider.of(passwd));
         long numLoaded = itr == null ? 0 : StreamSupport.stream(itr.spliterator(), false).count();

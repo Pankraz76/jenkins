@@ -3,7 +3,7 @@ package benchmarks;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Mode;
@@ -41,6 +41,6 @@ class BenchmarkTest {
                                             // just run the SampleBenchmark, not other benchmarks
                                             .include(SampleBenchmark.class.getName() + ".*");
         new Runner(options.build()).run();
-        assertTrue(Files.exists(Paths.get("jmh-report.json")));
+        assertTrue(Files.exists(Path.of("jmh-report.json")));
     }
 }

@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectStreamException;
 import java.io.RandomAccessFile;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -392,6 +393,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
     @SuppressFBWarnings(value = "SE_INNER_CLASS", justification = "Serializing the outer instance is intended")
     private final class SerializedProcess implements Serializable {
         private final int pid;
+        @Serial
         private static final long serialVersionUID = 1L;
 
         private SerializedProcess(int pid) {
@@ -727,8 +729,8 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
 
         private static boolean hasMatchingEnvVars(@NonNull OSProcess p, @NonNull Map<String, String> modelEnvVars)
                 throws WindowsOSProcessException {
-            if (p instanceof WindowsOSProcess) {
-                return ((WindowsOSProcess) p).hasMatchingEnvVars2(modelEnvVars);
+            if (p instanceof WindowsOSProcess process) {
+                return process.hasMatchingEnvVars2(modelEnvVars);
             } else {
                 // Should never happen, but there is a risk of getting such class during deserialization
                 try {
@@ -845,8 +847,8 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
             // We kill individual processes of a tree, so handling vetoes inside #kill() is enough for UnixProcess es
             LOGGER.fine("Recursively killing pid=" + getPid());
             for (OSProcess p : getChildren()) {
-                if (p instanceof UnixProcess) {
-                    ((UnixProcess) p).killRecursively(deadline);
+                if (p instanceof UnixProcess process) {
+                    process.killRecursively(deadline);
                 } else {
                     p.killRecursively(); // should not happen, fallback to non-deadline version
                 }
@@ -2051,6 +2053,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
             return this; // cancel out super.writeReplace()
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @SuppressFBWarnings(value = "SE_INNER_CLASS", justification = "Serializing the outer instance is intended")
@@ -2103,6 +2106,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
             }
 
 
+            @Serial
             private static final long serialVersionUID = 1L;
         }
     }

@@ -430,14 +430,14 @@ public abstract class Descriptor<T extends Describable<T>> implements Loadable, 
         String methodName = "doFill" + capitalizedFieldName + "Items";
         Method method = ReflectionUtils.getPublicMethodNamed(getClass(), methodName);
         if (method == null)
-            throw new IllegalStateException(String.format("%s doesn't have the %s method for filling a drop-down list", getClass(), methodName));
+            throw new IllegalStateException("%s doesn't have the %s method for filling a drop-down list".formatted(getClass(), methodName));
 
         // build query parameter line by figuring out what should be submitted
         List<String> depends = buildFillDependencies(method, new ArrayList<>());
 
         if (!depends.isEmpty())
             attributes.put("fillDependsOn", String.join(" ", depends));
-        attributes.put("fillUrl", String.format("%s/%s/fill%sItems", getCurrentDescriptorByNameUrl(), getDescriptorUrl(), capitalizedFieldName));
+        attributes.put("fillUrl", "%s/%s/fill%sItems".formatted(getCurrentDescriptorByNameUrl(), getDescriptorUrl(), capitalizedFieldName));
     }
 
     private List<String> buildFillDependencies(Method method, List<String> depends) {
@@ -480,7 +480,7 @@ public abstract class Descriptor<T extends Describable<T>> implements Loadable, 
             attributes.put("fillDependsOn", String.join(" ", depends));
         }
 
-        attributes.put("autoCompleteUrl", String.format("%s/%s/autoComplete%s", getCurrentDescriptorByNameUrl(), getDescriptorUrl(), capitalizedFieldName));
+        attributes.put("autoCompleteUrl", "%s/%s/autoComplete%s".formatted(getCurrentDescriptorByNameUrl(), getDescriptorUrl(), capitalizedFieldName));
     }
 
     /**
@@ -620,8 +620,8 @@ public abstract class Descriptor<T extends Describable<T>> implements Loadable, 
                 return verifyNewInstance(bindJSON(req, clazz, formData, true));
             }
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | RuntimeException e) {
-            if (e instanceof RuntimeException && e instanceof HttpResponse) {
-                throw (RuntimeException) e;
+            if (e instanceof RuntimeException exception && e instanceof HttpResponse) {
+                throw exception;
             }
             throw new LinkageError("Failed to instantiate " + clazz + " from " + RedactSecretJsonInErrorMessageSanitizer.INSTANCE.sanitize(formData), e);
         }
@@ -650,8 +650,8 @@ public abstract class Descriptor<T extends Describable<T>> implements Loadable, 
         BindInterceptor oldInterceptor = req.getBindInterceptor();
         try {
             NewInstanceBindInterceptor interceptor;
-            if (oldInterceptor instanceof NewInstanceBindInterceptor) {
-                interceptor = (NewInstanceBindInterceptor) oldInterceptor;
+            if (oldInterceptor instanceof NewInstanceBindInterceptor bindInterceptor) {
+                interceptor = bindInterceptor;
             } else {
                 interceptor = new NewInstanceBindInterceptor(oldInterceptor);
                 req.setBindInterceptor(interceptor);

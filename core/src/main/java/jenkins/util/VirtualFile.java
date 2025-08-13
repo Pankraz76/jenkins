@@ -43,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
@@ -311,6 +312,7 @@ public abstract class VirtualFile implements Comparable<VirtualFile>, Serializab
     }
 
     private static final class CollectFiles extends MasterToSlaveCallable<Collection<String>, IOException> {
+        @Serial
         private static final long serialVersionUID = 1;
         private final VirtualFile root;
 
@@ -477,7 +479,7 @@ public abstract class VirtualFile implements Comparable<VirtualFile>, Serializab
      * {@inheritDoc}
      */
     @Override public final boolean equals(Object obj) {
-        return obj instanceof VirtualFile && toURI().equals(((VirtualFile) obj).toURI());
+        return obj instanceof VirtualFile vf && toURI().equals(vf.toURI());
     }
 
     /**

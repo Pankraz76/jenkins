@@ -131,7 +131,7 @@ public class ClassFilterImpl extends ClassFilter {
                 if (r) {
                     LOGGER.log(Level.FINER, "{0} specifies a policy for {1}: {2}", new Object[] {f, _c.getName(), true});
                 } else {
-                    notifyRejected(_c, _c.getName(), String.format("%s specifies a policy for %s: %s ", f, _c.getName(), r));
+                    notifyRejected(_c, _c.getName(), "%s specifies a policy for %s: %s ".formatted(f, _c.getName(), r));
                 }
                 return !r;
             }
@@ -143,7 +143,7 @@ public class ClassFilterImpl extends ClassFilter {
                 return false;
             }
             if (ClassFilter.STANDARD.isBlacklisted(c)) { // currently never true, but may issue diagnostics
-                notifyRejected(_c, _c.getName(), String.format("%s is not permitted ", _c.getName()));
+                notifyRejected(_c, _c.getName(), "%s is not permitted ".formatted(_c.getName()));
                 return true;
             }
             if (c.isArray()) {
@@ -177,12 +177,12 @@ public class ClassFilterImpl extends ClassFilter {
             }
             if (SUPPRESS_WHITELIST || SUPPRESS_ALL) {
                 notifyRejected(_c, null,
-                        String.format("%s in %s might be dangerous, so would normally be rejected; see https://www.jenkins.io/redirect/class-filter/", name, location != null ? location : "JRE"));
+                        "%s in %s might be dangerous, so would normally be rejected; see https://www.jenkins.io/redirect/class-filter/".formatted(name, location != null ? location : "JRE"));
 
                 return false;
             }
             notifyRejected(_c, null,
-                    String.format("%s in %s might be dangerous, so rejecting; see https://www.jenkins.io/redirect/class-filter/", name, location != null ? location : "JRE"));
+                    "%s in %s might be dangerous, so rejecting; see https://www.jenkins.io/redirect/class-filter/".formatted(name, location != null ? location : "JRE"));
             return true;
         });
     }
@@ -307,7 +307,7 @@ public class ClassFilterImpl extends ClassFilter {
                     LOGGER.log(Level.FINER, "{0} specifies a policy for {1}: {2}", new Object[] {f, name, true});
                 } else {
                     notifyRejected(null, name,
-                            String.format("%s specifies a policy for %s: %s", f, name, r));
+                            "%s specifies a policy for %s: %s".formatted(f, name, r));
                 }
 
                 return !r;
@@ -317,11 +317,11 @@ public class ClassFilterImpl extends ClassFilter {
         if (ClassFilter.STANDARD.isBlacklisted(name)) {
             if (SUPPRESS_ALL) {
                 notifyRejected(null, name,
-                        String.format("would normally reject %s according to standard blacklist; see https://www.jenkins.io/redirect/class-filter/", name));
+                        "would normally reject %s according to standard blacklist; see https://www.jenkins.io/redirect/class-filter/".formatted(name));
                 return false;
             }
             notifyRejected(null, name,
-                    String.format("rejecting %s according to standard blacklist; see https://www.jenkins.io/redirect/class-filter/", name));
+                    "rejecting %s according to standard blacklist; see https://www.jenkins.io/redirect/class-filter/".formatted(name));
             return true;
         } else {
             return false;

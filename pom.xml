@@ -148,6 +148,7 @@ THE SOFTWARE.
               -->
               <compilerArg>-Xpkginfo:always</compilerArg>
             </compilerArgs>
+            <release>17</release>
           </configuration>
         </plugin>
         <plugin>

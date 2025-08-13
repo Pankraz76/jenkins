@@ -91,16 +91,16 @@ public class DefaultJnlpSlaveReceiver extends JnlpAgentReceiver {
         String clientName = event.getProperty(JnlpConnectionState.CLIENT_NAME_KEY);
         SlaveComputer computer = (SlaveComputer) Jenkins.get().getComputer(clientName);
         if (computer == null) {
-            event.reject(new ConnectionRefusalException(String.format("%s is not an inbound agent", clientName)));
+            event.reject(new ConnectionRefusalException("%s is not an inbound agent".formatted(clientName)));
             return;
         }
         ComputerLauncher launcher = computer.getLauncher();
         while (!(launcher instanceof JNLPLauncher)) {
             ComputerLauncher l;
-            if (launcher instanceof DelegatingComputerLauncher) {
-                launcher = ((DelegatingComputerLauncher) launcher).getLauncher();
-            } else if (launcher instanceof ComputerLauncherFilter) {
-                launcher = ((ComputerLauncherFilter) launcher).getCore();
+            if (launcher instanceof DelegatingComputerLauncher computerLauncher) {
+                launcher = computerLauncher.getLauncher();
+            } else if (launcher instanceof ComputerLauncherFilter filter) {
+                launcher = filter.getCore();
             } else if (null != (l = getDelegate(launcher))) {  // TODO remove when all plugins are fixed
                 LOGGER.log(Level.INFO, "Connecting {0} as an inbound agent where the launcher {1} does not mark "
                                 + "itself correctly as being an inbound agent",
@@ -120,7 +120,7 @@ public class DefaultJnlpSlaveReceiver extends JnlpAgentReceiver {
                                     + "jenkins.slaves.DefaultJnlpSlaveReceiver.disableStrictVerification=true to allow"
                                     + "connections until the plugin has been fixed.",
                             new Object[]{clientName, event.getRemoteEndpointDescription(), computer.getLauncher().getClass()});
-                    event.reject(new ConnectionRefusalException(String.format("%s is not an inbound agent", clientName)));
+                    event.reject(new ConnectionRefusalException("%s is not an inbound agent".formatted(clientName)));
                     return;
                 }
             }
@@ -140,8 +140,7 @@ public class DefaultJnlpSlaveReceiver extends JnlpAgentReceiver {
                     return;
                 }
             } else {
-                event.reject(new ConnectionRefusalException(String.format(
-                        "%s is already connected to this controller. Rejecting this connection.", clientName)));
+                event.reject(new ConnectionRefusalException("%s is already connected to this controller. Rejecting this connection.".formatted(clientName)));
                 return;
             }
         }

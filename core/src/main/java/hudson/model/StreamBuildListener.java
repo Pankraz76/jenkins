@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.nio.charset.Charset;
 
 /**
@@ -71,5 +72,6 @@ public class StreamBuildListener extends StreamTaskListener implements BuildList
         super(w, charset);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

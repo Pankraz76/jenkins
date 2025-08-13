@@ -57,6 +57,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -652,8 +653,8 @@ public abstract class Slave extends Node implements Serializable {
     @Override
     public SlaveDescriptor getDescriptor() {
         Descriptor d = Jenkins.get().getDescriptorOrDie(getClass());
-        if (d instanceof SlaveDescriptor)
-            return (SlaveDescriptor) d;
+        if (d instanceof SlaveDescriptor descriptor)
+            return descriptor;
         throw new IllegalStateException(d.getClass() + " needs to extend from SlaveDescriptor");
     }
 
@@ -772,6 +773,7 @@ public abstract class Slave extends Node implements Serializable {
             return new GetClockDifference2();
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -787,6 +789,7 @@ public abstract class Slave extends Node implements Serializable {
             return new GetClockDifference3(startTime);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 

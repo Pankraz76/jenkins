@@ -94,8 +94,8 @@ public class ChannelPinger extends ComputerListener {
     @Override
     public void preOnline(Computer c, Channel channel, FilePath root, TaskListener listener)  {
         SlaveComputer slaveComputer = null;
-        if (c instanceof SlaveComputer) {
-            slaveComputer = (SlaveComputer) c;
+        if (c instanceof SlaveComputer computer) {
+            slaveComputer = computer;
         }
         install(channel, slaveComputer);
     }
@@ -191,7 +191,7 @@ public class ChannelPinger extends ComputerListener {
                     boolean inClosed = isInClosed.get();
                     // Disassociate computer channel before closing it
                     if (computer != null) {
-                        Exception exception = cause instanceof Exception ? (Exception) cause : new IOException(cause);
+                        Exception exception = cause instanceof Exception e ? e : new IOException(cause);
                         computer.disconnect(new OfflineCause.ChannelTermination(exception));
                     }
                     if (inClosed) {

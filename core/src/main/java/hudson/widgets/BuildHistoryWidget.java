@@ -106,8 +106,8 @@ public class BuildHistoryWidget<T> extends HistoryWidget<Task, T> {
         @NonNull
         @Override
         public Collection<BuildHistoryWidget> createFor(@NonNull Job target) {
-            if (target instanceof Queue.Task) {
-                return List.of(new BuildHistoryWidget<>((Queue.Task) target, target.getBuilds(), Job.HISTORY_ADAPTER));
+            if (target instanceof Queue.Task task) {
+                return List.of(new BuildHistoryWidget<>(task, target.getBuilds(), Job.HISTORY_ADAPTER));
             }
             return Collections.emptySet();
         }

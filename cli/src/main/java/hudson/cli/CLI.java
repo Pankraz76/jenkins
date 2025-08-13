@@ -47,7 +47,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.SecureRandom;
@@ -322,7 +321,7 @@ public class CLI {
     private static String readAuthFromFile(String auth) throws IOException {
         Path path;
         try {
-            path = Paths.get(auth.substring(1));
+            path = Path.of(auth.substring(1));
         } catch (InvalidPathException e) {
             throw new IOException(e);
         }

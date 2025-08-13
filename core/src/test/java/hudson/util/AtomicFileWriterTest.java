@@ -19,7 +19,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -82,11 +81,11 @@ class AtomicFileWriterTest {
         assumeFalse(Functions.isWindows());
         final File folder = newFolder(tmp, "junit");
         final File containingSymlink = newFolder(tmp, "junit");
-        final Path zeSymlink = Files.createSymbolicLink(Paths.get(containingSymlink.getAbsolutePath(), "ze_symlink"),
+        final Path zeSymlink = Files.createSymbolicLink(Path.of(containingSymlink.getAbsolutePath(), "ze_symlink"),
                                                          folder.toPath());
 
 
-        final Path childFileInSymlinkToDir = Paths.get(zeSymlink.toString(), "childFileInSymlinkToDir");
+        final Path childFileInSymlinkToDir = Path.of(zeSymlink.toString(), "childFileInSymlinkToDir");
 
         new AtomicFileWriter(childFileInSymlinkToDir, StandardCharsets.UTF_8).abort();
     }

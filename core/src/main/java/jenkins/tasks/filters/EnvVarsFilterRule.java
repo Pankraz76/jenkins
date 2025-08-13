@@ -46,8 +46,8 @@ public interface EnvVarsFilterRule extends Serializable {
     void filter(@NonNull EnvVars envVars, @NonNull EnvVarsFilterRuleContext context) throws EnvVarsFilterException;
 
     default String getDisplayName() {
-        if (this instanceof Describable<?>) {
-            final Descriptor<?> descriptor = ((Describable<?>) this).getDescriptor();
+        if (this instanceof Describable<?> describable) {
+            final Descriptor<?> descriptor = describable.getDescriptor();
             if (descriptor != null) {
                 return descriptor.getDisplayName();
             }

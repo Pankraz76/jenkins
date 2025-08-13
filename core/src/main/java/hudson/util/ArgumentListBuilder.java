@@ -31,6 +31,7 @@ import hudson.Launcher;
 import hudson.Util;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -447,5 +448,6 @@ public class ArgumentListBuilder implements Serializable, Cloneable {
         return buf.toString();
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

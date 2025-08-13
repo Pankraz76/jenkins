@@ -64,8 +64,8 @@ public class CreateJobCommand extends CLICommand {
                 throw new IllegalArgumentException("Unknown ItemGroup " + group);
             }
 
-            if (item instanceof ModifiableTopLevelItemGroup) {
-                ig = (ModifiableTopLevelItemGroup) item;
+            if (item instanceof ModifiableTopLevelItemGroup itemGroup) {
+                ig = itemGroup;
             } else {
                 throw new IllegalStateException("Can't create job from CLI in " + group);
             }

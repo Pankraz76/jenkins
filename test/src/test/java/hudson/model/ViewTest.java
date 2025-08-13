@@ -793,7 +793,7 @@ class ViewTest {
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.login(CONFIGURATOR);
-        WebRequest req = new WebRequest(wc.createCrumbedUrl(String.format("%s/config.xml", view.getUrl())), HttpMethod.POST);
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("%s/config.xml".formatted(view.getUrl())), HttpMethod.POST);
         req.setAdditionalHeader("Content-Type", "application/xml");
         req.setRequestBody(VALID_XML_BAD_FIELD_USER_XML);
 

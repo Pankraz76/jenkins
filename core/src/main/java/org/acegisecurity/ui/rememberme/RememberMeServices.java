@@ -41,8 +41,8 @@ public interface RememberMeServices {
     void loginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication);
 
     static RememberMeServices fromSpring(org.springframework.security.web.authentication.RememberMeServices rms) {
-        if (rms instanceof RememberMeServicesSpringImpl) {
-            return ((RememberMeServicesSpringImpl) rms).delegate;
+        if (rms instanceof RememberMeServicesSpringImpl impl) {
+            return impl.delegate;
         }
         return new RememberMeServices() {
             @Override

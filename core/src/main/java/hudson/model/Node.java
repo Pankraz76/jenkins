@@ -361,7 +361,7 @@ public abstract class Node extends AbstractModelObject implements Reconfigurable
             // Filter out any bad(null) results from plugins
             // for compatibility reasons, findLabels may return LabelExpression and not atom.
             for (Label label : labeler.findLabels(this))
-                if (label instanceof LabelAtom) result.add((LabelAtom) label);
+                if (label instanceof LabelAtom atom) result.add(atom);
         }
         return result;
     }
@@ -455,7 +455,7 @@ public abstract class Node extends AbstractModelObject implements Reconfigurable
                 c = prop.canTake(item);
             } catch (Throwable t) {
                 // We cannot guarantee the task can be taken by this node because something wrong happened
-                LOGGER.log(Level.WARNING, t, () -> String.format("Exception evaluating if the node '%s' can take the task '%s'", getNodeName(), item.task.getName()));
+                LOGGER.log(Level.WARNING, t, () -> "Exception evaluating if the node '%s' can take the task '%s'".formatted(getNodeName(), item.task.getName()));
                 c = CauseOfBlockage.fromMessage(Messages._Queue_ExceptionCanTake());
             }
             if (c != null)    return c;

@@ -265,11 +265,11 @@ public class WebAppMain implements ServletContextListener {
                     } catch (Exception e) {
                         // Allow plugins to override error page on boot with custom BootFailure subclass thrown
                         Throwable error = unwrapException(e);
-                        if (error instanceof InvocationTargetException) {
-                            Throwable targetException = ((InvocationTargetException) error).getTargetException();
+                        if (error instanceof InvocationTargetException exception) {
+                            Throwable targetException = exception.getTargetException();
 
-                            if (targetException instanceof BootFailure) {
-                                ((BootFailure) targetException).publish(context, _home);
+                            if (targetException instanceof BootFailure failure) {
+                                failure.publish(context, _home);
                             } else {
                                 new HudsonFailedToLoad(e).publish(context, _home);
                             }

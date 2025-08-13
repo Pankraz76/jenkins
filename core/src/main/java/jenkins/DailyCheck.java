@@ -83,7 +83,7 @@ public final class DailyCheck extends AsyncPeriodicWork {
                     try {
                         d.updateNow();
                     } catch (Exception e) {
-                        LOGGER.log(Level.WARNING, String.format("Unable to update downloadable [%s]", d.getId()), e);
+                        LOGGER.log(Level.WARNING, "Unable to update downloadable [%s]".formatted(d.getId()), e);
                     }
                 }
             }
@@ -91,8 +91,8 @@ public final class DailyCheck extends AsyncPeriodicWork {
         }
         // This checks updates of the update sites and downloadables.
         HttpResponse rsp = Jenkins.get().getPluginManager().doCheckUpdatesServer();
-        if (rsp instanceof FormValidation) {
-            listener.error(((FormValidation) rsp).renderHtml());
+        if (rsp instanceof FormValidation validation) {
+            listener.error(validation.renderHtml());
         }
     }
 

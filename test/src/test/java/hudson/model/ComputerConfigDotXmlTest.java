@@ -195,7 +195,7 @@ class ComputerConfigDotXmlTest {
         assertThat(computer, is(notNullValue()));
 
         JenkinsRule.WebClient wc = rule.createWebClient().withThrowExceptionOnFailingStatusCode(false);
-        WebRequest req = new WebRequest(wc.createCrumbedUrl(String.format("%s/config.xml", computer.getUrl())), HttpMethod.POST);
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("%s/config.xml".formatted(computer.getUrl())), HttpMethod.POST);
         req.setAdditionalHeader("Content-Type", "application/xml");
         // to ensure maximum compatibility of payload, we'll serialize a real one with the same name
         DumbSlave mole = new DumbSlave(name, newFolder(temporaryFolder, "junit").getPath(), rule.createComputerLauncher(null));
@@ -214,7 +214,7 @@ class ComputerConfigDotXmlTest {
         Computer computer = rule.createSlave("anything", null).toComputer();
 
         JenkinsRule.WebClient wc = rule.createWebClient();
-        WebRequest req = new WebRequest(wc.createCrumbedUrl(String.format("%s/config.xml", computer.getUrl())), HttpMethod.POST);
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("%s/config.xml".formatted(computer.getUrl())), HttpMethod.POST);
         req.setAdditionalHeader("Content-Type", "application/xml");
         req.setRequestBody(VALID_XML_BAD_NAME_XML);
 

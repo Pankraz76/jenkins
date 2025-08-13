@@ -42,8 +42,7 @@ class MainTest {
     private static void assertJavaCheckFails(
             @CheckForNull String message, int releaseVersion, boolean enableFutureJava) {
         if (message == null) {
-            message = String.format(
-                    "Java version check should have failed for Java version %d and enableFutureJava=%b",
+            message = "Java version check should have failed for Java version %d and enableFutureJava=%b".formatted(
                     releaseVersion, enableFutureJava);
         }
 
@@ -60,8 +59,7 @@ class MainTest {
     private static void assertJavaCheckPasses(
             @CheckForNull String message, int releaseVersion, boolean enableFutureJava) {
         if (message == null) {
-            message = String.format(
-                    "Java version check should have passed for Java version %d and enableFutureJava=%b",
+            message = "Java version check should have passed for Java version %d and enableFutureJava=%b".formatted(
                     releaseVersion, enableFutureJava);
         }
         try {

@@ -74,8 +74,8 @@ public final class BuildListenerAdapter implements BuildListener {
     }
 
     public static BuildListener wrap(TaskListener l) {
-        if (l instanceof BuildListener) {
-            return (BuildListener) l;
+        if (l instanceof BuildListener listener) {
+            return listener;
         } else {
             return new BuildListenerAdapter(l);
         }

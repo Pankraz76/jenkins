@@ -59,10 +59,10 @@ public interface EnvironmentContributingAction extends Action {
      * @since 2.76
      */
     default void buildEnvironment(@NonNull Run<?, ?> run, @NonNull EnvVars env) {
-        if (run instanceof AbstractBuild
+        if (run instanceof AbstractBuild build
                 && Util.isOverridden(EnvironmentContributingAction.class,
                                      getClass(), "buildEnvVars", AbstractBuild.class, EnvVars.class)) {
-            buildEnvVars((AbstractBuild) run, env);
+            buildEnvVars(build, env);
         }
     }
 

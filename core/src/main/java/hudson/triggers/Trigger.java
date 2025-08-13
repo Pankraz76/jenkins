@@ -103,7 +103,7 @@ public abstract class Trigger<J extends Item> implements Describable<Trigger<?>>
         } catch (IllegalArgumentException e) {
             // this shouldn't fail because we've already parsed stuff in the constructor,
             // so if it fails, use whatever 'tabs' that we already have.
-            LOGGER.log(Level.WARNING, String.format("Failed to parse crontab spec %s in job %s", spec, project.getFullName()), e);
+            LOGGER.log(Level.WARNING, "Failed to parse crontab spec %s in job %s".formatted(spec, project.getFullName()), e);
         }
     }
 
@@ -308,7 +308,7 @@ public abstract class Trigger<J extends Item> implements Describable<Trigger<?>>
                                 if (end_time - begin_time > CRON_THRESHOLD * 1000) {
                                     TriggerDescriptor descriptor = t.getDescriptor();
                                     String name = descriptor.getDisplayName();
-                                    final String msg = String.format("Trigger '%s' triggered by '%s' (%s) spent too much time (%s) in its execution, other timers could be delayed.",
+                                    final String msg = "Trigger '%s' triggered by '%s' (%s) spent too much time (%s) in its execution, other timers could be delayed.".formatted(
                                             name, p.getFullDisplayName(), p.getFullName(), Util.getTimeSpanString(end_time - begin_time));
                                     LOGGER.log(Level.WARNING, msg);
                                     SlowTriggerAdminMonitor.getInstance().report(descriptor.getClass(), p.getFullName(), end_time - begin_time);
@@ -368,8 +368,8 @@ public abstract class Trigger<J extends Item> implements Describable<Trigger<?>>
         for (TriggerDescriptor t : all()) {
             if (!t.isApplicable(i))  continue;
 
-            if (i instanceof TopLevelItem) { // ugly
-                TopLevelItemDescriptor tld = ((TopLevelItem) i).getDescriptor();
+            if (i instanceof TopLevelItem item) { // ugly
+                TopLevelItemDescriptor tld = item.getDescriptor();
                 // tld shouldn't be really null in contract, but we often write test Describables that
                 // doesn't have a Descriptor.
                 if (tld != null && !tld.isApplicable(t))    continue;

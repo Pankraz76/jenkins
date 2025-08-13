@@ -247,7 +247,7 @@ public abstract class Proc {
             this.cookie = EnvVars.createCookie();
             procBuilder.environment().putAll(cookie);
             if (procBuilder.directory() != null && !procBuilder.directory().exists()) {
-                throw new IOException(String.format("Process working directory '%s' doesn't exist!", procBuilder.directory().getAbsolutePath()));
+                throw new IOException("Process working directory '%s' doesn't exist!".formatted(procBuilder.directory().getAbsolutePath()));
             }
             this.proc = procBuilder.start();
 
@@ -460,7 +460,7 @@ public abstract class Proc {
             try {
                 return process.get();
             } catch (InterruptedException e) {
-                LOGGER.log(Level.FINE, String.format("Join operation has been interrupted for the process %s. Killing the process", this), e);
+                LOGGER.log(Level.FINE, "Join operation has been interrupted for the process %s. Killing the process".formatted(this), e);
                 kill();
                 throw e;
             } catch (ExecutionException e) {

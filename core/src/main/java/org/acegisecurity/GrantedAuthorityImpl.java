@@ -24,6 +24,7 @@
 
 package org.acegisecurity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -33,6 +34,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Deprecated
 public class GrantedAuthorityImpl implements GrantedAuthority, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     private final String role;
@@ -53,7 +55,7 @@ public class GrantedAuthorityImpl implements GrantedAuthority, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof GrantedAuthorityImpl && role.equals(((GrantedAuthorityImpl) o).role);
+        return o instanceof GrantedAuthorityImpl gai && role.equals(gai.role);
     }
 
     @Override

@@ -423,8 +423,8 @@ public class ClassicPluginStrategy implements PluginStrategy {
     private DependencyClassLoader findAncestorDependencyClassLoader(ClassLoader classLoader)
     {
         for (; classLoader != null; classLoader = classLoader.getParent()) {
-            if (classLoader instanceof DependencyClassLoader) {
-                return (DependencyClassLoader) classLoader;
+            if (classLoader instanceof DependencyClassLoader loader) {
+                return loader;
             }
         }
         return null;

@@ -572,19 +572,19 @@ public class ListView extends View implements DirectlyModifiableView {
             final Jenkins jenkins = Jenkins.get();
             locationChanged(jenkins, oldFullName, newFullName);
             for (Item g : jenkins.allItems()) {
-                if (g instanceof ViewGroup) {
-                    locationChanged((ViewGroup) g, oldFullName, newFullName);
+                if (g instanceof ViewGroup group) {
+                    locationChanged(group, oldFullName, newFullName);
                 }
             }
         }
 
         private void locationChanged(ViewGroup vg, String oldFullName, String newFullName) {
             for (View v : vg.getViews()) {
-                if (v instanceof ListView) {
-                    renameViewItem(oldFullName, newFullName, vg, (ListView) v);
+                if (v instanceof ListView view) {
+                    renameViewItem(oldFullName, newFullName, vg, view);
                 }
-                if (v instanceof ViewGroup) {
-                    locationChanged((ViewGroup) v, oldFullName, newFullName);
+                if (v instanceof ViewGroup group) {
+                    locationChanged(group, oldFullName, newFullName);
                 }
             }
         }
@@ -619,19 +619,19 @@ public class ListView extends View implements DirectlyModifiableView {
             final Jenkins jenkins = Jenkins.get();
             deleted(jenkins, item);
             for (Item g : jenkins.allItems()) {
-                if (g instanceof ViewGroup) {
-                    deleted((ViewGroup) g, item);
+                if (g instanceof ViewGroup group) {
+                    deleted(group, item);
                 }
             }
         }
 
         private void deleted(ViewGroup vg, Item item) {
             for (View v : vg.getViews()) {
-                if (v instanceof ListView) {
-                    deleteViewItem(item, vg, (ListView) v);
+                if (v instanceof ListView view) {
+                    deleteViewItem(item, vg, view);
                 }
-                if (v instanceof ViewGroup) {
-                    deleted((ViewGroup) v, item);
+                if (v instanceof ViewGroup group) {
+                    deleted(group, item);
                 }
             }
         }

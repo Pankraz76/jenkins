@@ -256,7 +256,7 @@ public class CloudSet extends AbstractModelObject implements Describable<CloudSe
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         Descriptor<Cloud> cloudDescriptor = Cloud.all().findByName(cloudDescriptorName);
         if (cloudDescriptor == null) {
-            throw new Failure(String.format("No cloud type ‘%s’ is known", cloudDescriptorName));
+            throw new Failure("No cloud type ‘%s’ is known".formatted(cloudDescriptorName));
         }
         Cloud cloud = cloudDescriptor.newInstance(req, req.getSubmittedForm());
         if (!Jenkins.get().clouds.add(cloud)) {

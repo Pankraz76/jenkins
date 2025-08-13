@@ -414,10 +414,10 @@ public class PluginWrapper implements Comparable<PluginWrapper>, ModelObject {
      */
     @Restricted(Beta.class)
     public void injectJarsToClasspath(File... jars) throws Exception {
-        if (classLoader instanceof URLClassLoader2) {
+        if (classLoader instanceof URLClassLoader2 loader2) {
             for (File f : jars) {
                 LOGGER.log(Level.CONFIG, () -> "Inserting " + f + " into " + shortName + " plugin's classpath");
-                ((URLClassLoader2) classLoader).addURL(f.toURI().toURL());
+                loader2.addURL(f.toURI().toURL());
             }
         } else {
             throw new AssertionError("PluginWrapper classloader has changed type, but this code has not been updated accordingly");
@@ -755,9 +755,9 @@ public class PluginWrapper implements Comparable<PluginWrapper>, ModelObject {
     }
 
     public void releaseClassLoader() {
-        if (classLoader instanceof Closeable)
+        if (classLoader instanceof Closeable closeable)
             try {
-                ((Closeable) classLoader).close();
+                closeable.close();
             } catch (IOException e) {
                 LOGGER.log(WARNING, "Failed to shut down classloader", e);
             }

@@ -159,7 +159,7 @@ public final class XMLUtils {
      */
     public static @NonNull Document parse(@NonNull File file) throws SAXException, IOException {
         if (!file.exists() || !file.isFile()) {
-            throw new IllegalArgumentException(String.format("File %s does not exist or is not a 'normal' file.", file.getAbsolutePath()));
+            throw new IllegalArgumentException("File %s does not exist or is not a 'normal' file.".formatted(file.getAbsolutePath()));
         }
 
         try (InputStream fileInputStream = Files.newInputStream(file.toPath())) {
@@ -176,7 +176,7 @@ public final class XMLUtils {
     @Deprecated
     public static @NonNull Document parse(@NonNull File file, @NonNull String encoding) throws SAXException, IOException {
         if (!file.exists() || !file.isFile()) {
-            throw new IllegalArgumentException(String.format("File %s does not exist or is not a 'normal' file.", file.getAbsolutePath()));
+            throw new IllegalArgumentException("File %s does not exist or is not a 'normal' file.".formatted(file.getAbsolutePath()));
         }
 
         try (InputStream fileInputStream = Files.newInputStream(file.toPath());
@@ -272,7 +272,7 @@ public final class XMLUtils {
         try {
             documentBuilderFactory.setFeature(feature, state);
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, String.format("Failed to set the XML Document Builder factory feature %s to %s", feature, state), e);
+            LOGGER.log(Level.WARNING, "Failed to set the XML Document Builder factory feature %s to %s".formatted(feature, state), e);
         }
     }
 }

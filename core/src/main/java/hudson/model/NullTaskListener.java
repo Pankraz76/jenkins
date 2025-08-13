@@ -25,6 +25,7 @@
 package hudson.model;
 
 import java.io.PrintStream;
+import java.io.Serial;
 import org.apache.commons.io.output.NullPrintStream;
 
 /**
@@ -32,6 +33,7 @@ import org.apache.commons.io.output.NullPrintStream;
  */
 class NullTaskListener implements TaskListener {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override

@@ -87,7 +87,7 @@ public interface SCMTriggerItem {
      * Schedules a polling of this project.
      */
     default boolean schedulePolling() {
-        if (this instanceof ParameterizedJobMixIn.ParameterizedJob && ((ParameterizedJobMixIn.ParameterizedJob) this).isDisabled()) {
+        if (this instanceof ParameterizedJobMixIn.ParameterizedJob job && job.isDisabled()) {
             return false;
         }
         SCMTrigger scmt = getSCMTrigger();
@@ -110,10 +110,10 @@ public interface SCMTriggerItem {
          */
         @SuppressWarnings("deprecation")
         public static @CheckForNull SCMTriggerItem asSCMTriggerItem(Item item) {
-            if (item instanceof SCMTriggerItem) {
-                return (SCMTriggerItem) item;
-            } else if (item instanceof SCMedItem) {
-                return new Bridge((SCMedItem) item);
+            if (item instanceof SCMTriggerItem triggerItem) {
+                return triggerItem;
+            } else if (item instanceof SCMedItem medItem) {
+                return new Bridge(medItem);
             } else {
                 return null;
             }

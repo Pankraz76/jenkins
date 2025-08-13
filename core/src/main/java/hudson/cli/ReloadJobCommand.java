@@ -68,8 +68,8 @@ public class ReloadJobCommand extends CLICommand {
 
             try {
                 Item item = jenkins.getItemByFullName(job_s);
-                if (item instanceof AbstractItem) {
-                    job = (AbstractItem) item;
+                if (item instanceof AbstractItem abstractItem) {
+                    job = abstractItem;
                 } else if (item != null) {
                     LOGGER.log(Level.WARNING, "Unsupported item type: {0}", item.getClass().getName());
                 }
@@ -78,8 +78,8 @@ public class ReloadJobCommand extends CLICommand {
                     AbstractItem project = Items.findNearest(AbstractItem.class, job_s, jenkins);
                     throw new IllegalArgumentException(project == null ?
                         "No such item \u2018" + job_s + "\u2019 exists." :
-                        String.format("No such item \u2018%s\u2019 exists. Perhaps you meant \u2018%s\u2019?",
-                                job_s, project.getFullName()));
+                            "No such item \u2018%s\u2019 exists. Perhaps you meant \u2018%s\u2019?".formatted(
+                                    job_s, project.getFullName()));
                 }
 
                 job.checkPermission(Item.CONFIGURE);

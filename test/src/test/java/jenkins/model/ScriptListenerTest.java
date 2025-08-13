@@ -170,7 +170,7 @@ class ScriptListenerTest {
                 username = u.getFullName();
             }
             String expectedOutFormat = "Script: '%s' in '%s' with '%s' by '%s'";
-            this.script.append(String.format(expectedOutFormat, script, feature, context, correlationId, username)).append("\n");
+            this.script.append(expectedOutFormat.formatted(script, feature, context, correlationId, username)).append("\n");
         }
 
         @Override

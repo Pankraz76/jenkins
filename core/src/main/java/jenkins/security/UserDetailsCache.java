@@ -100,7 +100,7 @@ public final class UserDetailsCache {
     public UserDetails getCached(String idOrFullName) throws UsernameNotFoundException {
         Boolean exists = existenceCache.getIfPresent(idOrFullName);
         if (exists != null && !exists) {
-            throw new UserMayOrMayNotExistException2(String.format("\"%s\" does not exist", idOrFullName));
+            throw new UserMayOrMayNotExistException2("\"%s\" does not exist".formatted(idOrFullName));
         } else {
             return detailsCache.getIfPresent(idOrFullName);
         }
@@ -121,7 +121,7 @@ public final class UserDetailsCache {
     public UserDetails loadUserByUsername(String idOrFullName) throws UsernameNotFoundException, ExecutionException {
         Boolean exists = existenceCache.getIfPresent(idOrFullName);
         if (exists != null && !exists) {
-            throw new UsernameNotFoundException(String.format("\"%s\" does not exist", idOrFullName));
+            throw new UsernameNotFoundException("\"%s\" does not exist".formatted(idOrFullName));
         } else {
             try {
                 return detailsCache.get(idOrFullName, new Retriever(idOrFullName));

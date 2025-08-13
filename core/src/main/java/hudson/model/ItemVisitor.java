@@ -47,8 +47,8 @@ public abstract class ItemVisitor {
      * visits the children.
      */
     public void onItem(Item i) {
-        if (i instanceof ItemGroup)
-            onItemGroup((ItemGroup) i);
+        if (i instanceof ItemGroup group)
+            onItemGroup(group);
     }
 
     /**

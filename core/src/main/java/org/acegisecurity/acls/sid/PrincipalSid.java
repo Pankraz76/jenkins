@@ -41,7 +41,7 @@ public class PrincipalSid implements Sid {
      */
     public PrincipalSid(Authentication a) {
         Object p = a.getPrincipal();
-        this.principal = p instanceof UserDetails ? ((UserDetails) p).getUsername() : p.toString();
+        this.principal = p instanceof UserDetails ud ? ud.getUsername() : p.toString();
     }
 
     /**
@@ -58,7 +58,7 @@ public class PrincipalSid implements Sid {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof PrincipalSid && Objects.equals(principal, ((PrincipalSid) o).principal);
+        return o instanceof PrincipalSid ps && Objects.equals(principal, ps.principal);
     }
 
     @Override

@@ -115,9 +115,9 @@ public class DownloadService {
     @Restricted(NoExternalUse.class)
     public static String loadJSON(URL src) throws IOException {
         URLConnection con = ProxyConfiguration.open(src);
-        if (con instanceof HttpURLConnection) {
+        if (con instanceof HttpURLConnection connection) {
             // prevent problems from misbehaving plugins disabling redirects by default
-            ((HttpURLConnection) con).setInstanceFollowRedirects(true);
+            connection.setInstanceFollowRedirects(true);
         }
         try (InputStream is = con.getInputStream()) {
             String jsonp = IOUtils.toString(is, StandardCharsets.UTF_8);
@@ -140,9 +140,9 @@ public class DownloadService {
     @Restricted(NoExternalUse.class)
     public static String loadJSONHTML(URL src) throws IOException {
         URLConnection con = ProxyConfiguration.open(src);
-        if (con instanceof HttpURLConnection) {
+        if (con instanceof HttpURLConnection connection) {
             // prevent problems from misbehaving plugins disabling redirects by default
-            ((HttpURLConnection) con).setInstanceFollowRedirects(true);
+            connection.setInstanceFollowRedirects(true);
         }
         try (InputStream is = con.getInputStream()) {
             String jsonp = IOUtils.toString(is, StandardCharsets.UTF_8);

@@ -6,6 +6,7 @@ import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractProject;
 import hudson.model.TaskListener;
+import java.io.Serial;
 import org.jenkinsci.remoting.SerializableOnlyOverRemoting;
 
 /**
@@ -105,5 +106,6 @@ public final class PollingResult implements SerializableOnlyOverRemoting {
      */
     public static final PollingResult BUILD_NOW = new PollingResult(Change.INCOMPARABLE);
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

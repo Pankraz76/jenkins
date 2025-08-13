@@ -83,9 +83,9 @@ public class InitReactorRunner {
             public void onAttained(Milestone milestone) {
                 Level lv = level;
                 String s = "Attained " + milestone.toString();
-                if (milestone instanceof InitMilestone) {
+                if (milestone instanceof InitMilestone initMilestone) {
                     lv = Level.INFO; // noteworthy milestones --- at least while we debug problems further
-                    onInitMilestoneAttained((InitMilestone) milestone);
+                    onInitMilestoneAttained(initMilestone);
                     s = milestone.toString();
                 }
                 LOGGER.log(lv, s);

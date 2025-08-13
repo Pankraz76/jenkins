@@ -793,7 +793,7 @@ public class HudsonPrivateSecurityRealm extends AbstractPasswordBasedSecurityRea
 
             @Override
             public boolean equals(Object o) {
-                return o instanceof UserDetailsImpl && ((UserDetailsImpl) o).getUsername().equals(getUsername());
+                return o instanceof UserDetailsImpl udi && udi.getUsername().equals(getUsername());
             }
 
             @Override

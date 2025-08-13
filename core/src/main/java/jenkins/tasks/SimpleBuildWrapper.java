@@ -314,8 +314,8 @@ public abstract class SimpleBuildWrapper extends BuildWrapper {
         }
 
         @Override public void buildEnvVars(Map<String, String> env) {
-            if (env instanceof EnvVars) {
-                ((EnvVars) env).overrideAll(c.env);
+            if (env instanceof EnvVars vars) {
+                vars.overrideAll(c.env);
             } else { // ?
                 env.putAll(c.env);
             }

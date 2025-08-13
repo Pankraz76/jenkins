@@ -29,6 +29,7 @@ import hudson.Extension;
 import hudson.MarkupText;
 import hudson.Util;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -109,5 +110,6 @@ public class HyperlinkNote extends ConsoleNote {
     }
 
     private static final Logger LOGGER = Logger.getLogger(HyperlinkNote.class.getName());
+    @Serial
     private static final long serialVersionUID = 3908468829358026949L;
 }

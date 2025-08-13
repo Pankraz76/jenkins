@@ -62,7 +62,7 @@ public abstract class AbstractScmTagAction extends TaskAction implements BuildBa
      */
     protected AbstractScmTagAction(Run<?, ?> run) {
         this.run = run;
-        this.build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+        this.build = run instanceof AbstractBuild ab ? ab : null;
     }
 
     @Deprecated
@@ -154,7 +154,7 @@ public abstract class AbstractScmTagAction extends TaskAction implements BuildBa
 
     @Override public void onLoad(Run<?, ?> r) {
         run = r;
-        build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+        build = run instanceof AbstractBuild ab ? ab : null;
     }
 
 }

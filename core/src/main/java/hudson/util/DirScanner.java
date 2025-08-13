@@ -7,6 +7,7 @@ import hudson.Util;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.OpenOption;
 import java.util.HashSet;
@@ -74,6 +75,7 @@ public abstract class DirScanner implements Serializable {
             scan(dir, "", visitor);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -93,6 +95,7 @@ public abstract class DirScanner implements Serializable {
             super.scan(dir, visitor.with(filter));
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -149,6 +152,7 @@ public abstract class DirScanner implements Serializable {
             }
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -199,5 +203,6 @@ public abstract class DirScanner implements Serializable {
         }
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

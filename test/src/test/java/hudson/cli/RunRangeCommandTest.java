@@ -83,7 +83,7 @@ class RunRangeCommandTest {
         assertThat(result, failedWith(3));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(),
-                containsString(String.format("ERROR: No such job '%s'", PROJECT_NAME)));
+                containsString("ERROR: No such job '%s'".formatted(PROJECT_NAME)));
     }
 
     @Test
@@ -104,7 +104,7 @@ class RunRangeCommandTest {
         assertThat(result, failedWith(3));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(),
-                containsString(String.format("ERROR: No such job ''; perhaps you meant '%s'?", PROJECT_NAME)));
+                containsString("ERROR: No such job ''; perhaps you meant '%s'?".formatted(PROJECT_NAME)));
     }
 
     @Test
@@ -115,7 +115,7 @@ class RunRangeCommandTest {
         assertThat(result, failedWith(3));
         assertThat(result, hasNoStandardOutput());
         assertThat(result.stderr(),
-                containsString(String.format("ERROR: No such job ' '; perhaps you meant '%s'?", PROJECT_NAME)));
+                containsString("ERROR: No such job ' '; perhaps you meant '%s'?".formatted(PROJECT_NAME)));
     }
 
     @Test
@@ -322,13 +322,13 @@ class RunRangeCommandTest {
 
         result = command
                 .authorizedTo(Jenkins.READ, Item.READ)
-                .invokeWithArgs(PROJECT_NAME, String.format("1,%d,%d", deleted[0], deleted[0] + 1));
+                .invokeWithArgs(PROJECT_NAME, "1,%d,%d".formatted(deleted[0], deleted[0] + 1));
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString(String.format("Builds: 1,%d" + System.lineSeparator(), deleted[0] + 1)));
 
         result = command
                 .authorizedTo(Jenkins.READ, Item.READ)
-                .invokeWithArgs(PROJECT_NAME, String.format("%d,%d,%d", deleted[0] - 1, deleted[0], deleted[0] + 1));
+                .invokeWithArgs(PROJECT_NAME, "%d,%d,%d".formatted(deleted[0] - 1, deleted[0], deleted[0] + 1));
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString(String.format("Builds: %d,%d" + System.lineSeparator(), deleted[0] - 1, deleted[0] + 1)));
     }
@@ -609,19 +609,19 @@ class RunRangeCommandTest {
     void dummyRangeRangeSingleShouldSuccessIfSomeBuildDoesNotExist() {
         CLICommandInvoker.Result result = command
                 .authorizedTo(Jenkins.READ, Item.READ)
-                .invokeWithArgs(PROJECT_NAME, String.format("%d-%d", deleted[0], deleted[0] + 1));
+                .invokeWithArgs(PROJECT_NAME, "%d-%d".formatted(deleted[0], deleted[0] + 1));
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString(String.format("Builds: %d" + System.lineSeparator(), deleted[0] + 1)));
 
         result = command
                 .authorizedTo(Jenkins.READ, Item.READ)
-                .invokeWithArgs(PROJECT_NAME, String.format("%d-%d", deleted[0] - 1, deleted[0] + 1));
+                .invokeWithArgs(PROJECT_NAME, "%d-%d".formatted(deleted[0] - 1, deleted[0] + 1));
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString(String.format("Builds: %d,%d" + System.lineSeparator(), deleted[0] - 1, deleted[0] + 1)));
 
         result = command
                 .authorizedTo(Jenkins.READ, Item.READ)
-                .invokeWithArgs(PROJECT_NAME, String.format("%d-%d", deleted[0] - 1, deleted[0]));
+                .invokeWithArgs(PROJECT_NAME, "%d-%d".formatted(deleted[0] - 1, deleted[0]));
         assertThat(result, succeeded());
         assertThat(result.stdout(), containsString(String.format("Builds: %d" + System.lineSeparator(), deleted[0] - 1)));
     }

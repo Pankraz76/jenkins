@@ -30,6 +30,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.cli.declarative.OptionHandlerExtension;
 import hudson.init.Initializer;
 import hudson.util.EditDistance;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,6 +192,7 @@ public final class Result implements Serializable, CustomExportedBean {
         return FAILURE;
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final Result[] all = new Result[] {SUCCESS, UNSTABLE, FAILURE, NOT_BUILT, ABORTED};

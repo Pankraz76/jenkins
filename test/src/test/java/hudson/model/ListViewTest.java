@@ -274,7 +274,7 @@ class ListViewTest {
         StaplerRequest2 req = mock(StaplerRequest2.class);
         StaplerResponse2 rsp = mock(StaplerResponse2.class);
 
-        String configXml = IOUtils.toString(getClass().getResourceAsStream(String.format("%s/%s/config.xml", getClass().getSimpleName(), info.getTestMethod().orElseThrow().getName())), StandardCharsets.UTF_8);
+        String configXml = IOUtils.toString(getClass().getResourceAsStream("%s/%s/config.xml".formatted(getClass().getSimpleName(), info.getTestMethod().orElseThrow().getName())), StandardCharsets.UTF_8);
 
         when(req.getMethod()).thenReturn("POST");
         when(req.getParameter("name")).thenReturn("job1");

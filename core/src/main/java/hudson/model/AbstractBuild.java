@@ -580,9 +580,9 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
                     }
                 } catch (IOException | RuntimeException e) {
                     // exceptions are only logged, to give a chance to all environments to tear down
-                    if (e instanceof IOException) {
+                    if (e instanceof IOException exception) {
                         // similar to Run#handleFatalBuildProblem(BuildListener, Throwable)
-                        Util.displayIOException((IOException) e, listener);
+                        Util.displayIOException(exception, listener);
                     }
                     Functions.printStackTrace(e, listener.error("Unable to tear down: " + e.getMessage()));
                     // would UNSTABLE be more sensible? (see discussion in PR #4517)
@@ -762,7 +762,7 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
         protected final boolean performAllBuildSteps(BuildListener listener, Iterable<? extends BuildStep> buildSteps, boolean phase) throws InterruptedException, IOException {
             boolean r = true;
             for (BuildStep bs : buildSteps) {
-                if ((bs instanceof Publisher && ((Publisher) bs).needsToRunAfterFinalized()) ^ phase)
+                if ((bs instanceof Publisher publisher && publisher.needsToRunAfterFinalized()) ^ phase)
                     try {
                         if (!perform(bs, listener)) {
                             LOGGER.log(Level.FINE, "{0} : {1} failed", new Object[] {AbstractBuild.this, bs});
@@ -782,8 +782,8 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
         private void reportError(BuildStep bs, Throwable e, BuildListener listener, boolean phase) {
             final String buildStep;
 
-            if (bs instanceof Describable) {
-                buildStep = ((Describable) bs).getDescriptor().getDisplayName();
+            if (bs instanceof Describable describable) {
+                buildStep = describable.getDescriptor().getDisplayName();
             } else {
                 buildStep = bs.getClass().getName();
             }
@@ -849,8 +849,8 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
         }
 
         private String getBuildStepName(BuildStep bs) {
-            if (bs instanceof Describable<?>) {
-                return ((Describable<?>) bs).getDescriptor().getDisplayName();
+            if (bs instanceof Describable<?> describable) {
+                return describable.getDescriptor().getDisplayName();
             } else {
                 return bs.getClass().getSimpleName();
             }
@@ -1038,8 +1038,8 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
         }
 
         // Allow BuildWrappers to determine if any of their data is sensitive
-        if (project instanceof BuildableItemWithBuildWrappers) {
-            for (BuildWrapper bw : ((BuildableItemWithBuildWrappers) project).getBuildWrappersList()) {
+        if (project instanceof BuildableItemWithBuildWrappers wrappers) {
+            for (BuildWrapper bw : wrappers.getBuildWrappersList()) {
                 bw.makeSensitiveBuildVariables(this, s);
             }
         }
@@ -1075,8 +1075,8 @@ public abstract class AbstractBuild<P extends AbstractProject<P, R>, R extends A
         }
 
         // allow the BuildWrappers to contribute additional build variables
-        if (project instanceof BuildableItemWithBuildWrappers) {
-            for (BuildWrapper bw : ((BuildableItemWithBuildWrappers) project).getBuildWrappersList())
+        if (project instanceof BuildableItemWithBuildWrappers wrappers) {
+            for (BuildWrapper bw : wrappers.getBuildWrappersList())
                 bw.makeBuildVariables(this, r);
         }
 

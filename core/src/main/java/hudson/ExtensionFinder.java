@@ -571,18 +571,18 @@ public abstract class ExtensionFinder implements ExtensionPoint {
                         if (!isActive(a, e))   continue;
 
                         Scope scope = optional ? QUIET_FAULT_TOLERANT_SCOPE : FAULT_TOLERANT_SCOPE;
-                        if (e instanceof Class) {
-                            Key key = Key.get((Class) e);
-                            resolve((Class) e);
+                        if (e instanceof Class class1) {
+                            Key key = Key.get(class1);
+                            resolve(class1);
                             annotations.put(key, a);
                             bind(key).in(scope);
                         } else {
                             Class extType;
-                            if (e instanceof Field) {
-                                extType = ((Field) e).getType();
+                            if (e instanceof Field field) {
+                                extType = field.getType();
                             } else
-                            if (e instanceof Method) {
-                                extType = ((Method) e).getReturnType();
+                            if (e instanceof Method method) {
+                                extType = method.getReturnType();
                             } else {
                                 throw new AssertionError();
                             }
@@ -636,7 +636,7 @@ public abstract class ExtensionFinder implements ExtensionPoint {
                         postConstruct.setAccessible(true);
                         postConstruct.invoke(instance);
                     } catch (final Exception e) {
-                        throw new RuntimeException(String.format("@PostConstruct %s", postConstruct), e);
+                        throw new RuntimeException("@PostConstruct %s".formatted(postConstruct), e);
                     }
                 }
             }
@@ -787,12 +787,12 @@ public abstract class ExtensionFinder implements ExtensionPoint {
     private static Class<?> getClassFromIndex(IndexItem<Extension, Object> item) throws InstantiationException {
         AnnotatedElement e = item.element();
         Class<?> extType;
-        if (e instanceof Class) {
-            extType = (Class) e;
-        } else if (e instanceof Field) {
-            extType = ((Field) e).getType();
-        } else if (e instanceof Method) {
-            extType = ((Method) e).getReturnType();
+        if (e instanceof Class class1) {
+            extType = class1;
+        } else if (e instanceof Field field) {
+            extType = field.getType();
+        } else if (e instanceof Method method) {
+            extType = method.getReturnType();
         } else {
             throw new AssertionError();
         }

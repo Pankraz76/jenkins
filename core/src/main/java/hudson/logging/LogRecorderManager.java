@@ -112,7 +112,7 @@ public class LogRecorderManager extends AbstractModelObject implements ModelObje
                         Function.identity(),
                         // see JENKINS-68752, ignore duplicates
                         (recorder1, recorder2) -> {
-                            LOGGER.warning(String.format("Ignoring duplicate log recorder '%s', check $JENKINS_HOME/log and remove the duplicate recorder", recorder2.getName()));
+                            LOGGER.warning("Ignoring duplicate log recorder '%s', check $JENKINS_HOME/log and remove the duplicate recorder".formatted(recorder2.getName()));
                             return recorder1;
                         }));
         ((CopyOnWriteMap<String, LogRecorder>) logRecorders).replaceBy(values);

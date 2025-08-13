@@ -72,8 +72,8 @@ public class BuildDiscarderProperty extends OptionalJobProperty<Job<?, ?>> {
         @SuppressWarnings("rawtypes")
         @Override
         public boolean filter(Object context, Descriptor descriptor) {
-            if (descriptor instanceof DescriptorImpl && context instanceof Job) {
-                return ((Job) context).supportsLogRotator();
+            if (descriptor instanceof DescriptorImpl && context instanceof Job job) {
+                return job.supportsLogRotator();
             }
             return true;
         }

@@ -2,6 +2,7 @@ package hudson.util;
 
 import hudson.RestrictedSince;
 import hudson.model.TaskListener;
+import java.io.Serial;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
 
@@ -13,6 +14,7 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
 @RestrictedSince("2.91")
 public abstract class AbstractTaskListener implements TaskListener {
 
+    @Serial
     private static final long serialVersionUID = 7217626701881006422L;
 
 }

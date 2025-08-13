@@ -76,7 +76,7 @@ public abstract class BuildStepDescriptor<T extends BuildStep & Describable<T>> 
 
         List<Descriptor<T>> r = new ArrayList<>(base.size());
         for (Descriptor<T> d : base) {
-            if (pd instanceof AbstractProjectDescriptor && !((AbstractProjectDescriptor) pd).isApplicable(d))
+            if (pd instanceof AbstractProjectDescriptor descriptor && !descriptor.isApplicable(d))
                 continue;
 
             if (d instanceof BuildStepDescriptor) {

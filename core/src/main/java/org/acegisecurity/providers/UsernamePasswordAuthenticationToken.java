@@ -93,7 +93,7 @@ public class UsernamePasswordAuthenticationToken implements Authentication {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof Authentication && ((Authentication) o).getName().equals(getName());
+        return o instanceof Authentication a && a.getName().equals(getName());
     }
 
     @Override

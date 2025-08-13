@@ -32,6 +32,7 @@ import hudson.util.CyclicGraphDetector.CycleDetectedException;
 import hudson.util.VariableResolver;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -73,6 +74,7 @@ import jenkins.security.MasterToSlaveCallable;
  * @author Kohsuke Kawaguchi
  */
 public class EnvVars extends TreeMap<String, String> {
+    @Serial
     private static final long serialVersionUID = 4320331661987259022L;
     private static Logger LOGGER = Logger.getLogger(EnvVars.class.getName());
     /**
@@ -260,8 +262,8 @@ public class EnvVars extends TreeMap<String, String> {
             String referrer = cycle.get(refererIndex);
             boolean removed = refereeSetMap.get(referrer).remove(referee);
             assert removed;
-            LOGGER.warning(String.format("Cyclic reference detected: %s", String.join(" -> ", cycle)));
-            LOGGER.warning(String.format("Cut the reference %s -> %s", referrer, referee));
+            LOGGER.warning("Cyclic reference detected: %s".formatted(String.join(" -> ", cycle)));
+            LOGGER.warning("Cut the reference %s -> %s".formatted(referrer, referee));
         }
 
         // Cut the variable reference in a cycle.
@@ -443,6 +445,7 @@ public class EnvVars extends TreeMap<String, String> {
             return new EnvVars(EnvVars.masterEnvVars);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 

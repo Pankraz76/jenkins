@@ -1,7 +1,5 @@
 package hudson.model;
 
-import static java.lang.String.format;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.userproperty.UserPropertyCategory;
@@ -71,13 +69,13 @@ public class PaneStatusProperties extends UserProperty implements Saveable {
         @Override
         public boolean isCollapsed(String paneId) {
             final HttpSession session = Stapler.getCurrentRequest2().getSession();
-            return session.getAttribute(format(attribute, paneId)) != null;
+            return session.getAttribute(attribute.formatted(paneId)) != null;
         }
 
         @Override
         public boolean toggleCollapsed(String paneId) {
             final HttpSession session = Stapler.getCurrentRequest2().getSession();
-            final String property = format(attribute, paneId);
+            final String property = attribute.formatted(paneId);
             final Object collapsed = session.getAttribute(property);
             if (collapsed == null) {
                 session.setAttribute(property, true);

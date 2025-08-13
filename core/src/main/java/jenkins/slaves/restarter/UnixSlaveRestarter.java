@@ -11,10 +11,10 @@ import com.sun.jna.StringArray;
 import hudson.Extension;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 import jenkins.util.JavaVMArguments;
@@ -79,7 +79,7 @@ public class UnixSlaveRestarter extends SlaveRestarter {
         long pid = ProcessHandle.current().pid();
         String name = "/proc/" + pid + "/exe";
         try {
-            Path exe = Paths.get(name);
+            Path exe = Path.of(name);
             if (Files.exists(exe)) {
                 if (Files.isSymbolicLink(exe)) {
                     return Files.readSymbolicLink(exe).toString();
@@ -92,10 +92,11 @@ public class UnixSlaveRestarter extends SlaveRestarter {
         }
 
         // Legacy approach of last resort
-        return Paths.get(System.getProperty("java.home")).resolve("bin").resolve("java").toString();
+        return Path.of(System.getProperty("java.home")).resolve("bin").resolve("java").toString();
     }
 
     private static final Logger LOGGER = Logger.getLogger(UnixSlaveRestarter.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

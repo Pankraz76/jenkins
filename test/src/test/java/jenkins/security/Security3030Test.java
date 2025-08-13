@@ -297,8 +297,8 @@ class Security3030Test {
                 // unwrap
                 actual = ex;
                 final Throwable cause = ex.getCause();
-                if (cause instanceof FileUploadException) {
-                    throw (FileUploadException) cause;
+                if (cause instanceof FileUploadException exception) {
+                    throw exception;
                 }
                 throw ex;
             }

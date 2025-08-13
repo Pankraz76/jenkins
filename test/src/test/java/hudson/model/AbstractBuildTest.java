@@ -168,8 +168,8 @@ class AbstractBuildTest {
             for (Object o : ((JSONArray) culpritsArray).toArray()) {
                 assertThat(o, instanceOf(JSONObject.class));
                 Object id = ((JSONObject) o).get("id");
-                if (id instanceof String) {
-                    fromApi.add((String) id);
+                if (id instanceof String string) {
+                    fromApi.add(string);
                 }
             }
             assertEquals(fromApi, new TreeSet<>(Arrays.asList(expectedIds)));

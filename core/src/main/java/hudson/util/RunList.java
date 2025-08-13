@@ -325,7 +325,7 @@ public class RunList<R extends Run> extends AbstractList<R> {
      * <em>Warning:</em> this method mutates the original list and then returns it.
      */
     public RunList<R> node(final Node node) {
-        return filter((Predicate<R>) r -> r instanceof AbstractBuild && ((AbstractBuild) r).getBuiltOn() == node);
+        return filter((Predicate<R>) r -> r instanceof AbstractBuild ab && ab.getBuiltOn() == node);
     }
 
     /**

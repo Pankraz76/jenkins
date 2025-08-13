@@ -55,10 +55,10 @@ public class ReloadConfigurationCommand extends CLICommand {
         }
         if (app instanceof Jenkins) {
             return 0;
-        } else if (app instanceof JenkinsReloadFailed) {
-            Throwable t = ((JenkinsReloadFailed) app).cause;
-            if (t instanceof Exception) {
-                throw (Exception) t;
+        } else if (app instanceof JenkinsReloadFailed failed) {
+            Throwable t = failed.cause;
+            if (t instanceof Exception exception) {
+                throw exception;
             } else {
                 throw new RuntimeException(t);
             }

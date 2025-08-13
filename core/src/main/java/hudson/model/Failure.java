@@ -67,8 +67,8 @@ public class Failure extends RuntimeException implements HttpResponse {
         req.setAttribute("message", getMessage());
         if (pre)
             req.setAttribute("pre", true);
-        if (node instanceof AbstractItem) // Maintain ancestors
-            rsp.forward(Jenkins.get(), ((AbstractItem) node).getUrl() + "error", req);
+        if (node instanceof AbstractItem item) // Maintain ancestors
+            rsp.forward(Jenkins.get(), item.getUrl() + "error", req);
         else
             rsp.forward(node instanceof AbstractModelObject ? node : Jenkins.get(), "error", req);
     }

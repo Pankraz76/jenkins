@@ -256,8 +256,8 @@ public class ItemListener implements ExtensionPoint {
             Listeners.notify(ItemListener.class, false, l -> l.onRenamed(rootItem, oldName, newName));
         }
         Listeners.notify(ItemListener.class, false, l -> l.onLocationChanged(rootItem, oldFullName, newFullName));
-        if (rootItem instanceof ItemGroup) {
-            for (final Item child : Items.allItems2(ACL.SYSTEM2, (ItemGroup) rootItem, Item.class)) {
+        if (rootItem instanceof ItemGroup group) {
+            for (final Item child : Items.allItems2(ACL.SYSTEM2, group, Item.class)) {
                 final String childNew = child.getFullName();
                 assert childNew.startsWith(newFullName);
                 assert childNew.charAt(newFullName.length()) == '/';

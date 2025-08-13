@@ -68,13 +68,13 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -264,7 +264,7 @@ class DirectoryBrowserSupportTest {
             FreeStyleProject p = j.createFreeStyleProject();
 
             // add randomness just to prevent any potential caching issue
-            p.setScm(new SingleFileSCM("artifact.out", "Hello world! " + Math.random()));
+            p.setScm(new SingleFileSCM("artifact.out", "Hello world! " + ThreadLocalRandom.current().nextDouble()));
             p.getPublishersList().add(new ArtifactArchiver("*", "", true));
             j.buildAndAssertSuccess(p);
 
@@ -308,8 +308,8 @@ class DirectoryBrowserSupportTest {
 
     private long getOpenFdCount() {
         OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
-        if (os instanceof UnixOperatingSystemMXBean) {
-            return ((UnixOperatingSystemMXBean) os).getOpenFileDescriptorCount();
+        if (os instanceof UnixOperatingSystemMXBean bean) {
+            return bean.getOpenFileDescriptorCount();
         }
         return -1;
     }
@@ -1112,7 +1112,7 @@ class DirectoryBrowserSupportTest {
         if (resourceUrl == null) {
             fail("The resource with fileName " + fileNameInResources + " is not present in the resources of the test");
         }
-        Path resourcePath = Paths.get(resourceUrl.toURI());
+        Path resourcePath = Path.of(resourceUrl.toURI());
         return Files.readString(resourcePath, StandardCharsets.UTF_8);
     }
 

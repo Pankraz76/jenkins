@@ -220,13 +220,13 @@ public class CLIRegisterer extends ExtensionFinder {
                                     for (MethodBinder binder : binders)
                                         instance = binder.call(instance);
 
-                                    Integer exitCode = (instance instanceof Integer) ? (Integer) instance : 0;
+                                    Integer exitCode = (instance instanceof Integer i) ? i : 0;
                                     Listeners.notify(CLIListener.class, true, listener -> listener.onCompleted(context, exitCode));
                                     return exitCode;
                                 } catch (InvocationTargetException e) {
                                     Throwable t = e.getTargetException();
-                                    if (t instanceof Exception)
-                                        throw (Exception) t;
+                                    if (t instanceof Exception exception)
+                                        throw exception;
                                     throw e;
                                 } finally {
                                     sc.setAuthentication(old); // restore

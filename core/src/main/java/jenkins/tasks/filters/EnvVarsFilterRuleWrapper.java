@@ -30,6 +30,7 @@ import hudson.EnvVars;
 import hudson.Launcher;
 import hudson.model.Run;
 import hudson.model.TaskListener;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
  */
 @Restricted(NoExternalUse.class)
 public class EnvVarsFilterRuleWrapper implements Serializable {
+    @Serial
     private static final long serialVersionUID = -8647970104978388598L;
     private List<EnvVarsFilterRule> rules;
 
@@ -74,7 +76,7 @@ public class EnvVarsFilterRuleWrapper implements Serializable {
             try {
                 rule.filter(envVars, context);
             } catch (EnvVarsFilterException e) {
-                String message = String.format("Environment variable filtering failed due to violation with the message: %s", e.getMessage());
+                String message = "Environment variable filtering failed due to violation with the message: %s".formatted(e.getMessage());
                 context.getTaskListener().error(message);
                 throw e;
             }

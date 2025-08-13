@@ -36,8 +36,8 @@ public class BuildButtonColumn extends ListViewColumn {
     }
 
     public String taskNoun(Object job) {
-        if (job instanceof AbstractItem) {
-            return ((AbstractItem) job).getTaskNoun();
+        if (job instanceof AbstractItem item) {
+            return item.getTaskNoun();
         }
         return hudson.model.Messages.AbstractItem_TaskNoun();
     }

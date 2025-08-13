@@ -36,6 +36,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -86,7 +87,7 @@ public class StreamTaskListener extends AbstractTaskListener implements TaskList
 
     public StreamTaskListener(@NonNull OutputStream out, @CheckForNull Charset charset) {
         if (charset == null) {
-            this.out = out instanceof PrintStream ? (PrintStream) out : new PrintStream(out, false, Charset.defaultCharset());
+            this.out = out instanceof PrintStream ps ? ps : new PrintStream(out, false, Charset.defaultCharset());
         } else {
             this.out = new PrintStream(out, false, charset);
         }
@@ -220,6 +221,7 @@ public class StreamTaskListener extends AbstractTaskListener implements TaskList
         }
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = Logger.getLogger(StreamTaskListener.class.getName());

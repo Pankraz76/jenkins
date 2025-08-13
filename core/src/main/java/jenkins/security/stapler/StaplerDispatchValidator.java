@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -112,8 +111,8 @@ public class StaplerDispatchValidator implements DispatchValidator {
     @NonNull
     private static YesNoMaybe computeStatusIfNull(@NonNull StaplerRequest2 req, @NonNull Supplier<YesNoMaybe> statusIfNull) {
         Object requestStatus = req.getAttribute(ATTRIBUTE_NAME);
-        if (requestStatus instanceof Boolean) {
-            return (Boolean) requestStatus ? YesNoMaybe.YES : YesNoMaybe.NO;
+        if (requestStatus instanceof Boolean boolean1) {
+            return boolean1 ? YesNoMaybe.YES : YesNoMaybe.NO;
         } else {
             return setStatus(req, statusIfNull.get());
         }
@@ -277,7 +276,7 @@ public class StaplerDispatchValidator implements DispatchValidator {
                 LOGGER.log(Level.WARNING, "Could not load default views whitelist", e);
             }
             String whitelist = SystemProperties.getString(StaplerDispatchValidator.class.getName() + ".whitelist");
-            Path configFile = whitelist != null ? Paths.get(whitelist) : Jenkins.get().getRootDir().toPath().resolve("stapler-views-whitelist.txt");
+            Path configFile = whitelist != null ? Path.of(whitelist) : Jenkins.get().getRootDir().toPath().resolve("stapler-views-whitelist.txt");
             if (Files.exists(configFile)) {
                 try {
                     loadWhitelist(Files.readAllLines(configFile, StandardCharsets.UTF_8));

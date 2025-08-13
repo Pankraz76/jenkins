@@ -4,12 +4,14 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.model.Job;
 import hudson.model.Run;
+import java.io.Serial;
 import java.io.Serializable;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.Argument;
 
 @Extension
 public class SetBuildDisplayNameCommand extends CLICommand implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6665171784136358536L;
 
     @Override

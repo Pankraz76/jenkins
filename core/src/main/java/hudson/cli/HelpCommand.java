@@ -80,7 +80,7 @@ public class HelpCommand extends CLICommand {
         CLICommand command = CLICommand.clone(this.command);
         if (command == null) {
             showAllCommands();
-            throw new AbortException(String.format("No such command %s. Available commands are above. ", this.command));
+            throw new AbortException("No such command %s. Available commands are above. ".formatted(this.command));
         }
 
         command.printUsage(stderr, command.getCmdLineParser());

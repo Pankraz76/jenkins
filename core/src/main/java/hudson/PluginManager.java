@@ -88,7 +88,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.security.CodeSource;
 import java.time.Duration;
@@ -224,7 +224,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
             CHECK_UPDATE_SLEEP_TIME_MILLIS = SystemProperties.getInteger(PluginManager.class.getName() + ".checkUpdateSleepTimeMillis", 1000);
             CHECK_UPDATE_ATTEMPTS = SystemProperties.getInteger(PluginManager.class.getName() + ".checkUpdateAttempts", 1);
         } catch (RuntimeException e) {
-            LOGGER.warning(String.format("There was an error initializing the PluginManager. Exception: %s", e));
+            LOGGER.warning("There was an error initializing the PluginManager. Exception: %s".formatted(e));
         } finally {
             CHECK_UPDATE_ATTEMPTS = CHECK_UPDATE_ATTEMPTS > 0 ? CHECK_UPDATE_ATTEMPTS : 1;
             CHECK_UPDATE_SLEEP_TIME_MILLIS = CHECK_UPDATE_SLEEP_TIME_MILLIS > 0 ? CHECK_UPDATE_SLEEP_TIME_MILLIS : 1000;
@@ -291,7 +291,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
     public static @NonNull PluginManager createDefault(@NonNull Jenkins jenkins) {
         String pmClassName = SystemProperties.getString(CUSTOM_PLUGIN_MANAGER);
         if (pmClassName != null && !pmClassName.isBlank()) {
-            LOGGER.log(FINE, String.format("Use of custom plugin manager [%s] requested.", pmClassName));
+            LOGGER.log(FINE, "Use of custom plugin manager [%s] requested.".formatted(pmClassName));
             try {
                 final Class<? extends PluginManager> klass = Class.forName(pmClassName).asSubclass(PluginManager.class);
                 // Iteration is in declaration order
@@ -301,11 +301,11 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
                         return pm;
                     }
                 }
-                LOGGER.log(WARNING, String.format("Provided custom plugin manager [%s] does not provide any of the suitable constructors. Using default.", pmClassName));
+                LOGGER.log(WARNING, "Provided custom plugin manager [%s] does not provide any of the suitable constructors. Using default.".formatted(pmClassName));
             } catch (ClassCastException e) {
-                LOGGER.log(WARNING, String.format("Provided class [%s] does not extend PluginManager. Using default.", pmClassName));
+                LOGGER.log(WARNING, "Provided class [%s] does not extend PluginManager. Using default.".formatted(pmClassName));
             } catch (Exception e) {
-                LOGGER.log(WARNING, String.format("Unable to instantiate custom plugin manager [%s]. Using default.", pmClassName), e);
+                LOGGER.log(WARNING, "Unable to instantiate custom plugin manager [%s]. Using default.".formatted(pmClassName), e);
             }
         }
         return new LocalPluginManager(jenkins);
@@ -575,7 +575,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
 
                     // schedule execution of loading plugins
                     for (final PluginWrapper p : activePlugins.toArray(new PluginWrapper[0])) {
-                        g.followedBy().notFatal().attains(PLUGINS_PREPARED).add(String.format("Loading plugin %s v%s (%s)", p.getLongName(), p.getVersion(), p.getShortName()), new Executable() {
+                        g.followedBy().notFatal().attains(PLUGINS_PREPARED).add("Loading plugin %s v%s (%s)".formatted(p.getLongName(), p.getVersion(), p.getShortName()), new Executable() {
                             @Override
                             public void run(Reactor session) throws Exception {
                                 try {
@@ -1162,8 +1162,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
         InputStream in = null;
         // Magic, which allows to avoid using stream generated for JarURLConnection.
         // It prevents getting into JENKINS-37332 due to the file descriptor leak
-        if (uc instanceof JarURLConnection) {
-            final JarURLConnection jarURLConnection = (JarURLConnection) uc;
+        if (uc instanceof JarURLConnection jarURLConnection) {
             final String entryName = jarURLConnection.getEntryName();
 
             try (JarFile jarFile = jarURLConnection.getJarFile()) {
@@ -1203,8 +1202,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
         // It prevents file descriptor leak if the URL references a file within JAR
         // See JENKINS-37332  for more info
         // The code idea is taken from https://github.com/jknack/handlebars.java/pull/394
-        if (uc instanceof JarURLConnection) {
-            final JarURLConnection connection = (JarURLConnection) uc;
+        if (uc instanceof JarURLConnection connection) {
             final URL jarURL = connection.getJarFileURL();
             if (jarURL.getProtocol().equals("file")) {
                 String file = jarURL.getFile();
@@ -1247,9 +1245,9 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
                 Class<?> klazz = getClass().getClassLoader().loadClass(strategyName);
                 Object strategy = klazz.getConstructor(PluginManager.class)
                         .newInstance(this);
-                if (strategy instanceof PluginStrategy) {
+                if (strategy instanceof PluginStrategy pluginStrategy) {
                     LOGGER.info("Plugin strategy: " + strategyName);
-                    return (PluginStrategy) strategy;
+                    return pluginStrategy;
                 } else {
                     LOGGER.warning("Plugin strategy (" + strategyName +
                             ") is not an instance of hudson.PluginStrategy");
@@ -1396,7 +1394,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
                     if ("file".equals(loc.getProtocol())) {
                         File file;
                         try {
-                            file = Paths.get(loc.toURI()).toFile();
+                            file = Path.of(loc.toURI()).toFile();
                         } catch (InvalidPathException | URISyntaxException e) {
                             LOGGER.log(Level.WARNING, "could not inspect " + loc, e);
                             return null;
@@ -1799,7 +1797,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
                                     continue INSTALLING;
                                 }
                                 UpdateCenter.UpdateCenterJob job = jobFuture.get();
-                                if (job instanceof InstallationJob && ((InstallationJob) job).status instanceof DownloadJob.Failure) {
+                                if (job instanceof InstallationJob installationJob && ((InstallationJob) job).status instanceof DownloadJob.Failure) {
                                     failures = true;
                                 }
                             }
@@ -2477,8 +2475,8 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
         @Restricted(NoExternalUse.class)
         public boolean isPluginJar(URL jarUrl) {
             for (PluginWrapper plugin : activePlugins) {
-                if (plugin.classLoader instanceof URLClassLoader) {
-                    if (Set.of(((URLClassLoader) plugin.classLoader).getURLs()).contains(jarUrl)) {
+                if (plugin.classLoader instanceof URLClassLoader loader) {
+                    if (Set.of(loader.getURLs()).contains(jarUrl)) {
                         return true;
                     }
                 }

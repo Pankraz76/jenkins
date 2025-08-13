@@ -190,7 +190,7 @@ THE SOFTWARE.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <release>11</release>
+          <release>17</release>
           <testRelease>11</testRelease>
         </configuration>
       </plugin>

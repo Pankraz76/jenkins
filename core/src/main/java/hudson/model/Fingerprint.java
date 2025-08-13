@@ -673,7 +673,7 @@ public class Fingerprint implements ModelObject, Saveable {
             if (list.contains("--") || list.contains(",,")) {
                 if (!skipError) {
                     throw new IllegalArgumentException(
-                            String.format("Unable to parse '%s', expected correct notation M,N or M-N", list));
+                            "Unable to parse '%s', expected correct notation M,N or M-N".formatted(list));
                 }
                 // ignore malformed notation
                 return rs;
@@ -683,7 +683,7 @@ public class Fingerprint implements ModelObject, Saveable {
             if (items.length > 1 && items.length <= list.chars().filter(c -> c == ',').count()) {
                 if (!skipError) {
                     throw new IllegalArgumentException(
-                            String.format("Unable to parse '%s', expected correct notation M,N or M-N", list));
+                            "Unable to parse '%s', expected correct notation M,N or M-N".formatted(list));
                 }
                 // ignore malformed notation like ",1,2" or "1,2,"
                 return rs;
@@ -697,7 +697,7 @@ public class Fingerprint implements ModelObject, Saveable {
                     if (s.isEmpty()) {
                         if (!skipError) {
                             throw new IllegalArgumentException(
-                                    String.format("Unable to parse '%s', expected number", list));                        }
+                                    "Unable to parse '%s', expected number".formatted(list));                        }
                         // ignore "" element
                         continue;
                     }
@@ -705,8 +705,7 @@ public class Fingerprint implements ModelObject, Saveable {
                     if (s.contains("-")) {
                         if (s.chars().filter(c -> c == '-').count() > 1) {
                             if (!skipError) {
-                                throw new IllegalArgumentException(String.format(
-                                        "Unable to parse '%s', expected correct notation M,N or M-N", list));
+                                throw new IllegalArgumentException("Unable to parse '%s', expected correct notation M,N or M-N".formatted(list));
                             }
                             // ignore malformed ranges like "-5-2" or "2-5-"
                             continue;
@@ -718,15 +717,14 @@ public class Fingerprint implements ModelObject, Saveable {
                             if (left < 0 || right < 0) {
                                 if (!skipError) {
                                     throw new IllegalArgumentException(
-                                            String.format("Unable to parse '%s', expected number above zero", list));
+                                            "Unable to parse '%s', expected number above zero".formatted(list));
                                 }
                                 // ignore a range which starts or ends under zero like "-5-3"
                                 continue;
                             }
                             if (left > right) {
                                 if (!skipError) {
-                                    throw new IllegalArgumentException(String.format(
-                                            "Unable to parse '%s', expected string with a range M-N where M<N", list));
+                                    throw new IllegalArgumentException("Unable to parse '%s', expected string with a range M-N where M<N".formatted(list));
                                 }
                                 // ignore inverse range like "10-5"
                                 continue;
@@ -735,7 +733,7 @@ public class Fingerprint implements ModelObject, Saveable {
                         } else {
                             if (!skipError) {
                                 throw new IllegalArgumentException(
-                                        String.format("Unable to parse '%s', expected string with a range M-N", list));
+                                        "Unable to parse '%s', expected string with a range M-N".formatted(list));
                             }
                             // ignore malformed text like "1-10-50"
                             continue;
@@ -747,7 +745,7 @@ public class Fingerprint implements ModelObject, Saveable {
                 } catch (NumberFormatException e) {
                     if (!skipError)
                         throw new IllegalArgumentException(
-                                String.format("Unable to parse '%s', expected number", list), e);
+                                "Unable to parse '%s', expected number".formatted(list), e);
                     // ignore malformed text
                 }
             }
@@ -1470,8 +1468,7 @@ public class Fingerprint implements ModelObject, Saveable {
             if (canDiscoverTheItem) {
                 ItemGroup<?> current = itemBySystemUser.getParent();
                 do {
-                    if (current instanceof Item) {
-                        final Item i = (Item) current;
+                    if (current instanceof Item i) {
                         current = i.getParent();
                         if (!i.hasPermission2(userAuth, Item.READ)) {
                             canDiscoverTheItem = false;

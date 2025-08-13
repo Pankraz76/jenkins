@@ -79,7 +79,7 @@ public class ExtensionComponent<T> implements Comparable<ExtensionComponent<T>> 
      * For example, {@code component.isDescriptorOf(Builder.class)}
      */
     public boolean isDescriptorOf(Class<? extends Describable> c) {
-        return instance instanceof Descriptor && ((Descriptor) instance).isSubTypeOf(c);
+        return instance instanceof Descriptor d && d.isSubTypeOf(c);
     }
 
     /**
@@ -94,9 +94,9 @@ public class ExtensionComponent<T> implements Comparable<ExtensionComponent<T>> 
 
         boolean thisIsDescriptor = false;
         String thisLabel = this.instance.getClass().getName();
-        if (this.instance instanceof Descriptor) {
+        if (this.instance instanceof Descriptor descriptor) {
             try {
-                thisLabel = Util.fixNull(((Descriptor) this.instance).getDisplayName());
+                thisLabel = Util.fixNull(descriptor.getDisplayName());
                 thisIsDescriptor = true;
             } catch (RuntimeException | LinkageError x) {
                 LOG.log(Level.WARNING, "Failure during Descriptor#getDisplayName for " + this.instance.getClass().getName(), x);
@@ -105,9 +105,9 @@ public class ExtensionComponent<T> implements Comparable<ExtensionComponent<T>> 
 
         boolean thatIsDescriptor = false;
         String thatLabel = that.instance.getClass().getName();
-        if (that.instance instanceof Descriptor) {
+        if (that.instance instanceof Descriptor descriptor) {
             try {
-                thatLabel = Util.fixNull(((Descriptor) that.instance).getDisplayName());
+                thatLabel = Util.fixNull(descriptor.getDisplayName());
                 thatIsDescriptor = true;
             } catch (RuntimeException | LinkageError x) {
                 LOG.log(Level.WARNING, "Failure during Descriptor#getDisplayName for " + that.instance.getClass().getName(), x);

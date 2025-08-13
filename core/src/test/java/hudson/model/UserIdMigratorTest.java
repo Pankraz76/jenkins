@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.is;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 import jenkins.model.IdStrategy;
 import org.apache.commons.io.FileUtils;
@@ -192,7 +192,7 @@ class UserIdMigratorTest {
     }
 
     static File createTestDirectory(Class clazz, TestInfo info) throws IOException {
-        File tempDirectory = Files.createTempDirectory(Paths.get("target"), "userIdMigratorTest").toFile();
+        File tempDirectory = Files.createTempDirectory(Path.of("target"), "userIdMigratorTest").toFile();
         tempDirectory.deleteOnExit();
         copyTestDataIfExists(clazz, info, tempDirectory);
         return new File(tempDirectory, "users");

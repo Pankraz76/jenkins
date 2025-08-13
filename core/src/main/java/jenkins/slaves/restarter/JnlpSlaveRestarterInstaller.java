@@ -15,6 +15,7 @@ import hudson.remoting.VirtualChannel;
 import hudson.slaves.ComputerListener;
 import hudson.slaves.DumbSlave;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,5 +127,6 @@ public class JnlpSlaveRestarterInstaller extends ComputerListener implements Ser
 
     private static final Logger LOGGER = Logger.getLogger(JnlpSlaveRestarterInstaller.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

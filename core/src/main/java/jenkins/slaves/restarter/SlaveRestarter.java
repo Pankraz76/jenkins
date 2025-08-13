@@ -2,6 +2,7 @@ package jenkins.slaves.restarter;
 
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -43,5 +44,6 @@ public abstract class SlaveRestarter implements ExtensionPoint, Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(SlaveRestarter.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

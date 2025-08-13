@@ -149,12 +149,12 @@ public abstract class ParameterValue implements Serializable {
      */
     @Deprecated
     public void buildEnvVars(AbstractBuild<?, ?> build, Map<String, String> env) {
-        if (env instanceof EnvVars) {
+        if (env instanceof EnvVars vars) {
             if (Util.isOverridden(ParameterValue.class, getClass(), "buildEnvironment", Run.class, EnvVars.class)) {
                 // if the subtype already derives buildEnvironment, then delegate to it
-                buildEnvironment(build, (EnvVars) env);
+                buildEnvironment(build, vars);
             } else if (Util.isOverridden(ParameterValue.class, getClass(), "buildEnvVars", AbstractBuild.class, EnvVars.class)) {
-                buildEnvVars(build, (EnvVars) env);
+                buildEnvVars(build, vars);
             }
         }
         // otherwise no-op by default
@@ -190,8 +190,8 @@ public abstract class ParameterValue implements Serializable {
      * @since 1.556
      */
     public void buildEnvironment(Run<?, ?> build, EnvVars env) {
-        if (build instanceof AbstractBuild) {
-            buildEnvVars((AbstractBuild) build, env);
+        if (build instanceof AbstractBuild abstractBuild) {
+            buildEnvVars(abstractBuild, env);
         }
         // else do not know how to do it
     }

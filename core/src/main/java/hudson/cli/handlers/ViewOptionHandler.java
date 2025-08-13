@@ -102,14 +102,13 @@ public class ViewOptionHandler extends OptionHandler<View> {
             view = group.getView(viewName);
             if (view == null) {
                 group.checkPermission(View.READ);
-                throw new IllegalArgumentException(String.format(
-                        "No view named %s inside view %s",
+                throw new IllegalArgumentException("No view named %s inside view %s".formatted(
                         viewName, group.getDisplayName()
                 ));
             }
             view.checkPermission(View.READ);
-            if (view instanceof ViewGroup) {
-                group = (ViewGroup) view;
+            if (view instanceof ViewGroup viewGroup) {
+                group = viewGroup;
             } else if (tok.hasMoreTokens()) {
                 throw new IllegalStateException(view.getViewName() + " view can not contain views");
             }

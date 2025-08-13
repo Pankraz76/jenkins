@@ -67,7 +67,7 @@ public abstract class ChangeLogSet<T extends ChangeLogSet.Entry> implements Iter
      */
     protected ChangeLogSet(Run<?, ?> run, RepositoryBrowser<?> browser) {
         this.run = run;
-        build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+        build = run instanceof AbstractBuild ab ? ab : null;
         this.browser = browser;
     }
 

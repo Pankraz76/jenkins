@@ -45,7 +45,7 @@ public final class SourceCodeEscapers {
 
         @Override
         protected char[] escapeUnsafe(char c) {
-            return String.format("\\u%04X", (int) c).toCharArray();
+            return "\\u%04X".formatted((int) c).toCharArray();
         }
     }
 }

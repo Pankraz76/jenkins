@@ -1,6 +1,7 @@
 package jenkins.security;
 
 import hudson.remoting.Callable;
+import java.io.Serial;
 import org.jenkinsci.remoting.RoleChecker;
 
 /**
@@ -15,5 +16,6 @@ public abstract class SlaveToMasterCallable<V, T extends Throwable> implements C
         checker.check(this, Roles.MASTER);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

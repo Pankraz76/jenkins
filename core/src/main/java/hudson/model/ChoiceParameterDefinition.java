@@ -93,13 +93,13 @@ public class ChoiceParameterDefinition extends SimpleParameterDefinition {
     @DataBoundSetter
     @Restricted(NoExternalUse.class) // this is terrible enough without being used anywhere
     public void setChoices(Object choices) {
-        if (choices instanceof String) {
-            setChoicesText((String) choices);
+        if (choices instanceof String string) {
+            setChoicesText(string);
             return;
         }
-        if (choices instanceof List) {
+        if (choices instanceof List list) {
             ArrayList<String> newChoices = new ArrayList<>();
-            for (Object o : (List) choices) {
+            for (Object o : list) {
                 if (o != null) {
                     newChoices.add(o.toString());
                 }
@@ -116,8 +116,7 @@ public class ChoiceParameterDefinition extends SimpleParameterDefinition {
 
     @Override
     public ParameterDefinition copyWithDefaultValue(ParameterValue defaultValue) {
-        if (defaultValue instanceof StringParameterValue) {
-            StringParameterValue value = (StringParameterValue) defaultValue;
+        if (defaultValue instanceof StringParameterValue value) {
             return new ChoiceParameterDefinition(getName(), choices, value.value, getDescription());
         } else {
             return this;

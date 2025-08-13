@@ -105,7 +105,7 @@ class ReloadConfigurationCommandTest {
     }
 
     private void modifyNode(Node node) {
-        replace(node.getNodeName().isEmpty() ? "config.xml" : String.format("nodes/%s/config.xml", node.getNodeName()), "oldLabel", "newLabel");
+        replace(node.getNodeName().isEmpty() ? "config.xml" : "nodes/%s/config.xml".formatted(node.getNodeName()), "oldLabel", "newLabel");
 
         assertThat(node.getLabelString(), equalTo("oldLabel"));
 

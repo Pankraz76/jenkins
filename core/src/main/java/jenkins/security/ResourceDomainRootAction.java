@@ -242,8 +242,8 @@ public class ResourceDomainRootAction implements UnprotectedRootAction {
                     // cf. UnwrapSecurityExceptionFilter
                     Throwable cause = ex.getCause();
                     while (cause != null) {
-                        if (cause instanceof AccessDeniedException) {
-                            throw (AccessDeniedException) cause;
+                        if (cause instanceof AccessDeniedException exception) {
+                            throw exception;
                         }
                         cause = cause.getCause();
                     }

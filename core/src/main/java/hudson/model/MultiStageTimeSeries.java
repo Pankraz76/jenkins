@@ -31,6 +31,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -309,5 +310,6 @@ public class MultiStageTimeSeries implements Serializable {
         return new TrendChart(scale, data);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

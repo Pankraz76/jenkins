@@ -389,7 +389,7 @@ public class UpdateSite {
             long start = System.nanoTime();
             try {
                 JSONObject o = JSONObject.fromObject(df.read());
-                LOGGER.fine(() -> String.format("Loaded and parsed %s in %.01fs", df, (System.nanoTime() - start) / 1_000_000_000.0));
+                LOGGER.fine(() -> "Loaded and parsed %s in %.01fs".formatted(df, (System.nanoTime() - start) / 1_000_000_000.0));
                 return o;
             } catch (JSONException | IOException e) {
                 LOGGER.log(Level.SEVERE, "Failed to parse " + df, e);
@@ -1149,7 +1149,7 @@ public class UpdateSite {
             return null;
     }
 
-    static final Predicate<Object> IS_DEP_PREDICATE = x -> x instanceof JSONObject && get((JSONObject) x, "name") != null;
+    static final Predicate<Object> IS_DEP_PREDICATE = x -> x instanceof JSONObject jsono && get(jsono, "name") != null;
     static final Predicate<Object> IS_NOT_OPTIONAL = x -> "false".equals(get((JSONObject) x, "optional"));
 
     /**
@@ -1178,8 +1178,7 @@ public class UpdateSite {
         }
 
         private static IssueTracker createFromJSONObject(Object o) {
-            if (o instanceof JSONObject) {
-                JSONObject jsonObject = (JSONObject) o;
+            if (o instanceof JSONObject jsonObject) {
                 if (jsonObject.has("type") && jsonObject.has("viewUrl") && jsonObject.has("reportUrl")) {
                     return new IssueTracker(jsonObject.getString("type"), jsonObject.getString("viewUrl"), jsonObject.getString("reportUrl"));
                 }

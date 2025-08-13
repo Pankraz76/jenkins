@@ -123,8 +123,8 @@ public class OldDataMonitor extends AdministrativeMonitor {
         OldDataMonitor odm = get(j);
         try (ACLContext ctx = ACL.as2(ACL.SYSTEM2)) {
             odm.data.remove(referTo(obj));
-            if (isDelete && obj instanceof Job<?, ?>) {
-                for (Run r : ((Job<?, ?>) obj).getBuilds()) {
+            if (isDelete && obj instanceof Job<?, ?> job) {
+                for (Run r : job.getBuilds()) {
                     odm.data.remove(referTo(r));
                 }
             }
@@ -208,8 +208,8 @@ public class OldDataMonitor extends AdministrativeMonitor {
         StringBuilder buf = new StringBuilder();
         int i = 0;
         for (Throwable e : errors) {
-            if (e instanceof ReportException) {
-                report(obj, ((ReportException) e).version);
+            if (e instanceof ReportException exception) {
+                report(obj, exception.version);
             } else {
                 if (Main.isUnitTest) {
                     LOGGER.log(Level.INFO, "Trouble loading " + obj, e);
@@ -388,10 +388,10 @@ public class OldDataMonitor extends AdministrativeMonitor {
     }
 
     private static SaveableReference referTo(Saveable s) {
-        if (s instanceof Run) {
-            Job parent = ((Run) s).getParent();
+        if (s instanceof Run run) {
+            Job parent = run.getParent();
             if (Jenkins.get().getItemByFullName(parent.getFullName()) == parent) {
-                return new RunSaveableReference((Run) s);
+                return new RunSaveableReference(run);
             }
         }
         return new SimpleSaveableReference(s);
@@ -413,7 +413,7 @@ public class OldDataMonitor extends AdministrativeMonitor {
         }
 
         @Override public boolean equals(Object obj) {
-            return obj instanceof SimpleSaveableReference && instance.equals(((SimpleSaveableReference) obj).instance);
+            return obj instanceof SimpleSaveableReference ssr && instance.equals(ssr.instance);
         }
     }
 
@@ -441,7 +441,7 @@ public class OldDataMonitor extends AdministrativeMonitor {
         }
 
         @Override public boolean equals(Object obj) {
-            return obj instanceof RunSaveableReference && id.equals(((RunSaveableReference) obj).id);
+            return obj instanceof RunSaveableReference rsr && id.equals(rsr.id);
         }
     }
 

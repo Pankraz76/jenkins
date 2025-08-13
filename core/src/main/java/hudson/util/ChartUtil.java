@@ -62,7 +62,7 @@ public class ChartUtil {
          */
         public NumberOnlyBuildLabel(Run<?, ?> run) {
             this.run = run;
-            this.build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+            this.build = run instanceof AbstractBuild ab ? ab : null;
         }
 
         @Deprecated

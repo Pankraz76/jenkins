@@ -236,8 +236,8 @@ class BootFailureTest {
                 wa.joinInit();
 
                 Object a = WebApp.get(ws).getApp();
-                if (a instanceof Hudson) {
-                    return (Hudson) a;
+                if (a instanceof Hudson hudson1) {
+                    return hudson1;
                 }
                 return null;    // didn't boot
             }

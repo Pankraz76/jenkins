@@ -26,6 +26,7 @@ package jenkins.util.io;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
 
 @Restricted(NoExternalUse.class)
 public class CompositeIOException extends IOException {
+    @Serial
     private static final long serialVersionUID = 121943141387608148L;
 
     /**

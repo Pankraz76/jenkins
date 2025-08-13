@@ -25,6 +25,7 @@
 package hudson.model;
 
 import hudson.CopyOnWrite;
+import java.io.Serial;
 import java.io.Serializable;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
@@ -104,5 +105,6 @@ public final class TimeSeries implements Serializable {
         return Float.toString(history[0]);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

@@ -2,6 +2,7 @@ package jenkins;
 
 import hudson.FilePath.FileCallable;
 import hudson.Main;
+import java.io.Serial;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jenkins.security.Roles;
@@ -42,5 +43,6 @@ public abstract class SlaveToMasterFileCallable<T> implements FileCallable<T> {
         }
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

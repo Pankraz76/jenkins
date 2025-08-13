@@ -6,7 +6,7 @@ import hudson.model.Label;
 import hudson.slaves.DumbSlave;
 import hudson.slaves.JNLPLauncher;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import jenkins.benchmark.jmh.JmhBenchmark;
 import jenkins.benchmark.jmh.JmhBenchmarkState;
@@ -39,7 +39,7 @@ public class LabelBenchmarkTest {
                 .shouldFailOnError(true)
                 .include(LabelBenchmarkTest.class.getName() + ".*");
         new Runner(options.build()).run();
-        assertTrue(Files.exists(Paths.get("jmh-report.json")));
+        assertTrue(Files.exists(Path.of("jmh-report.json")));
     }
 
     @JmhBenchmark

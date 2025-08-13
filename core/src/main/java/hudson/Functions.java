@@ -147,6 +147,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
@@ -596,7 +597,7 @@ public class Functions {
         String message = new SimpleFormatter().formatMessage(r) + "\n";
         Throwable x = r.getThrown();
         return new String[] {
-            String.format("%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp", new Date(r.getMillis())),
+                "%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp".formatted(new Date(r.getMillis())),
             source,
             r.getLevel().getLocalizedName(),
             x == null ? message : message + printThrowable(x) + "\n",
@@ -935,14 +936,14 @@ public class Functions {
         if (permission == null)
             return;
 
-        if (object instanceof AccessControlled)
-            checkPermission((AccessControlled) object, permission);
+        if (object instanceof AccessControlled controlled1)
+            checkPermission(controlled1, permission);
         else {
             List<Ancestor> ancs = Stapler.getCurrentRequest2().getAncestors();
             for (Ancestor anc : Iterators.reverse(ancs)) {
                 Object o = anc.getObject();
-                if (o instanceof AccessControlled) {
-                    checkPermission((AccessControlled) o, permission);
+                if (o instanceof AccessControlled controlled) {
+                    checkPermission(controlled, permission);
                     return;
                 }
             }
@@ -967,14 +968,14 @@ public class Functions {
     public static boolean hasPermission(Object object, Permission permission) {
         if (permission == null)
             return true;
-        if (object instanceof AccessControlled)
-            return ((AccessControlled) object).hasPermission(permission);
+        if (object instanceof AccessControlled controlled1)
+            return controlled1.hasPermission(permission);
         else {
             List<Ancestor> ancs = Stapler.getCurrentRequest2().getAncestors();
             for (Ancestor anc : Iterators.reverse(ancs)) {
                 Object o = anc.getObject();
-                if (o instanceof AccessControlled) {
-                    return ((AccessControlled) o).hasPermission(permission);
+                if (o instanceof AccessControlled controlled) {
+                    return controlled.hasPermission(permission);
                 }
             }
             return Jenkins.get().hasPermission(permission);
@@ -1268,8 +1269,8 @@ public class Functions {
             return true;
         }
 
-        if (object instanceof AccessControlled)
-            return hasAnyPermission((AccessControlled) object, permissions);
+        if (object instanceof AccessControlled controlled)
+            return hasAnyPermission(controlled, permissions);
         else {
             AccessControlled ac = Stapler.getCurrentRequest2().findAncestorObject(AccessControlled.class);
             if (ac != null) {
@@ -1306,14 +1307,14 @@ public class Functions {
             return;
         }
 
-        if (object instanceof AccessControlled)
-            checkAnyPermission((AccessControlled) object, permissions);
+        if (object instanceof AccessControlled controlled1)
+            checkAnyPermission(controlled1, permissions);
         else {
             List<Ancestor> ancs = Stapler.getCurrentRequest2().getAncestors();
             for (Ancestor anc : Iterators.reverse(ancs)) {
                 Object o = anc.getObject();
-                if (o instanceof AccessControlled) {
-                    checkAnyPermission((AccessControlled) o, permissions);
+                if (o instanceof AccessControlled controlled) {
+                    checkAnyPermission(controlled, permissions);
                     return;
                 }
             }
@@ -1457,8 +1458,8 @@ public class Functions {
         int depth = 0;
         while (g != null) {
             parents.put(g, depth++);
-            if (g instanceof Item)
-                g = ((Item) g).getParent();
+            if (g instanceof Item item)
+                g = item.getParent();
             else
                 g = null;
         }
@@ -1479,8 +1480,8 @@ public class Functions {
                 return buf.toString();
             }
 
-            if (gr instanceof Item)
-                i = (Item) gr;
+            if (gr instanceof Item item)
+                i = item;
             else // Parent is a group, but not an item
                 return null;
         }
@@ -1721,10 +1722,10 @@ public class Functions {
     public static String getViewResource(Object it, String path) {
         Class clazz = it.getClass();
 
-        if (it instanceof Class)
-            clazz = (Class) it;
-        if (it instanceof Descriptor)
-            clazz = ((Descriptor) it).clazz;
+        if (it instanceof Class class1)
+            clazz = class1;
+        if (it instanceof Descriptor descriptor)
+            clazz = descriptor.clazz;
 
         String buf = Stapler.getCurrentRequest2().getContextPath() + Jenkins.VIEW_RESOURCE_PATH + '/' +
                 clazz.getName().replace('.', '/').replace('$', '/') +
@@ -2264,8 +2265,8 @@ public class Functions {
         }
 
         /* Return encrypted value if it's a Secret */
-        if (o instanceof Secret) {
-            return ((Secret) o).getEncryptedValue();
+        if (o instanceof Secret secret) {
+            return secret.getEncryptedValue();
         }
 
         /* Log a warning if we're in development mode (core or plugin): There's an f:password backed by a non-Secret */
@@ -2490,8 +2491,8 @@ public class Functions {
 
     @Restricted(NoExternalUse.class) // for actions.jelly and ContextMenu.add
     public static boolean isContextMenuVisible(Action a) {
-        if (a instanceof ModelObjectWithContextMenu.ContextMenuVisibility) {
-            return ((ModelObjectWithContextMenu.ContextMenuVisibility) a).isVisible();
+        if (a instanceof ModelObjectWithContextMenu.ContextMenuVisibility visibility) {
+            return visibility.isVisible();
         } else {
             return true;
         }
@@ -2597,7 +2598,7 @@ public class Functions {
     @SuppressFBWarnings(value = "PREDICTABLE_RANDOM", justification = "True randomness isn't necessary for form item IDs")
     @Restricted(NoExternalUse.class)
     public static String generateItemId() {
-        return String.valueOf(Math.floor(Math.random() * 3000));
+        return String.valueOf(Math.floor(ThreadLocalRandom.current().nextDouble() * 3000));
     }
 
     /**

@@ -27,6 +27,7 @@ package hudson.console;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.MarkupText;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -160,5 +161,6 @@ public abstract class ConsoleAnnotator<T> implements Serializable {
         return r;
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

@@ -45,8 +45,8 @@ public abstract class ChangeLogParser {
      * @since 1.568
      */
     public ChangeLogSet<? extends ChangeLogSet.Entry> parse(Run build, RepositoryBrowser<?> browser, File changelogFile) throws IOException, SAXException {
-        if (build instanceof AbstractBuild && Util.isOverridden(ChangeLogParser.class, getClass(), "parse", AbstractBuild.class, File.class)) {
-            return parse((AbstractBuild) build, changelogFile);
+        if (build instanceof AbstractBuild abstractBuild && Util.isOverridden(ChangeLogParser.class, getClass(), "parse", AbstractBuild.class, File.class)) {
+            return parse(abstractBuild, changelogFile);
         } else {
             throw new AbstractMethodError("You must override the newer overload of parse");
         }

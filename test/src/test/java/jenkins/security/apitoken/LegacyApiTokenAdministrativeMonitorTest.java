@@ -399,7 +399,7 @@ class LegacyApiTokenAdministrativeMonitorTest {
     private int nextId = 0;
 
     private void createUserWithToken(boolean legacy, boolean fresh, boolean recent) throws Exception {
-        User user = User.getById(String.format("user %b %b %b %d", legacy, fresh, recent, nextId++), true);
+        User user = User.getById("user %b %b %b %d".formatted(legacy, fresh, recent, nextId++), true);
         if (!legacy) {
             return;
         }

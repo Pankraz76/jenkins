@@ -278,8 +278,7 @@ public class HistoryPageFilter<T> {
     private boolean add(Object entry) {
         // Purposely not calling isFull(). May need to add a greater number of entries
         // to the page initially, newerThan then cutting it back down to size using cutLeading()
-        if (entry instanceof QueueItem) {
-            QueueItem item = (QueueItem) entry;
+        if (entry instanceof QueueItem item) {
             if (searchString != null && !fitsSearchParams(item)) {
                 return false;
             }
@@ -333,7 +332,7 @@ public class HistoryPageFilter<T> {
             return true;
         } else if (fitsSearchString(run.getResult())) {
             return true;
-        } else if (run instanceof AbstractBuild && fitsSearchBuildVariables((AbstractBuild) run)) {
+        } else if (run instanceof AbstractBuild build && fitsSearchBuildVariables(build)) {
             return true;
         } else {
             List<ParameterValue> parameters = run.getParameterValues();

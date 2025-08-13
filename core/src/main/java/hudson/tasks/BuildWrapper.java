@@ -111,8 +111,8 @@ public abstract class BuildWrapper implements Describable<BuildWrapper>, Extensi
          */
         @Override
         public boolean tearDown(AbstractBuild build, BuildListener listener) throws IOException, InterruptedException {
-            if (build instanceof Build)
-                return tearDown((Build) build, listener);
+            if (build instanceof Build build1)
+                return tearDown(build1, listener);
             else
                 return true;
         }
@@ -151,8 +151,8 @@ public abstract class BuildWrapper implements Describable<BuildWrapper>, Extensi
      */
     public Environment setUp(AbstractBuild build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
         // If it's a Build, and the plugin implements the deprecated API, use it.
-        if (build instanceof Build && Util.isOverridden(BuildWrapper.class, getClass(), "setUp", Build.class, Launcher.class, BuildListener.class))
-            return setUp((Build) build, launcher, listener);
+        if (build instanceof Build build1 && Util.isOverridden(BuildWrapper.class, getClass(), "setUp", Build.class, Launcher.class, BuildListener.class))
+            return setUp(build1, launcher, listener);
         else // not a supported build type
             throw new UnsupportedOperationException("Plugin class '" + this.getClass().getName() +
                     "' does not support a build of type '" + build.getClass().getName() + "'.");

@@ -159,7 +159,7 @@ class FreeStyleProjectTest {
     @WithTimeout(300)
     void buildStabilityReports() throws Exception {
         for (int i = 0; i <= 32; i++) {
-            FreeStyleProject p = j.createFreeStyleProject(String.format("Pattern-%s", Integer.toBinaryString(i)));
+            FreeStyleProject p = j.createFreeStyleProject("Pattern-%s".formatted(Integer.toBinaryString(i)));
             int expectedFails = 0;
             for (int j = 32; j >= 1; j = j / 2) {
                 p.getBuildersList().clear();
@@ -175,7 +175,7 @@ class FreeStyleProjectTest {
             }
             HealthReport health = p.getBuildHealth();
 
-            assertThat(String.format("Pattern %s score", Integer.toBinaryString(i)), health.getScore(), is(100 * (5 - expectedFails) / 5));
+            assertThat("Pattern %s score".formatted(Integer.toBinaryString(i)), health.getScore(), is(100 * (5 - expectedFails) / 5));
         }
     }
 
@@ -195,7 +195,7 @@ class FreeStyleProjectTest {
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.login(CONFIGURATOR);
-        WebRequest req = new WebRequest(wc.createCrumbedUrl(String.format("%s/config.xml", project.getUrl())), HttpMethod.POST);
+        WebRequest req = new WebRequest(wc.createCrumbedUrl("%s/config.xml".formatted(project.getUrl())), HttpMethod.POST);
         req.setAdditionalHeader("Content-Type", "application/xml");
         req.setRequestBody(VALID_XML_BAD_FIELD_USER_XML);
 

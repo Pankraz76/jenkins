@@ -31,6 +31,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -101,5 +102,6 @@ public class LogTaskListener extends AbstractTaskListener implements TaskListene
 
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

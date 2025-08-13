@@ -10,6 +10,7 @@ import hudson.model.ModelObject;
 import hudson.model.Node;
 import hudson.model.Run;
 import hudson.model.User;
+import java.io.Serial;
 import java.util.logging.Logger;
 import jenkins.model.Jenkins;
 import org.jenkinsci.Symbol;
@@ -81,6 +82,7 @@ public class ModelHyperlinkNote extends HyperlinkNote {
         }
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = Logger.getLogger(ModelHyperlinkNote.class.getName());

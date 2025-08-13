@@ -55,12 +55,12 @@ public interface Authentication extends Principal, Serializable {
         Objects.requireNonNull(a);
         if (a == ACL.SYSTEM2) {
             return ACL.SYSTEM;
-        } else if (a instanceof org.springframework.security.authentication.AnonymousAuthenticationToken) {
-            return new AnonymousAuthenticationToken((org.springframework.security.authentication.AnonymousAuthenticationToken) a);
-        } else if (a instanceof org.springframework.security.authentication.UsernamePasswordAuthenticationToken) {
-            return new UsernamePasswordAuthenticationToken((org.springframework.security.authentication.UsernamePasswordAuthenticationToken) a);
-        } else if (a instanceof AuthenticationSpringImpl) {
-            return ((AuthenticationSpringImpl) a).delegate;
+        } else if (a instanceof org.springframework.security.authentication.AnonymousAuthenticationToken token1) {
+            return new AnonymousAuthenticationToken(token1);
+        } else if (a instanceof org.springframework.security.authentication.UsernamePasswordAuthenticationToken token) {
+            return new UsernamePasswordAuthenticationToken(token);
+        } else if (a instanceof AuthenticationSpringImpl impl) {
+            return impl.delegate;
         } else {
             return new Authentication() {
                 @Override
@@ -101,7 +101,7 @@ public interface Authentication extends Principal, Serializable {
 
                 @Override
                 public boolean equals(Object o) {
-                    return o instanceof Authentication && ((Authentication) o).getName().equals(getName());
+                    return o instanceof Authentication a1 && a1.getName().equals(getName());
                 }
 
                 @Override

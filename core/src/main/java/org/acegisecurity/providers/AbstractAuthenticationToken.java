@@ -51,7 +51,7 @@ public abstract class AbstractAuthenticationToken implements Authentication {
     @Override
     public String getName() {
         Object principal = getPrincipal();
-        return principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : String.valueOf(principal);
+        return principal instanceof UserDetails ud ? ud.getUsername() : String.valueOf(principal);
     }
 
     @Override
@@ -85,12 +85,12 @@ public abstract class AbstractAuthenticationToken implements Authentication {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof AbstractAuthenticationToken &&
-                Objects.equals(getPrincipal(), ((AbstractAuthenticationToken) o).getPrincipal()) &&
-                Objects.equals(getDetails(), ((AbstractAuthenticationToken) o).getDetails()) &&
-                Objects.equals(getCredentials(), ((AbstractAuthenticationToken) o).getCredentials()) &&
-                isAuthenticated() == ((AbstractAuthenticationToken) o).isAuthenticated() &&
-                Arrays.equals(getAuthorities(), ((AbstractAuthenticationToken) o).getAuthorities());
+        return o instanceof AbstractAuthenticationToken aat &&
+                Objects.equals(getPrincipal(), aat.getPrincipal()) &&
+                Objects.equals(getDetails(), aat.getDetails()) &&
+                Objects.equals(getCredentials(), aat.getCredentials()) &&
+                isAuthenticated() == aat.isAuthenticated() &&
+                Arrays.equals(getAuthorities(), aat.getAuthorities());
     }
 
     @Override

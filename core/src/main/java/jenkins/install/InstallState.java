@@ -348,8 +348,8 @@ public class InstallState implements ExtensionPoint {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof InstallState) {
-            return name.equals(((InstallState) obj).name());
+        if (obj instanceof InstallState state) {
+            return name.equals(state.name());
         }
         return false;
     }

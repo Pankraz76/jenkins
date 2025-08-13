@@ -52,8 +52,8 @@ public class UsernameNotFoundException extends BadCredentialsException {
     }
 
     public static UsernameNotFoundException fromSpring(org.springframework.security.core.userdetails.UsernameNotFoundException x) {
-        if (x instanceof UserMayOrMayNotExistException2) {
-            return UserMayOrMayNotExistException.fromSpring((UserMayOrMayNotExistException2) x);
+        if (x instanceof UserMayOrMayNotExistException2 exception2) {
+            return UserMayOrMayNotExistException.fromSpring(exception2);
         } else {
             return new UsernameNotFoundException(x.toString(), x);
         }

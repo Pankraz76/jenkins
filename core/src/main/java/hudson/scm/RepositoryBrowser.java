@@ -30,6 +30,7 @@ import hudson.ExtensionPoint;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -102,5 +103,6 @@ public abstract class RepositoryBrowser<E extends ChangeLogSet.Entry> implements
         return (DescriptorExtensionList) Jenkins.get().getDescriptorList(RepositoryBrowser.class);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

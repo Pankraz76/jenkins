@@ -46,10 +46,11 @@ public class DisablePluginCommand extends CLICommand {
     @Option(name = "-restart", aliases = "-r", usage = "Restart Jenkins after disabling plugins.")
     private boolean restart;
 
-    @Option(name = "-strategy", aliases = "-s", metaVar = "strategy", usage = "How to process the dependent plugins. \n" +
-            "- none: if a mandatory dependent plugin exists and it is enabled, the plugin cannot be disabled (default value).\n" +
-            "- mandatory: all mandatory dependent plugins are also disabled, optional dependent plugins remain enabled.\n" +
-            "- all: all dependent plugins are also disabled, no matter if its dependency is optional or mandatory.")
+    @Option(name = "-strategy", aliases = "-s", metaVar = "strategy", usage = """
+            How to process the dependent plugins.\s
+            - none: if a mandatory dependent plugin exists and it is enabled, the plugin cannot be disabled (default value).
+            - mandatory: all mandatory dependent plugins are also disabled, optional dependent plugins remain enabled.
+            - all: all dependent plugins are also disabled, no matter if its dependency is optional or mandatory.""")
     private String strategy = PluginWrapper.PluginDisableStrategy.NONE.toString();
 
     @Option(name = "-quiet", aliases = "-q", usage = "Be quiet, print only the error messages")
@@ -85,8 +86,7 @@ public class DisablePluginCommand extends CLICommand {
             throw new IllegalArgumentException(
                     hudson.cli.Messages.DisablePluginCommand_NoSuchStrategy(
                             strategy,
-                            String.format(
-                                    "%s, %s, %s",
+                            "%s, %s, %s".formatted(
                                     PluginWrapper.PluginDisableStrategy.NONE,
                                     PluginWrapper.PluginDisableStrategy.MANDATORY,
                                     PluginWrapper.PluginDisableStrategy.ALL)),
@@ -119,8 +119,8 @@ public class DisablePluginCommand extends CLICommand {
     /**
      * Print indented the arguments with the format passed beginning with the indent passed.
      * @param indent number of spaces at the beginning.
-     * @param format format as in {@link String#format(String, Object...)}
-     * @param arguments arguments to print as in {@link String#format(String, Object...)}
+     * @param format format as in {@link String#formatted(Object...)}
+     * @param arguments arguments to print as in {@link String#formatted(Object...)}
      */
     private void printIndented(int indent, String format, String... arguments) {
         if (indent == 0) {

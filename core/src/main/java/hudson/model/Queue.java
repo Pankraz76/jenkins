@@ -282,7 +282,7 @@ public class Queue extends ResourceController implements Saveable {
                     reason = d.canTake(node, item);
                 } catch (Throwable t) {
                     // We cannot guarantee the task can be taken by the node because something wrong happened
-                    LOGGER.log(Level.WARNING, t, () -> String.format("Exception evaluating if the node '%s' can take the task '%s'", node.getNodeName(), item.task.getName()));
+                    LOGGER.log(Level.WARNING, t, () -> "Exception evaluating if the node '%s' can take the task '%s'".formatted(node.getNodeName(), item.task.getName()));
                     reason = CauseOfBlockage.fromMessage(Messages._Queue_ExceptionCanTake());
                 }
 
@@ -322,7 +322,7 @@ public class Queue extends ResourceController implements Saveable {
 
         @Override
         public String toString() {
-            return String.format("JobOffer[%s #%d]", executor.getOwner().getName(), executor.getNumber());
+            return "JobOffer[%s #%d]".formatted(executor.getOwner().getName(), executor.getNumber());
         }
     }
 
@@ -407,8 +407,8 @@ public class Queue extends ResourceController implements Saveable {
                 List items;
 
                 State state;
-                if (unmarshaledObj instanceof State) {
-                    state = (State) unmarshaledObj;
+                if (unmarshaledObj instanceof State state1) {
+                    state = state1;
                     items = state.items;
                 } else {
                     // backward compatibility - it's an old List queue.xml
@@ -420,11 +420,10 @@ public class Queue extends ResourceController implements Saveable {
 
 
                 for (Object o : items) {
-                    if (o instanceof Task) {
+                    if (o instanceof Task task1) {
                         // backward compatibility
-                        schedule((Task) o, 0);
-                    } else if (o instanceof Item) {
-                        Item item = (Item) o;
+                        schedule(task1, 0);
+                    } else if (o instanceof Item item) {
 
                         if (item.task == null) {
                             continue;   // botched persistence. throw this one away
@@ -825,8 +824,7 @@ public class Queue extends ResourceController implements Saveable {
     }
 
     private static boolean hasReadPermission(Queue.Task t, boolean valueIfNotAccessControlled) {
-        if (t instanceof AccessControlled) {
-            AccessControlled taskAC = (AccessControlled) t;
+        if (t instanceof AccessControlled taskAC) {
             if (taskAC.hasPermission(hudson.model.Item.READ)
                     || taskAC.hasPermission(Permission.READ)) { // TODO should be unnecessary given the 'implies' relationship
                 return true;
@@ -866,8 +864,7 @@ public class Queue extends ResourceController implements Saveable {
     }
 
     private List<StubItem> filterDiscoverableItemListBasedOnPermissions(List<StubItem> r, Item t) {
-        if (t.task instanceof hudson.model.Item) {
-            hudson.model.Item taskAsItem = (hudson.model.Item) t.task;
+        if (t.task instanceof hudson.model.Item taskAsItem) {
             if (!taskAsItem.hasPermission(hudson.model.Item.READ)
                     && taskAsItem.hasPermission(hudson.model.Item.DISCOVER)) {
                 r.add(new StubItem(new StubTask(t.task)));
@@ -1220,7 +1217,7 @@ public class Queue extends ResourceController implements Saveable {
                 causeOfBlockage = d.canRun(i);
             } catch (Throwable t) {
                 // We cannot guarantee the task can be run because something wrong happened
-                LOGGER.log(Level.WARNING, t, () -> String.format("Exception evaluating if the queue can run the task '%s'", i.task.getName()));
+                LOGGER.log(Level.WARNING, t, () -> "Exception evaluating if the queue can run the task '%s'".formatted(i.task.getName()));
                 causeOfBlockage = CauseOfBlockage.fromMessage(Messages._Queue_ExceptionCanRun());
             }
             if (causeOfBlockage != null)
@@ -1957,8 +1954,8 @@ public class Queue extends ResourceController implements Saveable {
          * @throws AccessDeniedException if the permission is not granted.
          */
         default void checkAbortPermission() {
-            if (this instanceof AccessControlled) {
-                ((AccessControlled) this).checkPermission(CANCEL);
+            if (this instanceof AccessControlled controlled) {
+                controlled.checkPermission(CANCEL);
             }
         }
 
@@ -2401,8 +2398,7 @@ public class Queue extends ResourceController implements Saveable {
 
         @Restricted(DoNotUse.class) // only for Stapler export
         public Api getApi() throws AccessDeniedException {
-            if (task instanceof AccessControlled) {
-                AccessControlled ac = (AccessControlled) task;
+            if (task instanceof AccessControlled ac) {
                 if (!ac.hasPermission(hudson.model.Item.DISCOVER)) {
                     return null; // same as getItem(long) returning null (details are printed only in case of -Dstapler.trace=true)
                 } else if (!ac.hasPermission(hudson.model.Item.READ)) {

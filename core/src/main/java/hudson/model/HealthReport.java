@@ -27,6 +27,7 @@ package hudson.model;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import hudson.diagnosis.OldDataMonitor;
 import hudson.util.XStream2;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class HealthReport implements Serializable, Comparable<HealthReport> {
     private static final String HEALTH_UNKNOWN_IMG = "empty.png";
 
     private static final Map<String, String> iconIMGToClassMap = new HashMap<>();
+    @Serial
     private static final long serialVersionUID = 7451361788415642230L;
 
     static {

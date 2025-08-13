@@ -139,8 +139,8 @@ public class Hudson extends Jenkins {
     @Deprecated
     public Slave getSlave(String name) {
         Node n = getNode(name);
-        if (n instanceof Slave)
-            return (Slave) n;
+        if (n instanceof Slave slave)
+            return slave;
         return null;
     }
 

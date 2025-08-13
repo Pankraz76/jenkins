@@ -33,6 +33,7 @@ import hudson.security.csrf.DefaultCrumbIssuer;
 import hudson.util.HttpResponses;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.ThreadLocalRandom;
 import org.htmlunit.FailingHttpStatusCodeException;
 import org.htmlunit.HttpMethod;
 import org.htmlunit.Page;
@@ -117,7 +118,7 @@ class ApiCrumbExclusionTest {
     private void checkWeCanChangeMyDescription(int expectedCode) throws IOException, SAXException {
         HtmlPage page = wc.goTo("me/account/");
         HtmlForm form = page.getFormByName("config");
-        form.getTextAreaByName("_.description").setText("random description: " + Math.random());
+        form.getTextAreaByName("_.description").setText("random description: " + ThreadLocalRandom.current().nextDouble());
 
         Page result = HtmlFormUtil.submit(form);
         assertEquals(expectedCode, result.getWebResponse().getStatusCode());

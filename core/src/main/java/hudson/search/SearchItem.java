@@ -57,8 +57,8 @@ public interface SearchItem {
     String getSearchUrl();
 
     default String getSearchIcon() {
-        if (this instanceof IconSpec) {
-            return ((IconSpec) this).getIconClassName();
+        if (this instanceof IconSpec spec) {
+            return spec.getIconClassName();
         }
 
         return "symbol-search";

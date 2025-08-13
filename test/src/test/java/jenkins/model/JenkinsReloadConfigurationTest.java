@@ -57,7 +57,7 @@ class JenkinsReloadConfigurationTest {
     }
 
     private void modifyNode(Node node) throws Exception {
-        replace(node.getNodeName().isEmpty() ? "config.xml" : String.format("nodes/%s/config.xml", node.getNodeName()), "oldLabel", "newLabel");
+        replace(node.getNodeName().isEmpty() ? "config.xml" : "nodes/%s/config.xml".formatted(node.getNodeName()), "oldLabel", "newLabel");
 
         assertEquals("oldLabel", node.getLabelString());
 

@@ -72,9 +72,9 @@ public class JSONSignatureValidator {
                         try {
                             c.checkValidity();
                         } catch (CertificateExpiredException e) { // even if the certificate isn't valid yet, we'll proceed it anyway
-                            warning = FormValidation.warning(e, String.format("Certificate %s has expired in %s", cert, name));
+                            warning = FormValidation.warning(e, "Certificate %s has expired in %s".formatted(cert, name));
                         } catch (CertificateNotYetValidException e) {
-                            warning = FormValidation.warning(e, String.format("Certificate %s is not yet valid in %s", cert, name));
+                            warning = FormValidation.warning(e, "Certificate %s is not yet valid in %s".formatted(cert, name));
                         }
                         LOGGER.log(Level.FINE, "Add certificate found in JSON document:\n\tsubjectDN: {0}\n\tissuer: {1}\n\tnotBefore: {2}\n\tnotAfter: {3}",
                                 new Object[] { c.getSubjectDN(), c.getIssuerDN(), c.getNotBefore(), c.getNotAfter() });
@@ -258,8 +258,7 @@ public class JSONSignatureValidator {
             try (InputStream in = j.getServletContext().getResourceAsStream(cert)) {
                 if (in == null) continue; // our test for paths ending in / should prevent this from happening
                 certificate = cf.generateCertificate(in);
-                if (certificate instanceof X509Certificate) {
-                    X509Certificate c = (X509Certificate) certificate;
+                if (certificate instanceof X509Certificate c) {
                     LOGGER.log(Level.FINE, "Add CA certificate found in webapp resources:\n\tsubjectDN: {0}\n\tissuer: {1}\n\tnotBefore: {2}\n\tnotAfter: {3}",
                             new Object[] { c.getSubjectDN(), c.getIssuerDN(), c.getNotBefore(), c.getNotAfter() });
                 }
@@ -291,8 +290,7 @@ public class JSONSignatureValidator {
                 Certificate certificate;
                 try (InputStream in = Files.newInputStream(cert.toPath())) {
                     certificate = cf.generateCertificate(in);
-                    if (certificate instanceof X509Certificate) {
-                        X509Certificate c = (X509Certificate) certificate;
+                    if (certificate instanceof X509Certificate c) {
                         LOGGER.log(Level.FINE, "Add CA certificate found in Jenkins home:\n\tsubjectDN: {0}\n\tissuer: {1}\n\tnotBefore: {2}\n\tnotAfter: {3}",
                                 new Object[] { c.getSubjectDN(), c.getIssuerDN(), c.getNotBefore(), c.getNotAfter() });
                     }

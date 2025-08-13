@@ -65,8 +65,8 @@ public class MorphTagLibrary extends TagLibrary {
                     return Collections.emptySet();
                 if (exclusion instanceof String)
                     return Arrays.asList(exclusion.toString().split("\\s+")); // split by whitespace
-                if (exclusion instanceof Collection)
-                    return (Collection) exclusion;
+                if (exclusion instanceof Collection collection)
+                    return collection;
                 throw new IllegalArgumentException("Expected collection for exclusion but found :" + exclusion);
             }
 

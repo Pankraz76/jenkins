@@ -73,7 +73,7 @@ final class AuthenticationSpringImpl implements org.springframework.security.cor
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof org.springframework.security.core.Authentication && ((org.springframework.security.core.Authentication) o).getName().equals(getName());
+        return o instanceof org.springframework.security.core.Authentication a && a.getName().equals(getName());
     }
 
     @Override

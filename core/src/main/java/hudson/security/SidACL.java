@@ -120,10 +120,10 @@ public abstract class SidACL extends ACL {
     protected abstract Boolean hasPermission(Sid p, Permission permission);
 
     protected String toString(Sid p) {
-        if (p instanceof GrantedAuthoritySid)
-            return ((GrantedAuthoritySid) p).getGrantedAuthority();
-        if (p instanceof PrincipalSid)
-            return ((PrincipalSid) p).getPrincipal();
+        if (p instanceof GrantedAuthoritySid sid)
+            return sid.getGrantedAuthority();
+        if (p instanceof PrincipalSid sid)
+            return sid.getPrincipal();
         if (p == EVERYONE)
             return "role_everyone";
         // hmm...

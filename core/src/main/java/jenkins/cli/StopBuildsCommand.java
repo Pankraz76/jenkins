@@ -62,8 +62,8 @@ public class StopBuildsCommand extends CLICommand {
         final List<Job> jobsToStop = new ArrayList<>();
         for (final String jobName : names) {
             Item item = jenkins.getItemByFullName(jobName);
-            if (item instanceof Job) {
-                jobsToStop.add((Job) item);
+            if (item instanceof Job job) {
+                jobsToStop.add(job);
             } else {
                 throw new IllegalArgumentException("Job not found: '" + jobName + "'");
             }

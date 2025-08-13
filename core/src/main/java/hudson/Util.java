@@ -70,7 +70,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.LinkOption;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.DosFileAttributes;
@@ -1350,7 +1349,7 @@ public class Util {
         File fileForSymlink = new File(baseDir, symlinkPath);
         try {
             Path pathForSymlink = fileToPath(fileForSymlink);
-            Path target = Paths.get(targetPath, MemoryReductionUtil.EMPTY_STRING_ARRAY);
+            Path target = Path.of(targetPath, MemoryReductionUtil.EMPTY_STRING_ARRAY);
 
             if (createSymlinkAtomic(pathForSymlink, fileForSymlink, target, symlinkPath)) {
                 return;

@@ -258,7 +258,7 @@ class ApiTest {
 
         JenkinsRule.WebClient wc = j.createWebClient();
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        WebResponse response = wc.goTo(String.format("whoAmI/api/xml?xpath=*&wrapper=%s", wrapper), null).getWebResponse();
+        WebResponse response = wc.goTo("whoAmI/api/xml?xpath=*&wrapper=%s".formatted(wrapper), null).getWebResponse();
 
         if (response != null) {
             if (statusCode != null) {

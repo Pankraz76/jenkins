@@ -24,6 +24,7 @@
 
 package org.acegisecurity.userdetails;
 
+import java.io.Serial;
 import org.acegisecurity.GrantedAuthority;
 
 /**
@@ -32,6 +33,7 @@ import org.acegisecurity.GrantedAuthority;
 @Deprecated
 public class User implements UserDetails {
 
+    @Serial
     private static final long serialVersionUID = 1;
 
     private final String username;
@@ -101,7 +103,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof UserDetails && ((UserDetails) o).getUsername().equals(getUsername());
+        return o instanceof UserDetails ud && ud.getUsername().equals(getUsername());
     }
 
     @Override

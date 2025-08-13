@@ -548,16 +548,18 @@ class FunctionsTest {
                         \tat remote.Place.method2(Place.java:17)
                         \tat remote.Service.run(Service.java:9)
                         """,
-            "remote.Exception: oops\n" +
-            "\tat remote.Place.method1(Place.java:11)\n" +
-            "\tat remote.Place.method2(Place.java:17)\n" +
-            "\tat remote.Service.run(Service.java:9)\n" + // we do not know how to elide the common part in this case
-            "Caused: remote.Wrapper\n" +
-            "\tat remote.Place.method2(Place.java:19)\n" +
-            "\tat remote.Service.run(Service.java:9)\n" +
-            "\tat ......remote call(Native Method)\n" +
-            "\tat local.Side.call(Side.java:11)\n" +
-            "\tat local.Main.main(Main.java:1)\n");
+            """
+            remote.Exception: oops
+            	at remote.Place.method1(Place.java:11)
+            	at remote.Place.method2(Place.java:17)
+            	at remote.Service.run(Service.java:9)
+            Caused: remote.Wrapper
+            	at remote.Place.method2(Place.java:19)
+            	at remote.Service.run(Service.java:9)
+            	at ......remote call(Native Method)
+            	at local.Side.call(Side.java:11)
+            	at local.Main.main(Main.java:1)
+            """);
         // Suppressed exceptions:
         assertPrintThrowable(new Stack("java.lang.IllegalStateException: java.lang.NullPointerException: oops", "p.C.method1:19", "m.Main.main:1").
                        cause(new Stack("java.lang.NullPointerException: oops", "p.C.method2:23", "p.C.method1:17", "m.Main.main:1")).

@@ -335,14 +335,14 @@ public class Main {
             mainMethod.invoke(null, new Object[] {arguments.toArray(new String[0])});
         } catch (InvocationTargetException e) {
             Throwable t = e.getCause();
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else if (t instanceof IOException) {
-                throw new UncheckedIOException((IOException) t);
+            if (t instanceof RuntimeException exception1) {
+                throw exception1;
+            } else if (t instanceof IOException exception) {
+                throw new UncheckedIOException(exception);
             } else if (t instanceof Exception) {
                 throw new RuntimeException(t);
-            } else if (t instanceof Error) {
-                throw (Error) t;
+            } else if (t instanceof Error error) {
+                throw error;
             } else {
                 throw new RuntimeException(e);
             }

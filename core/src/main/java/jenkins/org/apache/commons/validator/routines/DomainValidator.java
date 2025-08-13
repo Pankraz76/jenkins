@@ -18,6 +18,7 @@
 
 package jenkins.org.apache.commons.validator.routines;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.IDN;
 import java.util.Arrays;
@@ -75,6 +76,7 @@ public class DomainValidator implements Serializable {
     /** Maximum allowable length ({@value}) of a domain name */
     private static final int MAX_DOMAIN_LENGTH = 253;
 
+    @Serial
     private static final long serialVersionUID = -4407125112880174009L;
 
     // Regular expression strings for hostnames (derived from RFC2396 and RFC 1123)

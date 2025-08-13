@@ -311,9 +311,9 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
             // Should never happen
             LOGGER.log(WARNING, "UpdateCenter class {0} does not extend hudson.model.UpdateCenter. Using default.", requiredClassName);
         } catch (NoSuchMethodException e) {
-            LOGGER.log(WARNING, String.format("UpdateCenter class %s does not define one of the required constructors. Using default", requiredClassName), e);
+            LOGGER.log(WARNING, "UpdateCenter class %s does not define one of the required constructors. Using default".formatted(requiredClassName), e);
         } catch (Exception e) {
-            LOGGER.log(WARNING, String.format("Unable to instantiate custom plugin manager [%s]. Using default.", requiredClassName), e);
+            LOGGER.log(WARNING, "Unable to instantiate custom plugin manager [%s]. Using default.".formatted(requiredClassName), e);
         }
         return createDefaultUpdateCenter(config);
     }
@@ -378,8 +378,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
         List<UpdateCenterJob> jobList = getJobs();
         Collections.reverse(jobList);
         for (UpdateCenterJob job : jobList)
-            if (job instanceof InstallationJob) {
-                InstallationJob ij = (InstallationJob) job;
+            if (job instanceof InstallationJob ij) {
                 if (ij.plugin.name.equals(plugin.name) && ij.plugin.sourceId.equals(plugin.sourceId))
                     return ij;
             }
@@ -504,7 +503,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
                         + ". This update center cannot be resolved", siteId));
             }
         } catch (Exception e) {
-            return HttpResponses.errorJSON(String.format("ERROR: %s", e.getMessage()));
+            return HttpResponses.errorJSON("ERROR: %s".formatted(e.getMessage()));
         }
     }
 
@@ -520,7 +519,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
             }
             return HttpResponses.okJSON(jobs);
         } catch (RuntimeException e) {
-            return HttpResponses.errorJSON(String.format("ERROR: %s", e.getMessage()));
+            return HttpResponses.errorJSON("ERROR: %s".formatted(e.getMessage()));
         }
     }
 
@@ -535,8 +534,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
 
         boolean activeInstalls = false;
         for (UpdateCenterJob job : jobs) {
-            if (job instanceof InstallationJob) {
-                InstallationJob installationJob = (InstallationJob) job;
+            if (job instanceof InstallationJob installationJob) {
                 if (!installationJob.status.isSuccess()) {
             activeInstalls = true;
                 }
@@ -571,10 +569,9 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
             List<UpdateCenterJob> jobCopy = getJobs();
 
             for (UpdateCenterJob job : jobCopy) {
-                if (job instanceof InstallationJob) {
+                if (job instanceof InstallationJob installationJob) {
                     UUID jobCorrelationId = job.getCorrelationId();
                     if (correlationId == null || (jobCorrelationId != null && correlationId.equals(jobCorrelationId.toString()))) {
-                        InstallationJob installationJob = (InstallationJob) job;
                         Map<String, String> pluginInfo = new LinkedHashMap<>();
                         pluginInfo.put("name", installationJob.plugin.name);
                         pluginInfo.put("version", installationJob.plugin.version);
@@ -590,7 +587,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
             }
             return HttpResponses.okJSON(JSONObject.fromObject(response));
         } catch (RuntimeException e) {
-            return HttpResponses.errorJSON(String.format("ERROR: %s", e.getMessage()));
+            return HttpResponses.errorJSON("ERROR: %s".formatted(e.getMessage()));
         }
     }
 
@@ -602,8 +599,8 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
         List<UpdateCenterJob> jobList = getJobs();
         Collections.reverse(jobList);
         for (UpdateCenterJob job : jobList)
-            if (job instanceof HudsonUpgradeJob)
-                return (HudsonUpgradeJob) job;
+            if (job instanceof HudsonUpgradeJob upgradeJob)
+                return upgradeJob;
         return null;
     }
 
@@ -839,8 +836,8 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         synchronized (jobs) {
             for (UpdateCenterJob job : jobs) {
-                if (job instanceof RestartJenkinsJob) {
-                    if (((RestartJenkinsJob) job).cancel()) {
+                if (job instanceof RestartJenkinsJob jenkinsJob) {
+                    if (jenkinsJob.cancel()) {
                         LOGGER.info("Scheduled Jenkins reboot unscheduled");
                     }
                 }
@@ -872,8 +869,8 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
      */
     public boolean isRestartScheduled() {
         for (UpdateCenterJob job : getJobs()) {
-            if (job instanceof RestartJenkinsJob) {
-                RestartJenkinsJob.RestartJenkinsJobStatus status = ((RestartJenkinsJob) job).status;
+            if (job instanceof RestartJenkinsJob jenkinsJob) {
+                RestartJenkinsJob.RestartJenkinsJobStatus status = jenkinsJob.status;
                 if (status instanceof RestartJenkinsJob.Pending
                         || status instanceof RestartJenkinsJob.Running) {
                     return true;
@@ -989,8 +986,8 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
     private @CheckForNull ConnectionCheckJob getConnectionCheckJob(@NonNull UpdateSite site) {
         synchronized (jobs) {
             for (UpdateCenterJob job : jobs) {
-                if (job instanceof ConnectionCheckJob && job.site != null && job.site.getId().equals(site.getId())) {
-                    return (ConnectionCheckJob) job;
+                if (job instanceof ConnectionCheckJob checkJob && job.site != null && job.site.getId().equals(site.getId())) {
+                    return checkJob;
                 }
             }
         }
@@ -1505,8 +1502,8 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
             try {
                 URLConnection connection = ProxyConfiguration.open(url);
 
-                if (connection instanceof HttpURLConnection) {
-                    int responseCode = ((HttpURLConnection) connection).getResponseCode();
+                if (connection instanceof HttpURLConnection lConnection) {
+                    int responseCode = lConnection.getResponseCode();
                     if (HttpURLConnection.HTTP_OK != responseCode) {
                         throw new HttpRetryException("Invalid response code (" + responseCode + ") from URL: " + url, responseCode);
                     }
@@ -2433,7 +2430,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
                  * Could make PluginManager#getDetachedLocation public and consume it here, but this method is
                  * best-effort anyway.
                  */
-                src = Jenkins.get().getServletContext().getResource(String.format("/WEB-INF/detached-plugins/%s.hpi", plugin.name));
+                src = Jenkins.get().getServletContext().getResource("/WEB-INF/detached-plugins/%s.hpi".formatted(plugin.name));
             } catch (MalformedURLException e) {
                 return null;
             }
@@ -2486,8 +2483,7 @@ public class UpdateCenter extends AbstractModelObject implements Loadable, Savea
                         // we need it to continue installing
                         return false;
                     }
-                    if (job instanceof InstallationJob) {
-                        InstallationJob ij = (InstallationJob) job;
+                    if (job instanceof InstallationJob ij) {
                         if (ij.plugin.equals(plugin) && ij.plugin.version.equals(plugin.version)) {
                             // wait until other install is completed
                             synchronized (ij) {

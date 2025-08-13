@@ -75,7 +75,7 @@ class Security857Test {
     private String getJellyContent(Boolean escape) throws IOException {
         String jelly = IOUtils.toString(this.getClass().getResourceAsStream("escape.jelly"), StandardCharsets.UTF_8);
         if (escape != null) {
-            jelly = String.format("<?jelly escape-by-default='%s'?>%n%s", escape, jelly);
+            jelly = "<?jelly escape-by-default='%s'?>%n%s".formatted(escape, jelly);
         }
 
         return jelly;

@@ -55,8 +55,7 @@ public class BuildTimeTrend extends RunListProgressiveRendering {
         element.put("timestampString", build.getTimestampString());
         element.put("timestampString2", build.getTimestampString2());
         element.put("consoleUrl", ConsoleUrlProvider.getRedirectUrl(build));
-        if (build instanceof AbstractBuild) {
-            AbstractBuild<?, ?> b = (AbstractBuild) build;
+        if (build instanceof AbstractBuild<?, ?> b) {
             Node n = b.getBuiltOn();
             if (n == null) {
                 String ns = b.getBuiltOnStr();

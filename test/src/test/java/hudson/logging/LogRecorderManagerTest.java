@@ -204,7 +204,7 @@ class LogRecorderManagerTest {
 
         @Override
         public void onDeleted(Saveable o, XmlFile file) {
-            if (o instanceof LogRecorder && "dummy".equals(((LogRecorder) o).getName())) {
+            if (o instanceof LogRecorder recorder && "dummy".equals(recorder.getName())) {
                 if (!file.exists()) {
                     recordDeletion = true;
                 }

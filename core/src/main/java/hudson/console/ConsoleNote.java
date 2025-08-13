@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -320,6 +321,7 @@ public abstract class ConsoleNote<T> implements Serializable, Describable<Consol
         in.readFully(postamble);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public static final String PREAMBLE_STR = "\u001B[8mha:";

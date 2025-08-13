@@ -74,7 +74,7 @@ public class AtmostOneTaskExecutor<V> {
     public AtmostOneTaskExecutor(Callable<V> task) {
         this(new ImpersonatingExecutorService(new AtmostOneThreadExecutor(new NamingThreadFactory(
                         new DaemonThreadFactory(),
-                        String.format("AtmostOneTaskExecutor[%s]", task)
+                "AtmostOneTaskExecutor[%s]".formatted(task)
                 )), ACL.SYSTEM2),
                 task
         );

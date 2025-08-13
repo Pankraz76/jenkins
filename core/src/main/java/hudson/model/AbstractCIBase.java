@@ -255,7 +255,7 @@ public abstract class AbstractCIBase extends Node implements ItemGroup<TopLevelI
                 long start = System.currentTimeMillis();
                 updateComputer(node, byName, used, automaticAgentLaunch);
                 if (LOG_STARTUP_PERFORMANCE && LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine(String.format("Took %dms to update node %s",
+                    LOGGER.fine("Took %dms to update node %s".formatted(
                             System.currentTimeMillis() - start, node.getNodeName()));
                 }
             }

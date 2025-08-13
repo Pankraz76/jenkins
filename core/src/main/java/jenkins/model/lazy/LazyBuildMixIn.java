@@ -192,7 +192,7 @@ public abstract class LazyBuildMixIn<JobT extends Job<JobT, RunT> & Queue.Task &
             lastBuild.getPreviousBuild(); // JENKINS-20662: create connection to previous build
             return lastBuild;
         } catch (InvocationTargetException e) {
-            LOGGER.log(Level.WARNING, String.format("A new build could not be created in job %s", asJob().getFullName()), e);
+            LOGGER.log(Level.WARNING, "A new build could not be created in job %s".formatted(asJob().getFullName()), e);
             throw handleInvocationTargetException(e);
         } catch (ReflectiveOperationException e) {
             throw new LinkageError("A new build could not be created in " + asJob().getFullName() + ": " + e, e);
@@ -203,14 +203,14 @@ public abstract class LazyBuildMixIn<JobT extends Job<JobT, RunT> & Queue.Task &
 
     private IOException handleInvocationTargetException(InvocationTargetException e) {
         Throwable t = e.getTargetException();
-        if (t instanceof Error) {
-            throw (Error) t;
+        if (t instanceof Error error) {
+            throw error;
         }
-        if (t instanceof RuntimeException) {
-            throw (RuntimeException) t;
+        if (t instanceof RuntimeException exception) {
+            throw exception;
         }
-        if (t instanceof IOException) {
-            return (IOException) t;
+        if (t instanceof IOException exception) {
+            return exception;
         }
         throw new Error(t);
     }
@@ -466,8 +466,8 @@ public abstract class LazyBuildMixIn<JobT extends Job<JobT, RunT> & Queue.Task &
     @Restricted(DoNotUse.class)
     @Extension public static final class ItemListenerImpl extends ItemListener {
         @Override public void onLocationChanged(Item item, String oldFullName, String newFullName) {
-            if (item instanceof LazyLoadingJob) {
-                RunMap<?> builds = ((LazyLoadingJob) item).getLazyBuildMixIn().builds;
+            if (item instanceof LazyLoadingJob job) {
+                RunMap<?> builds = job.getLazyBuildMixIn().builds;
                 builds.updateBaseDir(((Job) item).getBuildDir());
             }
         }

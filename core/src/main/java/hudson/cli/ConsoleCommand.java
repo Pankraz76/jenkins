@@ -60,8 +60,8 @@ public class ConsoleCommand extends CLICommand {
             } else {
                 Permalink nearest = job.getPermalinks().findNearest(build);
                 throw new IllegalArgumentException(nearest == null ?
-                        String.format("Not sure what you meant by \"%s\".", build) :
-                        String.format("Not sure what you meant by \"%s\". Did you mean \"%s\"?",
+                        "Not sure what you meant by \"%s\".".formatted(build) :
+                        "Not sure what you meant by \"%s\". Did you mean \"%s\"?".formatted(
                                 build, nearest.getId()), e);
             }
         }

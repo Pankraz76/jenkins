@@ -50,8 +50,8 @@ public class StandardOutputSwapper extends ComputerListener {
             }
 
             OutputStream o = c.getUnderlyingOutput();
-            if (o instanceof StandardOutputStream) {
-                _swap((StandardOutputStream) o);
+            if (o instanceof StandardOutputStream stream) {
+                _swap(stream);
                 return true;
             }
 

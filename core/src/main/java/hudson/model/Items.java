@@ -171,8 +171,8 @@ public class Items {
     public static List<TopLevelItemDescriptor> all2(Authentication a, ItemGroup c) {
         List<TopLevelItemDescriptor> result = new ArrayList<>();
         ACL acl;
-        if (c instanceof AccessControlled) {
-            acl = ((AccessControlled) c).getACL();
+        if (c instanceof AccessControlled controlled) {
+            acl = controlled.getACL();
         } else {
             // fall back to root
             acl = Jenkins.get().getACL();
@@ -266,8 +266,7 @@ public class Items {
             }
             if (p[i].equals("..")) {
                 if (name.isEmpty()) {
-                    throw new IllegalArgumentException(String.format(
-                            "Illegal relative path '%s' within context '%s'", path, context.getFullName()
+                    throw new IllegalArgumentException("Illegal relative path '%s' within context '%s'".formatted(path, context.getFullName()
                     ));
                 }
                 name.pop();
@@ -436,8 +435,8 @@ public class Items {
                     r.add(type.cast(i));
                 }
             }
-            if (i instanceof ItemGroup) {
-                getAllItems((ItemGroup) i, type, r, pred);
+            if (i instanceof ItemGroup group) {
+                getAllItems(group, type, r, pred);
             }
         }
     }
@@ -667,8 +666,8 @@ public class Items {
                     }
                     while (delegate.hasNext()) {
                         Item item = delegate.next();
-                        if (item instanceof ItemGroup) {
-                            stack.push((ItemGroup) item);
+                        if (item instanceof ItemGroup group) {
+                            stack.push(group);
                         }
                         if (type.isInstance(item) && pred.test(type.cast(item))) {
                             next = type.cast(item);

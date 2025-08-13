@@ -204,10 +204,10 @@ public abstract class View extends AbstractModelObject implements AccessControll
      */
     public Collection<TopLevelItem> getAllItems() {
 
-        if (this instanceof ViewGroup) {
+        if (this instanceof ViewGroup group) {
             final Collection<TopLevelItem> items = new LinkedHashSet<>(getItems());
 
-            for (View view : ((ViewGroup) this).getViews()) {
+            for (View view : group.getViews()) {
                 items.addAll(view.getAllItems());
             }
             return Collections.unmodifiableCollection(items);
@@ -458,8 +458,8 @@ public abstract class View extends AbstractModelObject implements AccessControll
 
         HashSet<Label> labels = new HashSet<>();
         for (Item item : getItems()) {
-            if (item instanceof AbstractProject<?, ?>) {
-                labels.addAll(((AbstractProject<?, ?>) item).getRelevantLabels());
+            if (item instanceof AbstractProject<?, ?> project) {
+                labels.addAll(project.getRelevantLabels());
             }
         }
 
@@ -637,8 +637,8 @@ public abstract class View extends AbstractModelObject implements AccessControll
         for (TopLevelItem item : items) {
 
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine(String.format("Adding url=%s,displayName=%s",
-                            item.getSearchUrl(), item.getDisplayName()));
+                LOGGER.fine("Adding url=%s,displayName=%s".formatted(
+                        item.getSearchUrl(), item.getDisplayName()));
             }
             sib.add(item.getSearchUrl(), item.getDisplayName());
         }

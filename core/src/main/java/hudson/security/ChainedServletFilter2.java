@@ -78,7 +78,7 @@ public class ChainedServletFilter2 implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-        String uri = request instanceof HttpServletRequest ? ((HttpServletRequest) request).getRequestURI() : "?";
+        String uri = request instanceof HttpServletRequest hsr ? hsr.getRequestURI() : "?";
         Level level = UNINTERESTING_URIS.matcher(uri).find() ? Level.FINER : Level.FINE;
         LOGGER.log(level, () -> "starting filter on " + uri);
 
@@ -106,7 +106,7 @@ public class ChainedServletFilter2 implements Filter {
             }
 
             private int status() {
-                return response instanceof HttpServletResponse ? ((HttpServletResponse) response).getStatus() : 0;
+                return response instanceof HttpServletResponse hsr ? hsr.getStatus() : 0;
             }
         }.doFilter(request, response);
 

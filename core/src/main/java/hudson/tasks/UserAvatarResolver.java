@@ -102,7 +102,7 @@ public abstract class UserAvatarResolver implements ExtensionPoint {
                 if (name != null) return name;
             }
         } else {
-            LOGGER.warning(String.format("Could not split up the avatar size (%s) into a width and height.", avatarSize));
+            LOGGER.warning("Could not split up the avatar size (%s) into a width and height.".formatted(avatarSize));
         }
 
         return null;

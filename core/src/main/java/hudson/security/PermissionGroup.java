@@ -144,7 +144,7 @@ public final class PermissionGroup implements Iterable<Permission>, Comparable<P
     }
 
     @Override public boolean equals(Object o) {
-        return o instanceof PermissionGroup && getOwnerClassName().equals(((PermissionGroup) o).getOwnerClassName());
+        return o instanceof PermissionGroup pg && getOwnerClassName().equals(pg.getOwnerClassName());
     }
 
     @Override public int hashCode() {

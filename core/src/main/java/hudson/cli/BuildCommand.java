@@ -116,12 +116,12 @@ public class BuildCommand extends CLICommand {
                 if (pd == null) {
                     String nearest = EditDistance.findNearest(name, pdp.getParameterDefinitionNames());
                     throw new CmdLineException(null, nearest == null ?
-                            String.format("'%s' is not a valid parameter.", name) :
-                            String.format("'%s' is not a valid parameter. Did you mean %s?", name, nearest));
+                            "'%s' is not a valid parameter.".formatted(name) :
+                            "'%s' is not a valid parameter. Did you mean %s?".formatted(name, nearest));
                 }
                 ParameterValue val = pd.createValue(this, Util.fixNull(e.getValue()));
                 if (val == null) {
-                    throw new CmdLineException(null, String.format("Cannot resolve the value for the parameter '%s'.", name));
+                    throw new CmdLineException(null, "Cannot resolve the value for the parameter '%s'.".formatted(name));
                 }
                 values.add(val);
             }
@@ -134,7 +134,7 @@ public class BuildCommand extends CLICommand {
                 // not passed in use default
                 ParameterValue defaultValue = pd.getDefaultParameterValue();
                 if (defaultValue == null) {
-                    throw new CmdLineException(null, String.format("No default value for the parameter '%s'.", pd.getName()));
+                    throw new CmdLineException(null, "No default value for the parameter '%s'.".formatted(pd.getName()));
                 }
                 values.add(defaultValue);
             }
@@ -156,7 +156,7 @@ public class BuildCommand extends CLICommand {
 
         if (!job.isBuildable()) {
             String msg = Messages.BuildCommand_CLICause_CannotBuildUnknownReasons(job.getFullDisplayName());
-            if (job instanceof ParameterizedJobMixIn.ParameterizedJob && ((ParameterizedJobMixIn.ParameterizedJob) job).isDisabled()) {
+            if (job instanceof ParameterizedJobMixIn.ParameterizedJob parameterizedJob && parameterizedJob.isDisabled()) {
                 msg = Messages.BuildCommand_CLICause_CannotBuildDisabled(job.getFullDisplayName());
             } else if (job.isHoldOffBuildUntilSave()) {
                 msg = Messages.BuildCommand_CLICause_CannotBuildConfigNotSaved(job.getFullDisplayName());
@@ -222,18 +222,19 @@ public class BuildCommand extends CLICommand {
     @Override
     protected void printUsageSummary(PrintStream stderr) {
         stderr.println(
-            "Starts a build, and optionally waits for a completion.\n" +
-            "Aside from general scripting use, this command can be\n" +
-            "used to invoke another job from within a build of one job.\n" +
-            "With the -s option, this command changes the exit code based on\n" +
-            "the outcome of the build (exit code 0 indicates a success)\n" +
-            "and interrupting the command will interrupt the job.\n" +
-            "With the -f option, this command changes the exit code based on\n" +
-            "the outcome of the build (exit code 0 indicates a success)\n" +
-            "however, unlike -s, interrupting the command will not interrupt\n" +
-            "the job (exit code 125 indicates the command was interrupted).\n" +
-            "With the -c option, a build will only run if there has been\n" +
-            "an SCM change."
+            """
+            Starts a build, and optionally waits for a completion.
+            Aside from general scripting use, this command can be
+            used to invoke another job from within a build of one job.
+            With the -s option, this command changes the exit code based on
+            the outcome of the build (exit code 0 indicates a success)
+            and interrupting the command will interrupt the job.
+            With the -f option, this command changes the exit code based on
+            the outcome of the build (exit code 0 indicates a success)
+            however, unlike -s, interrupting the command will not interrupt
+            the job (exit code 125 indicates the command was interrupted).
+            With the -c option, a build will only run if there has been
+            an SCM change."""
         );
     }
 

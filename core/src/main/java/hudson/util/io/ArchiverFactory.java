@@ -29,6 +29,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.FilePath.TarCompression;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.file.OpenOption;
@@ -102,6 +103,7 @@ public abstract class ArchiverFactory implements Serializable {
             return new TarArchiver(method.compress(out), filenamesEncoding);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -125,8 +127,10 @@ public abstract class ArchiverFactory implements Serializable {
             return new ZipArchiver(out, prefix, filenamesEncoding, openOptions);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

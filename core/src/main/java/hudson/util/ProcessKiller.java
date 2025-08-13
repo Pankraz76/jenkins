@@ -27,6 +27,7 @@ package hudson.util;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -79,5 +80,6 @@ public abstract class ProcessKiller implements ExtensionPoint, Serializable {
      */
     public abstract boolean kill(ProcessTree.OSProcess process) throws IOException, InterruptedException;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

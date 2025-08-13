@@ -79,8 +79,8 @@ public abstract class Cause {
      * @since 1.568
      */
     public void onAddedTo(@NonNull Run build) {
-        if (build instanceof AbstractBuild) {
-            onAddedTo((AbstractBuild) build);
+        if (build instanceof AbstractBuild abstractBuild) {
+            onAddedTo(abstractBuild);
         }
     }
 
@@ -98,8 +98,8 @@ public abstract class Cause {
      * @since 1.568
      */
     public void onLoad(@NonNull Run<?, ?> build) {
-        if (build instanceof AbstractBuild) {
-            onLoad((AbstractBuild) build);
+        if (build instanceof AbstractBuild abstractBuild) {
+            onLoad(abstractBuild);
         }
     }
 
@@ -325,8 +325,8 @@ public abstract class Cause {
                 indent(listener, depth);
                 listener.getLogger().println(Messages.Cause_UpstreamCause_CausedBy());
                 for (Cause cause : upstreamCauses) {
-                    if (cause instanceof UpstreamCause) {
-                        ((UpstreamCause) cause).print(listener, depth + 1);
+                    if (cause instanceof UpstreamCause upstreamCause1) {
+                        upstreamCause1.print(listener, depth + 1);
                     } else {
                         indent(listener, depth + 1);
                         cause.print(listener);
@@ -397,8 +397,8 @@ public abstract class Cause {
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof UserCause && Arrays.equals(new Object[] {authenticationName},
-                    new Object[] {((UserCause) o).authenticationName});
+            return o instanceof UserCause uc && Arrays.equals(new Object[] {authenticationName},
+                    new Object[] {uc.authenticationName});
         }
 
         @Override
@@ -477,7 +477,7 @@ public abstract class Cause {
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof UserIdCause && Objects.equals(userId, ((UserIdCause) o).userId);
+            return o instanceof UserIdCause uic && Objects.equals(userId, uic.userId);
         }
 
         @Override
@@ -515,7 +515,7 @@ public abstract class Cause {
 
         @Override
         public boolean equals(Object o) {
-            return o instanceof RemoteCause && Objects.equals(addr, ((RemoteCause) o).addr) && Objects.equals(note, ((RemoteCause) o).note);
+            return o instanceof RemoteCause rc && Objects.equals(addr, rc.addr) && Objects.equals(note, rc.note);
         }
 
         @Override

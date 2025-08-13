@@ -67,9 +67,9 @@ public interface HttpServletFilter extends ExtensionPoint {
         PluginServletFilter.addFilter(new CompatibleFilter() {
             @Override
             public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain) throws IOException, ServletException {
-                if (req instanceof HttpServletRequest && rsp instanceof HttpServletResponse) {
+                if (req instanceof HttpServletRequest request && rsp instanceof HttpServletResponse response) {
                     for (HttpServletFilter filter : ExtensionList.lookup(HttpServletFilter.class)) {
-                        if (filter.handle((HttpServletRequest) req, (HttpServletResponse) rsp)) {
+                        if (filter.handle(request, response)) {
                             return;
                         }
                     }

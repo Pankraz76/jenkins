@@ -118,7 +118,7 @@ public class Search implements StaplerProxy {
             if (a.getObject() instanceof SearchableModelObject) {
                 SearchableModelObject smo = (SearchableModelObject) a.getObject();
                 if (LOGGER.isLoggable(Level.FINE)) {
-                    LOGGER.fine(String.format("smo.displayName=%s, searchName=%s", smo.getDisplayName(), smo.getSearchName()));
+                    LOGGER.fine("smo.displayName=%s, searchName=%s".formatted(smo.getDisplayName(), smo.getSearchName()));
                 }
 
                 SearchIndex index = smo.getSearchIndex();
@@ -368,7 +368,7 @@ public class Search implements StaplerProxy {
     static SuggestedItem findClosestSuggestedItem(List<SuggestedItem> r, String query) {
         for (SuggestedItem curItem : r) {
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine(String.format("item's searchUrl:%s;query=%s", curItem.item.getSearchUrl(), query));
+                LOGGER.fine("item's searchUrl:%s;query=%s".formatted(curItem.item.getSearchUrl(), query));
             }
             if (curItem.item.getSearchUrl().contains(Util.rawEncode(query))) {
                 return curItem;

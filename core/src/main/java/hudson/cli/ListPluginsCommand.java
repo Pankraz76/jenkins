@@ -89,13 +89,13 @@ public class ListPluginsCommand extends CLICommand {
 
         if (plugin.hasUpdate()) {
             UpdateSite.Plugin updateInfo = plugin.getUpdateInfo();
-            version = String.format("%s (%s)", plugin.getVersion(), updateInfo.version);
+            version = "%s (%s)".formatted(plugin.getVersion(), updateInfo.version);
         }
         else {
             version = plugin.getVersion();
         }
 
-        String formatString = String.format("%%-%ds %%-%ds %%s", colWidthShortName, colWidthDisplayName);
+        String formatString = "%%-%ds %%-%ds %%s".formatted(colWidthShortName, colWidthDisplayName);
         stdout.printf(formatString + "%n", plugin.getShortName(), plugin.getDisplayName(), version);
     }
 }

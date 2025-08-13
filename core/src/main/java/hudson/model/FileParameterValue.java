@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -60,6 +61,7 @@ import org.kohsuke.stapler.StaplerResponse2;
 public class FileParameterValue extends ParameterValue {
     private static final String FOLDER_NAME = "fileParameters";
     private static final Pattern PROHIBITED_DOUBLE_DOT = Pattern.compile(".*[\\\\/]\\.\\.[\\\\/].*");
+    @Serial
     private static final long serialVersionUID = -143427023159076073L;
 
     /**

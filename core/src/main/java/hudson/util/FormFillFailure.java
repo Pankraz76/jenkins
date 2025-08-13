@@ -62,14 +62,14 @@ public abstract class FormFillFailure extends IOException implements HttpRespons
 
     /**
      * Sends out a string error message that indicates an error,
-     * by formatting it with {@link String#format(String, Object[])}
+     * by formatting it with {@link String#formatted(Object[])}
      */
     public static FormFillFailure error(String format, Object... args) {
-        return error(String.format(format, args));
+        return error(format.formatted(args));
     }
 
     public static FormFillFailure warning(String format, Object... args) {
-        return warning(String.format(format, args));
+        return warning(format.formatted(args));
     }
 
     /**
@@ -103,11 +103,11 @@ public abstract class FormFillFailure extends IOException implements HttpRespons
     }
 
     public static FormFillFailure error(Throwable e, String format, Object... args) {
-        return error(e, String.format(format, args));
+        return error(e, format.formatted(args));
     }
 
     public static FormFillFailure warning(Throwable e, String format, Object... args) {
-        return warning(e, String.format(format, args));
+        return warning(e, format.formatted(args));
     }
 
     /**

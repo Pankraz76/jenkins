@@ -30,6 +30,7 @@ import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ import java.util.Map;
  * @since 1.473
  */
 public final class TreeString implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3621959682117480904L;
 
     /**

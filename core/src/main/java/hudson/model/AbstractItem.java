@@ -278,8 +278,8 @@ public abstract class AbstractItem extends Actionable implements Loadable, Item,
 
         // TODO: Create an Item.RENAME permission to use here, see JENKINS-18649.
         if (!hasPermission(Item.CONFIGURE)) {
-            if (parent instanceof AccessControlled) {
-                ((AccessControlled) parent).checkPermission(Item.CREATE);
+            if (parent instanceof AccessControlled controlled) {
+                controlled.checkPermission(Item.CREATE);
             }
             checkPermission(Item.DELETE);
         }
@@ -725,11 +725,11 @@ public abstract class AbstractItem extends Actionable implements Loadable, Item,
         String url = getParent().getUrl(); // fallback but we ought to get to Jenkins.instance at the root
         while (it.hasPrevious()) {
             Object a = it.previous().getObject();
-            if (a instanceof View) {
-                url = ((View) a).getUrl();
+            if (a instanceof View view) {
+                url = view.getUrl();
                 break;
-            } else if (a instanceof ViewGroup && a != this) {
-                url = ((ViewGroup) a).getUrl();
+            } else if (a instanceof ViewGroup group && a != this) {
+                url = group.getUrl();
                 break;
             }
         }
@@ -790,13 +790,13 @@ public abstract class AbstractItem extends Actionable implements Loadable, Item,
             if (responsibleForAbortingBuilds || ownsRegistration) {
                 ItemDeletion.cancelBuildsInProgress(this);
             }
-            if (this instanceof ItemGroup) {
+            if (this instanceof ItemGroup<?> group) {
                 // delete individual items first
                 // (disregard whether they would be deletable in isolation)
                 // JENKINS-34939: do not hold the monitor on this folder while deleting them
                 // (thus we cannot do this inside performDelete)
                 try (ACLContext oldContext = ACL.as2(ACL.SYSTEM2)) {
-                    for (Item i : ((ItemGroup<?>) this).getItems(TopLevelItem.class::isInstance)) {
+                    for (Item i : group.getItems(TopLevelItem.class::isInstance)) {
                         try {
                             i.delete();
                         } catch (AbortException e) {

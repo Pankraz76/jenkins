@@ -114,7 +114,7 @@ public abstract class AsyncAperiodicWork extends AperiodicWork {
                 long startTime = System.currentTimeMillis();
                 long stopTime;
 
-                AsyncPeriodicWork.LazyTaskListener l = new AsyncPeriodicWork.LazyTaskListener(this::createListener, String.format("Started at %tc", new Date(startTime)));
+                AsyncPeriodicWork.LazyTaskListener l = new AsyncPeriodicWork.LazyTaskListener(this::createListener, "Started at %tc".formatted(new Date(startTime)));
                 try (ACLContext ctx = ACL.as2(ACL.SYSTEM2)) {
                     execute(l);
                 } catch (IOException e) {
@@ -123,7 +123,7 @@ public abstract class AsyncAperiodicWork extends AperiodicWork {
                     Functions.printStackTrace(e, l.fatalError("aborted"));
                 } finally {
                     stopTime = System.currentTimeMillis();
-                    l.close(String.format("Finished at %tc. %dms", new Date(stopTime), stopTime - startTime));
+                    l.close("Finished at %tc. %dms".formatted(new Date(stopTime), stopTime - startTime));
                 }
 
                 logger.log(Level.FINE, "Finished {0}. {1,number} ms",

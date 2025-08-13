@@ -550,8 +550,8 @@ public abstract class ParameterizedJobMixIn<JobT extends Job<JobT, RunT> & Param
             if (isDisabled()) {
                 return null;
             }
-            if (this instanceof LazyBuildMixIn.LazyLoadingJob) {
-                return (RunT) ((LazyBuildMixIn.LazyLoadingJob) this).getLazyBuildMixIn().newBuild();
+            if (this instanceof LazyBuildMixIn.LazyLoadingJob job) {
+                return (RunT) job.getLazyBuildMixIn().newBuild();
             }
             return null;
         }

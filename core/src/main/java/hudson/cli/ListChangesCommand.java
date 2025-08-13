@@ -60,9 +60,9 @@ public class ListChangesCommand extends RunRangeCommand {
             PrintWriter w = new PrintWriter(new OutputStreamWriter(stdout, charset));
             w.println("<changes>");
             for (Run<?, ?> build : builds) {
-                if (build instanceof RunWithSCM) {
+                if (build instanceof RunWithSCM<?, ?> cM) {
                     w.println("<build number='" + build.getNumber() + "'>");
-                    for (ChangeLogSet<?> cs : ((RunWithSCM<?, ?>) build).getChangeSets()) {
+                    for (ChangeLogSet<?> cs : cM.getChangeSets()) {
                         Model p = new ModelBuilder().get(cs.getClass());
                         p.writeTo(cs, Flavor.XML.createDataWriter(cs, w));
                     }
@@ -74,8 +74,8 @@ public class ListChangesCommand extends RunRangeCommand {
             break;
         case CSV:
             for (Run<?, ?> build : builds) {
-                if (build instanceof RunWithSCM) {
-                    for (ChangeLogSet<?> cs : ((RunWithSCM<?, ?>) build).getChangeSets()) {
+                if (build instanceof RunWithSCM<?, ?> cM) {
+                    for (ChangeLogSet<?> cs : cM.getChangeSets()) {
                         for (ChangeLogSet.Entry e : cs) {
                             stdout.printf("%s,%s%n",
                                     QuotedStringTokenizer.quote(e.getAuthor().getId()),
@@ -87,8 +87,8 @@ public class ListChangesCommand extends RunRangeCommand {
             break;
         case PLAIN:
             for (Run<?, ?> build : builds) {
-                if (build instanceof RunWithSCM) {
-                    for (ChangeLogSet<?> cs : ((RunWithSCM<?, ?>) build).getChangeSets()) {
+                if (build instanceof RunWithSCM<?, ?> cM) {
+                    for (ChangeLogSet<?> cs : cM.getChangeSets()) {
                         for (ChangeLogSet.Entry e : cs) {
                             stdout.printf("%s\t%s%n", e.getAuthor(), e.getMsg());
                             for (String p : e.getAffectedPaths()) {

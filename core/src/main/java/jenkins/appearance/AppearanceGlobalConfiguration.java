@@ -55,8 +55,8 @@ public class AppearanceGlobalConfiguration extends ManagementLink {
             // Special case because ConsoleUrlProviderGlobalConfiguration is (currently) the only type in core that uses
             // AppearanceCategory, and it hides its configuration if there are no custom providers, so we want to
             // show an empty state interface in that case.
-            if (input instanceof ConsoleUrlProviderGlobalConfiguration) {
-                return ((ConsoleUrlProviderGlobalConfiguration) input).isEnabled();
+            if (input instanceof ConsoleUrlProviderGlobalConfiguration configuration) {
+                return configuration.isEnabled();
             }
             return true;
         }

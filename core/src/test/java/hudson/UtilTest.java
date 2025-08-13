@@ -50,7 +50,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -707,8 +706,8 @@ class UtilTest {
     @Issue("JENKINS-67372")
     void createDirectoriesInRoot() throws Exception {
         assumeFalse(Functions.isWindows());
-        Path newDirInRoot = Paths.get("/new-dir-in-root");
-        Path newSymlinkInRoot = Paths.get("/new-symlink-in-root");
+        Path newDirInRoot = Path.of("/new-dir-in-root");
+        Path newSymlinkInRoot = Path.of("/new-symlink-in-root");
         try {
             assertEquals(newDirInRoot.resolve("new1"), Util.createDirectories(newDirInRoot.resolve("new1")).toRealPath());
             Util.createSymlink(newSymlinkInRoot.getParent().toFile(), newDirInRoot.getFileName().toString(), newSymlinkInRoot.getFileName().toString(), TaskListener.NULL);

@@ -60,15 +60,15 @@ public class RedactSecretJsonInErrorMessageSanitizer implements JsonInErrorMessa
             Object value = jsonObject.get(REDACT_KEY);
             if (value instanceof JSONArray) {
                 for (Object o : jsonObject.getJSONArray(REDACT_KEY)) {
-                    if (o instanceof String) {
-                        redactedKeySet.add((String) o);
+                    if (o instanceof String string) {
+                        redactedKeySet.add(string);
                     } else {
                         // array, object, null, number, boolean
                         LOGGER.log(Level.WARNING, "Unsupported type " + o.getClass().getName() + " for " + REDACT_KEY + ", please use either a single String value or an Array");
                     }
                 }
-            } else if (value instanceof String) {
-                redactedKeySet.add((String) value);
+            } else if (value instanceof String string) {
+                redactedKeySet.add(string);
             } else {
                 // object, null, number, boolean
                 LOGGER.log(Level.WARNING, "Unsupported type " + value.getClass().getName() + " for " + REDACT_KEY + ", please use either a single String value or an Array");
@@ -78,10 +78,10 @@ public class RedactSecretJsonInErrorMessageSanitizer implements JsonInErrorMessa
     }
 
     private Object copyAndSanitize(Object value) {
-        if (value instanceof JSONObject) {
-            return copyAndSanitizeObject((JSONObject) value);
-        } else if (value instanceof JSONArray) {
-            return copyAndSanitizeArray((JSONArray) value);
+        if (value instanceof JSONObject object) {
+            return copyAndSanitizeObject(object);
+        } else if (value instanceof JSONArray array) {
+            return copyAndSanitizeArray(array);
         } else {
             // string, null, number, boolean
             return value;

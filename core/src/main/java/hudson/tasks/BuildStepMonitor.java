@@ -24,8 +24,8 @@ public enum BuildStepMonitor {
         @Override
         public boolean perform(BuildStep bs, AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
             CheckPoint cp = new CheckPoint(bs.getClass().getName(), bs.getClass());
-            if (bs instanceof Describable) {
-                cp.block(listener, ((Describable) bs).getDescriptor().getDisplayName());
+            if (bs instanceof Describable describable) {
+                cp.block(listener, describable.getDescriptor().getDisplayName());
             } else {
                 cp.block();
             }
@@ -39,8 +39,8 @@ public enum BuildStepMonitor {
     BUILD {
         @Override
         public boolean perform(BuildStep bs, AbstractBuild build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
-            if (bs instanceof Describable) {
-                CheckPoint.COMPLETED.block(listener, ((Describable) bs).getDescriptor().getDisplayName());
+            if (bs instanceof Describable describable) {
+                CheckPoint.COMPLETED.block(listener, describable.getDescriptor().getDisplayName());
             } else {
                 CheckPoint.COMPLETED.block();
             }

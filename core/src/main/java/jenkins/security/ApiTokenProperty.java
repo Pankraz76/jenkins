@@ -350,15 +350,11 @@ public class ApiTokenProperty extends UserProperty {
         if (tokenStoreData == null) {
             // in case there are no token
             return Collections.emptyMap();
-        } else if (tokenStoreData instanceof JSONObject) {
-            // in case there is only one token
-            JSONObject singleTokenData = (JSONObject) tokenStoreData;
+        } else if (tokenStoreData instanceof JSONObject singleTokenData) {
             Map<String, JSONObject> result = new HashMap<>();
             addJSONTokenIntoMap(result, singleTokenData);
             return result;
-        } else if (tokenStoreData instanceof JSONArray) {
-            // in case there are multiple tokens
-            JSONArray tokenArray = (JSONArray) tokenStoreData;
+        } else if (tokenStoreData instanceof JSONArray tokenArray) {
             Map<String, JSONObject> result = new HashMap<>();
             for (int i = 0; i < tokenArray.size(); i++) {
                 JSONObject tokenData = tokenArray.getJSONObject(i);
@@ -610,7 +606,7 @@ public class ApiTokenProperty extends UserProperty {
 
             final String tokenName;
             if (newTokenName == null || newTokenName.isBlank()) {
-                tokenName = String.format("Token created on %s", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
+                tokenName = "Token created on %s".formatted(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
             } else {
                 tokenName = newTokenName;
             }

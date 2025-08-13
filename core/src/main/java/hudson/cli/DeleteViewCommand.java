@@ -74,7 +74,7 @@ public class DeleteViewCommand extends CLICommand {
 
                 ViewGroup group = view.getOwner();
                 if (!group.canDelete(view)) {
-                    throw new IllegalStateException(String.format("%s does not allow to delete '%s' view",
+                    throw new IllegalStateException("%s does not allow to delete '%s' view".formatted(
                             group.getDisplayName(),
                             view.getViewName()));
                 }

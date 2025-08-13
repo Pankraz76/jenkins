@@ -1,6 +1,7 @@
 package jenkins.security;
 
 import hudson.remoting.Callable;
+import java.io.Serial;
 import jenkins.agents.ControllerToAgentCallable;
 
 /**
@@ -13,5 +14,6 @@ import jenkins.agents.ControllerToAgentCallable;
  */
 public abstract class MasterToSlaveCallable<V, T extends Throwable> implements ControllerToAgentCallable<V, T> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

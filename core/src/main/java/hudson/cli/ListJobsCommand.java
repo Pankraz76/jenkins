@@ -65,8 +65,8 @@ public class ListJobsCommand extends CLICommand {
                 final Item item = h.getItemByFullName(name);
 
                 // If item group was found use it's jobs.
-                if (item instanceof ModifiableTopLevelItemGroup) {
-                    jobs = ((ModifiableTopLevelItemGroup) item).getItems();
+                if (item instanceof ModifiableTopLevelItemGroup group) {
+                    jobs = group.getItems();
 
                 }
                 // No view and no item group with the given name found.

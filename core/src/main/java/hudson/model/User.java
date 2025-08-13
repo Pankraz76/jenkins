@@ -726,12 +726,12 @@ public class User extends AbstractModelObject implements AccessControlled, Descr
      * true if {@link RunWithSCM#hasParticipant} or {@link hudson.model.Cause.UserIdCause}
      */
     private boolean relatedTo(@NonNull Run<?, ?> b) {
-        if (b instanceof RunWithSCM && ((RunWithSCM) b).hasParticipant(this)) {
+        if (b instanceof RunWithSCM cM && cM.hasParticipant(this)) {
             return true;
         }
         for (Cause cause : b.getCauses()) {
-            if (cause instanceof Cause.UserIdCause) {
-                String userId = ((Cause.UserIdCause) cause).getUserId();
+            if (cause instanceof Cause.UserIdCause idCause) {
+                String userId = idCause.getUserId();
                 if (userId != null && idStrategy().equals(userId, getId())) {
                     return true;
                 }
@@ -1003,8 +1003,8 @@ public class User extends AbstractModelObject implements AccessControlled, Descr
     public List<Action> getPropertyActions() {
         List<Action> actions = new ArrayList<>();
         for (UserProperty userProp : getProperties().values()) {
-            if (userProp instanceof Action) {
-                actions.add((Action) userProp);
+            if (userProp instanceof Action action) {
+                actions.add(action);
             }
         }
         return Collections.unmodifiableList(actions);

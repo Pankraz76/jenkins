@@ -122,8 +122,8 @@ public abstract class ViewGroupMixIn {
         }
         for (View v : views) {
             //getAllViews() cannot be used as it filters jobs by permission which is bad e.g. when trying to add a new job
-            if (v instanceof ViewGroup) {
-                View nestedView = ((ViewGroup) v).getView(name);
+            if (v instanceof ViewGroup group) {
+                View nestedView = group.getView(name);
                 if (nestedView != null) {
                     return nestedView;
                 }
@@ -132,8 +132,8 @@ public abstract class ViewGroupMixIn {
         if (!name.equals(primaryView())) {
             // Fallback to subview of primary view if it is a ViewGroup
             View pv = getPrimaryView();
-            if (pv instanceof ViewGroup)
-                return ((ViewGroup) pv).getView(name);
+            if (pv instanceof ViewGroup group)
+                return group.getView(name);
             if (pv instanceof AllView && AllView.DEFAULT_VIEW_NAME.equals(pv.name)) {
                 // JENKINS-38606: primary view is the default AllView, is somebody using an old link to localized form?
                 for (Locale l : Locale.getAvailableLocales()) {

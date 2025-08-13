@@ -42,7 +42,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import jenkins.security.MasterToSlaveCallable;
@@ -75,8 +75,8 @@ class PingThreadTest {
 
         PingThread pingThread = null;
         for (Thread it : Thread.getAllStackTraces().keySet()) {
-            if (it instanceof PingThread && it.getName().endsWith(channel.toString())) {
-                pingThread = (PingThread) it;
+            if (it instanceof PingThread thread && it.getName().endsWith(channel.toString())) {
+                pingThread = thread;
             }
         }
         assertNotNull(pingThread);
@@ -134,7 +134,7 @@ class PingThreadTest {
                 .atMost(10, TimeUnit.SECONDS)
                 .until(() -> {
                     try {
-                        String status = Files.readString(Paths.get("/proc/" + pid + "/stat"), StandardCharsets.UTF_8);
+                        String status = Files.readString(Path.of("/proc/" + pid + "/stat"), StandardCharsets.UTF_8);
                         char actualState = status.charAt(status.lastIndexOf(')') + 2);
                         return actualState == expectedState;
                     } catch (NoSuchFileException e) {

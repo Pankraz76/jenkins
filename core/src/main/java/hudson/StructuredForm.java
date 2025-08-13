@@ -66,8 +66,8 @@ public class StructuredForm {
         Object v = parent.get(propertyName);
         if (v == null)
             return Collections.emptyList();
-        if (v instanceof JSONObject)
-            return List.of((JSONObject) v);
+        if (v instanceof JSONObject object)
+            return List.of(object);
         if (v instanceof JSONArray)
             return (List) v;
 

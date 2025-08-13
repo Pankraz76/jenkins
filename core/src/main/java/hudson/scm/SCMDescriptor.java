@@ -140,8 +140,8 @@ public abstract class SCMDescriptor<T extends SCM> extends Descriptor<SCM> {
      * @since 1.568
      */
     public boolean isApplicable(Job project) {
-        if (project instanceof AbstractProject) {
-            return isApplicable((AbstractProject) project);
+        if (project instanceof AbstractProject abstractProject) {
+            return isApplicable(abstractProject);
         } else {
             return false;
         }

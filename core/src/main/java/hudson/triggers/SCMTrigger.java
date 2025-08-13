@@ -426,7 +426,7 @@ public class SCMTrigger extends Trigger<Item> {
          */
         public BuildAction(Run<?, ?> run) {
             this.run = run;
-            build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+            build = run instanceof AbstractBuild ab ? ab : null;
         }
 
         @Deprecated
@@ -494,7 +494,7 @@ public class SCMTrigger extends Trigger<Item> {
 
         @Override public void onLoad(Run<?, ?> r) {
             run = r;
-            build = run instanceof AbstractBuild ? (AbstractBuild) run : null;
+            build = run instanceof AbstractBuild ab ? ab : null;
         }
     }
 
@@ -504,7 +504,7 @@ public class SCMTrigger extends Trigger<Item> {
     public final class SCMAction implements Action {
         public AbstractProject<?, ?> getOwner() {
             Item item = getItem();
-            return item instanceof AbstractProject ? (AbstractProject) item : null;
+            return item instanceof AbstractProject ap ? ap : null;
         }
 
         /**
@@ -688,7 +688,7 @@ public class SCMTrigger extends Trigger<Item> {
         // as per the requirement of SequentialExecutionQueue, value equality is necessary
         @Override
         public boolean equals(Object that) {
-            return that instanceof Runner && job == ((Runner) that)._job();
+            return that instanceof Runner r && job == r._job();
         }
 
         private Item _job() {

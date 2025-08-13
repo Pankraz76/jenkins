@@ -127,8 +127,8 @@ public abstract class AbstractAsyncNodeMonitorDescriptor<T> extends AbstractNode
         if (!cIsStillCurrent) {
             return;
         }
-        if (c instanceof SlaveComputer) {
-            Functions.printStackTrace(x, ((SlaveComputer) c).getListener().error("Failed to monitor for " + getDisplayName()));
+        if (c instanceof SlaveComputer computer) {
+            Functions.printStackTrace(x, computer.getListener().error("Failed to monitor for " + getDisplayName()));
         } else {
             LOGGER.log(WARNING, "Failed to monitor " + c.getDisplayName() + " for " + getDisplayName(), x);
         }

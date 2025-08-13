@@ -39,6 +39,7 @@ import hudson.util.XStream2;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,6 +65,7 @@ public final class JDK extends ToolInstallation implements NodeSpecific<JDK>, En
      * @since 1.577
      */
     public static final String DEFAULT_NAME = "(System)";
+    @Serial
     private static final long serialVersionUID = -3318291200160313357L;
 
     @Restricted(NoExternalUse.class)

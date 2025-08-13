@@ -77,7 +77,7 @@ public class Tasks {
             }
             p = o;
         }
-        return p instanceof hudson.model.Item ? (hudson.model.Item) p : null;
+        return p instanceof hudson.model.Item i ? i : null;
     }
 
     /** @deprecated call {@link Queue.Task#getDefaultAuthentication()} directly */

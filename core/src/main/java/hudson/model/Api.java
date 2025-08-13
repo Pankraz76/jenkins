@@ -199,7 +199,7 @@ public class Api extends AbstractModelObject {
             if (isSimpleOutput(result)) {
                 // simple output allowed
                 rsp.setContentType("text/plain;charset=UTF-8");
-                String text = result instanceof CharacterData ? ((CharacterData) result).getText() : result.toString();
+                String text = result instanceof CharacterData cd ? cd.getText() : result.toString();
                 o.write(text.getBytes(StandardCharsets.UTF_8));
                 return;
             }

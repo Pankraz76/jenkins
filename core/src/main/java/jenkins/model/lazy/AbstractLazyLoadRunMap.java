@@ -443,8 +443,7 @@ public abstract class AbstractLazyLoadRunMap<R> extends AbstractMap<Integer, R> 
 
     @Override
     public R get(Object key) {
-        if (key instanceof Integer) {
-            int n = (Integer) key;
+        if (key instanceof Integer n) {
             return get(n);
         }
         return super.get(key);

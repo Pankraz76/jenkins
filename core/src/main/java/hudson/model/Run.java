@@ -386,15 +386,15 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
     @SuppressWarnings("deprecation")
     protected void onLoad() {
         for (Action a : getAllActions()) {
-            if (a instanceof RunAction2) {
+            if (a instanceof RunAction2 action2) {
                 try {
-                    ((RunAction2) a).onLoad(this);
+                    action2.onLoad(this);
                 } catch (RuntimeException x) {
                     LOGGER.log(WARNING, "failed to load " + a + " from " + getDataFile(), x);
                     removeAction(a); // if possible; might be in an inconsistent state
                 }
-            } else if (a instanceof RunAction) {
-                ((RunAction) a).onLoad();
+            } else if (a instanceof RunAction action) {
+                action.onLoad();
             }
         }
         if (artifactManager != null) {
@@ -431,10 +431,10 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
     @Override
     public void addAction(@NonNull Action a) {
         super.addAction(a);
-        if (a instanceof RunAction2) {
-            ((RunAction2) a).onAttached(this);
-        } else if (a instanceof RunAction) {
-            ((RunAction) a).onAttached(this);
+        if (a instanceof RunAction2 action2) {
+            action2.onAttached(this);
+        } else if (a instanceof RunAction action) {
+            action.onAttached(this);
         }
     }
 
@@ -555,7 +555,7 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
      */
     @Exported
     public @CheckForNull Executor getExecutor() {
-        return this instanceof Queue.Executable ? Executor.of((Queue.Executable) this) : null;
+        return this instanceof Queue.Executable e ? Executor.of(e) : null;
     }
 
     /**
@@ -1594,8 +1594,7 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
         if (!rootDir.isDirectory()) {
             //No root directory found to delete. Somebody seems to have nuked
             //it externally. Logging a warning before dropping the build
-            LOGGER.warning(String.format(
-                    "%s: %s looks to have already been deleted, assuming build dir was already cleaned up",
+            LOGGER.warning("%s: %s looks to have already been deleted, assuming build dir was already cleaned up".formatted(
                     this, rootDir
             ));
             //Still firing the delete listeners; just no need to clean up rootDir
@@ -1947,10 +1946,9 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
         }
 
         // Project specific log filters
-        if (project instanceof BuildableItemWithBuildWrappers && build instanceof AbstractBuild) {
-            BuildableItemWithBuildWrappers biwbw = (BuildableItemWithBuildWrappers) project;
+        if (project instanceof BuildableItemWithBuildWrappers biwbw && build instanceof AbstractBuild abstractBuild) {
             for (BuildWrapper bw : biwbw.getBuildWrappersList()) {
-                logger = bw.decorateLogger((AbstractBuild) build, logger);
+                logger = bw.decorateLogger(abstractBuild, logger);
             }
         }
 
@@ -1970,8 +1968,8 @@ public abstract class Run<JobT extends Job<JobT, RunT>, RunT extends Run<JobT, R
         if (listener != null) {
             LOGGER.log(FINE, getDisplayName() + " failed to build", e);
 
-            if (e instanceof IOException)
-                Util.displayIOException((IOException) e, listener);
+            if (e instanceof IOException exception)
+                Util.displayIOException(exception, listener);
 
             Functions.printStackTrace(e, listener.fatalError(e.getMessage()));
         } else {

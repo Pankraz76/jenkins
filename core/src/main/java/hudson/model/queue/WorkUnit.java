@@ -89,8 +89,8 @@ public final class WorkUnit {
     @Restricted(NoExternalUse.class)
     public void setExecutable(Executable executable) {
         this.executable = executable;
-        if (executable instanceof Run) {
-            ((Run) executable).setQueueId(context.item.getId());
+        if (executable instanceof Run run) {
+            run.setQueueId(context.item.getId());
         }
     }
 

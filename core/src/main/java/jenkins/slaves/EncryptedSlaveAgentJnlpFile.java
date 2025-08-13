@@ -89,8 +89,8 @@ public class EncryptedSlaveAgentJnlpFile implements HttpResponse {
             RANDOM.nextBytes(iv);
 
             byte[] jnlpMac;
-            if (it instanceof SlaveComputer) {
-                jnlpMac = Util.fromHexString(((SlaveComputer) it).getJnlpMac());
+            if (it instanceof SlaveComputer computer) {
+                jnlpMac = Util.fromHexString(computer.getJnlpMac());
             } else {
                 jnlpMac = JnlpAgentReceiver.SLAVE_SECRET.mac(slaveName.getBytes(StandardCharsets.UTF_8));
             }

@@ -204,13 +204,13 @@ class JNLPLauncherTest {
             args.add("-secret");
             args.add(sc.getJnlpMac());
             ComputerLauncher launcher = sc.getLauncher();
-            if (launcher instanceof ComputerLauncherFilter) {
-                launcher = ((ComputerLauncherFilter) launcher).getCore();
-            } else if (launcher instanceof DelegatingComputerLauncher) {
-                launcher = ((DelegatingComputerLauncher) launcher).getLauncher();
+            if (launcher instanceof ComputerLauncherFilter filter) {
+                launcher = filter.getCore();
+            } else if (launcher instanceof DelegatingComputerLauncher computerLauncher) {
+                launcher = computerLauncher.getLauncher();
             }
-            if (launcher instanceof JNLPLauncher) {
-                args.add(((JNLPLauncher) launcher).getWorkDirSettings().toCommandLineArgs(sc));
+            if (launcher instanceof JNLPLauncher pLauncher) {
+                args.add(pLauncher.getWorkDirSettings().toCommandLineArgs(sc));
             }
         }
 

@@ -121,8 +121,7 @@ class UnsupportedRemotingAgentEscapeHatchTest {
             public ComputerLauncher createComputerLauncher(EnvVars env) throws URISyntaxException, IOException {
                 int sz = this.jenkins.getNodes().size();
                 return new SimpleCommandLauncher(
-                        String.format(
-                                "\"%s/bin/java\" %s -jar \"%s\"",
+                        "\"%s/bin/java\" %s -jar \"%s\"".formatted(
                                 System.getProperty("java.home"),
                                 SLAVE_DEBUG_PORT > 0
                                         ? " -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address="

@@ -56,7 +56,7 @@ public class GrantedAuthoritySid implements Sid {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof GrantedAuthoritySid && Objects.equals(grantedAuthority, ((GrantedAuthoritySid) o).grantedAuthority);
+        return o instanceof GrantedAuthoritySid gas && Objects.equals(grantedAuthority, gas.grantedAuthority);
     }
 
     @Override

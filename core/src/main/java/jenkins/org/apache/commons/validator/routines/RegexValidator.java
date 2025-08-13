@@ -18,6 +18,7 @@
 
 package jenkins.org.apache.commons.validator.routines;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,6 +77,7 @@ import org.kohsuke.accmod.restrictions.NoExternalUse;
 // end of [PATCH]
 public class RegexValidator implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8832409930574867162L;
 
     private final Pattern[] patterns;

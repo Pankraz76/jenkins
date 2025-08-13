@@ -55,8 +55,8 @@ public interface UserDetails extends Serializable {
     }
 
     static @NonNull UserDetails fromSpring(@NonNull org.springframework.security.core.userdetails.UserDetails ud) {
-        if (ud instanceof UserDetailsSpringImpl) {
-            return ((UserDetailsSpringImpl) ud).delegate;
+        if (ud instanceof UserDetailsSpringImpl impl) {
+            return impl.delegate;
         }
         return new UserDetails() {
             @Override
@@ -97,16 +97,16 @@ public interface UserDetails extends Serializable {
     }
 
     static @Nullable Object toSpringPrincipal(@CheckForNull Object acegiPrincipal) {
-        if (acegiPrincipal instanceof UserDetails) {
-            return ((UserDetails) acegiPrincipal).toSpring();
+        if (acegiPrincipal instanceof UserDetails details) {
+            return details.toSpring();
         } else {
             return acegiPrincipal;
         }
     }
 
     static @Nullable Object fromSpringPrincipal(@CheckForNull Object springPrincipal) {
-        if (springPrincipal instanceof org.springframework.security.core.userdetails.UserDetails) {
-            return fromSpring((org.springframework.security.core.userdetails.UserDetails) springPrincipal);
+        if (springPrincipal instanceof org.springframework.security.core.userdetails.UserDetails details) {
+            return fromSpring(details);
         } else {
             return springPrincipal;
         }

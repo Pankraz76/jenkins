@@ -236,8 +236,8 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
      * @since 1.568
      */
     public boolean processWorkspaceBeforeDeletion(@NonNull Job<?, ?> project, @NonNull FilePath workspace, @NonNull Node node) throws IOException, InterruptedException {
-        if (project instanceof AbstractProject) {
-            return processWorkspaceBeforeDeletion((AbstractProject) project, workspace, node);
+        if (project instanceof AbstractProject abstractProject) {
+            return processWorkspaceBeforeDeletion(abstractProject, workspace, node);
         } else {
             return true;
         }
@@ -333,8 +333,8 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
      * @since 1.568
      */
     public @CheckForNull SCMRevisionState calcRevisionsFromBuild(@NonNull Run<?, ?> build, @Nullable FilePath workspace, @Nullable Launcher launcher, @NonNull TaskListener listener) throws IOException, InterruptedException {
-        if (build instanceof AbstractBuild && Util.isOverridden(SCM.class, getClass(), "calcRevisionsFromBuild", AbstractBuild.class, Launcher.class, TaskListener.class)) {
-            return calcRevisionsFromBuild((AbstractBuild) build, launcher, listener);
+        if (build instanceof AbstractBuild abstractBuild && Util.isOverridden(SCM.class, getClass(), "calcRevisionsFromBuild", AbstractBuild.class, Launcher.class, TaskListener.class)) {
+            return calcRevisionsFromBuild(abstractBuild, launcher, listener);
         } else {
             throw new AbstractMethodError("you must override the new calcRevisionsFromBuild overload");
         }
@@ -398,7 +398,7 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
             @NonNull TaskListener listener,
             @NonNull SCMRevisionState baseline)
             throws IOException, InterruptedException {
-        if (project instanceof AbstractProject
+        if (project instanceof AbstractProject abstractProject
                 && Util.isOverridden(
                         SCM.class,
                         getClass(),
@@ -408,7 +408,7 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
                         FilePath.class,
                         TaskListener.class,
                         SCMRevisionState.class)) {
-            return compareRemoteRevisionWith((AbstractProject) project, launcher, workspace, listener, baseline);
+            return compareRemoteRevisionWith(abstractProject, launcher, workspace, listener, baseline);
         } else {
             throw new AbstractMethodError("you must override the new overload of compareRemoteRevisionWith");
         }
@@ -504,8 +504,8 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
             @CheckForNull File changelogFile,
             @CheckForNull SCMRevisionState baseline)
             throws IOException, InterruptedException {
-        if (build instanceof AbstractBuild
-                && listener instanceof BuildListener
+        if (build instanceof AbstractBuild abstractBuild
+                && listener instanceof BuildListener buildListener
                 && Util.isOverridden(
                         SCM.class,
                         getClass(),
@@ -518,14 +518,14 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
             if (changelogFile == null) {
                 changelogFile = File.createTempFile("changelog", ".xml");
                 try {
-                    if (!checkout((AbstractBuild) build, launcher, workspace, (BuildListener) listener, changelogFile)) {
+                    if (!checkout(abstractBuild, launcher, workspace, buildListener, changelogFile)) {
                         throw new AbortException();
                     }
                 } finally {
                     Util.deleteFile(changelogFile);
                 }
             } else {
-                if (!checkout((AbstractBuild) build, launcher, workspace, (BuildListener) listener, changelogFile)) {
+                if (!checkout(abstractBuild, launcher, workspace, buildListener, changelogFile)) {
                     throw new AbortException();
                 }
             }
@@ -546,8 +546,8 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
      * @since 1.568
      */
     public void postCheckout(@NonNull Run<?, ?> build, @NonNull Launcher launcher, @NonNull FilePath workspace, @NonNull TaskListener listener) throws IOException, InterruptedException {
-        if (build instanceof AbstractBuild && listener instanceof BuildListener) {
-            postCheckout((AbstractBuild) build, launcher, workspace, (BuildListener) listener);
+        if (build instanceof AbstractBuild abstractBuild && listener instanceof BuildListener buildListener) {
+            postCheckout(abstractBuild, launcher, workspace, buildListener);
         }
     }
 
@@ -575,8 +575,8 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
      * @since 2.60
      */
     public void buildEnvironment(@NonNull Run<?, ?> build, @NonNull Map<String, String> env) {
-        if (build instanceof AbstractBuild) {
-            buildEnvVars((AbstractBuild) build, env);
+        if (build instanceof AbstractBuild abstractBuild) {
+            buildEnvVars(abstractBuild, env);
         }
     }
 
@@ -782,8 +782,7 @@ public abstract class SCM implements Describable<SCM>, ExtensionPoint {
         for (SCMDescriptor<?> scmDescriptor : all()) {
             if (!scmDescriptor.isApplicable(project))    continue;
 
-            if (pd instanceof TopLevelItemDescriptor) {
-                TopLevelItemDescriptor apd = (TopLevelItemDescriptor) pd;
+            if (pd instanceof TopLevelItemDescriptor apd) {
                 if (!apd.isApplicable(scmDescriptor))    continue;
             }
 

@@ -40,6 +40,7 @@ import hudson.util.XStream2;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
@@ -505,6 +506,7 @@ public final class ProxyConfiguration implements Describable<ProxyConfiguration>
 
     private static final XStream XSTREAM = new XStream2();
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     static {

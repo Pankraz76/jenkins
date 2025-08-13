@@ -83,8 +83,8 @@ public class HttpSessionContextIntegrationFilter2 extends SecurityContextPersist
         // for case like recovering backup or other corner cases when the session was not populated by this version
         Object userSessionSeedObject = session.getAttribute(UserSeedProperty.USER_SESSION_SEED);
         String actualUserSessionSeed;
-        if (userSessionSeedObject instanceof String) {
-            actualUserSessionSeed = (String) userSessionSeedObject;
+        if (userSessionSeedObject instanceof String string) {
+            actualUserSessionSeed = string;
         } else {
             // the seed must be present AND be a string in the session
             return true;

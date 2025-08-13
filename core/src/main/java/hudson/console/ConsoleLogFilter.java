@@ -86,9 +86,9 @@ public abstract class ConsoleLogFilter implements ExtensionPoint {
         // this implementation is backward compatibility thunk in case subtypes only override the
         // old signature (AbstractBuild,OutputStream)
 
-        if (build instanceof AbstractBuild) {
+        if (build instanceof AbstractBuild abstractBuild) {
             // maybe the plugin implements the old signature.
-            return decorateLogger((AbstractBuild) build, logger);
+            return decorateLogger(abstractBuild, logger);
         } else {
             // this ConsoleLogFilter can only decorate AbstractBuild, so just pass through
             return logger;

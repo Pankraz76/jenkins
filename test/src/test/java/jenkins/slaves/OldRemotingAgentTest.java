@@ -213,7 +213,7 @@ class OldRemotingAgentTest {
 
                 // EnvVars are ignored, simple Command Launcher does not offer this API in public
                 int sz = this.jenkins.getNodes().size();
-                return new SimpleCommandLauncher(String.format("\"%s/bin/java\" %s -jar \"%s\"",
+                return new SimpleCommandLauncher("\"%s/bin/java\" %s -jar \"%s\"".formatted(
                         System.getProperty("java.home"),
                         SLAVE_DEBUG_PORT > 0 ? " -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=" + (SLAVE_DEBUG_PORT + sz) : "",
                         agentJar.getAbsolutePath()));

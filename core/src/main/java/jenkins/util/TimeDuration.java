@@ -84,8 +84,8 @@ public class TimeDuration {
         public Object convert(Class type, Object value) {
             if (value == null)
                 return null;
-            if (value instanceof String) {
-                return fromString((String) value);
+            if (value instanceof String string) {
+                return fromString(string);
             }
             throw new UnsupportedOperationException();
         }

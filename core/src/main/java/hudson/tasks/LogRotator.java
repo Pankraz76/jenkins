@@ -229,8 +229,7 @@ public class LogRotator extends BuildDiscarder {
 
         if (!exceptionMap.isEmpty()) {
             //Collate all encountered exceptions into a single exception and throw that
-            String msg = String.format(
-                    "Failed to rotate logs for [%s]",
+            String msg = "Failed to rotate logs for [%s]".formatted(
                     exceptionMap.keySet().stream().map(Object::toString).collect(Collectors.joining(", "))
             );
             throw new CompositeIOException(msg, exceptionMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList()));

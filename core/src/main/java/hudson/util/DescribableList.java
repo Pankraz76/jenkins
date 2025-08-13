@@ -178,13 +178,13 @@ public class DescribableList<T extends Describable<T>, D extends Descriptor<T>> 
 
             T instance = null;
             if (o != null) {
-                if (existing instanceof ReconfigurableDescribable)
-                    instance = (T) ((ReconfigurableDescribable) existing).reconfigure(req, o);
+                if (existing instanceof ReconfigurableDescribable describable)
+                    instance = (T) describable.reconfigure(req, o);
                 else
                     instance = d.newInstance(req, o);
             } else {
-                if (existing instanceof ReconfigurableDescribable)
-                    instance = (T) ((ReconfigurableDescribable) existing).reconfigure(req, null);
+                if (existing instanceof ReconfigurableDescribable describable)
+                    instance = (T) describable.reconfigure(req, null);
             }
 
             if (instance != null)
@@ -315,14 +315,14 @@ public class DescribableList<T extends Describable<T>, D extends Descriptor<T>> 
                 throw x;
             } catch (InvocationTargetException e) {
                 Throwable t = e.getCause();
-                if (t instanceof RuntimeException) {
-                    throw (RuntimeException) t;
-                } else if (t instanceof IOException) {
-                    throw new UncheckedIOException((IOException) t);
+                if (t instanceof RuntimeException exception1) {
+                    throw exception1;
+                } else if (t instanceof IOException exception) {
+                    throw new UncheckedIOException(exception);
                 } else if (t instanceof Exception) {
                     throw new RuntimeException(t);
-                } else if (t instanceof Error) {
-                    throw (Error) t;
+                } else if (t instanceof Error error) {
+                    throw error;
                 } else {
                     throw new Error(e);
                 }

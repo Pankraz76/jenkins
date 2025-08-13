@@ -127,10 +127,10 @@ final class ParsedQuickSilver {
                 throw toError(e);
             } catch (InvocationTargetException e) {
                 Throwable x = e.getTargetException();
-                if (x instanceof Error)
-                    throw (Error) x;
-                if (x instanceof RuntimeException)
-                    throw (RuntimeException) x;
+                if (x instanceof Error error)
+                    throw error;
+                if (x instanceof RuntimeException exception)
+                    throw exception;
                 throw new Error(e);
             }
         }

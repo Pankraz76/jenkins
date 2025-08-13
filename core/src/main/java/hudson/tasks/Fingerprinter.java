@@ -50,6 +50,7 @@ import hudson.util.PackedMap;
 import hudson.util.RunList;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -272,6 +273,7 @@ public class Fingerprinter extends Recorder implements Serializable, DependencyD
             return map.getOrCreate(produced ? build : null, fileName, md5sum);
         }
 
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 
@@ -415,7 +417,7 @@ public class Fingerprinter extends Recorder implements Serializable, DependencyD
 
         @Deprecated
         public AbstractBuild getBuild() {
-            return build instanceof AbstractBuild ? (AbstractBuild) build : null;
+            return build instanceof AbstractBuild ab ? ab : null;
         }
 
         /**
@@ -524,5 +526,6 @@ public class Fingerprinter extends Recorder implements Serializable, DependencyD
 
     private static final Logger logger = Logger.getLogger(Fingerprinter.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

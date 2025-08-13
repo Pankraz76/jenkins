@@ -167,8 +167,8 @@ public class AllView extends View {
                     return primaryView;
                 }
                 if (Objects.equals(v.getViewName(), primaryView)) {
-                    if (v instanceof AllView) {
-                        allView = (AllView) v;
+                    if (v instanceof AllView view) {
+                        allView = view;
                     } else {
                         // none of our business fixing as we can only safely fix the primary view
                         return primaryView;
