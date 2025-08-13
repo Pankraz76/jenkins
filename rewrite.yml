@@ -4,6 +4,7 @@ displayName: Definition of Done
 description: Automatically code cleanup to comply common convention.
 recipeList:
   - org.openrewrite.staticanalysis.ModifierOrder
+  - org.openrewrite.java.migrate.UpgradeToJava17
 #  - org.openrewrite.java.RemoveUnusedImports
 #  - org.openrewrite.staticanalysis.LowercasePackage
 #  - org.openrewrite.staticanalysis.MissingOverrideAnnotation
