@@ -444,7 +444,7 @@ public abstract class AbstractLazyLoadRunMap<R> extends AbstractMap<Integer, R> 
     @Override
     public R get(Object key) {
         if (key instanceof Integer n) {
-            return get(n);
+            return get(n); // issue [ERROR] High: There is an apparent infinite recursive loop in jenkins.model.lazy.AbstractLazyLoadRunMap.get(Object) [jenkins.model.lazy.AbstractLazyLoadRunMap] At AbstractLazyLoadRunMap.java:[line 447] IL_INFINITE_RECURSIVE_LOOP
         }
         return super.get(key);
     }
