@@ -230,7 +230,7 @@ public final class TcpSlaveAgentListener extends Thread {
         private static final String DEFAULT_RESPONSE_404 = """
                         HTTP/1.0 404 Not Found
                         Content-Type: text/plain;charset=UTF-8
-                        
+
                         Not Found
                         """;
         private final Socket s;
